@@ -14,7 +14,7 @@ const Colors = {
     descriptionColor: '#797979',
   },
   dark: {
-    background: '#121212',
+    background: '#f9f9f9',
     primary: '#D7C9BC',
     textColor: '#70664C',
     secondary: '#a55eea',

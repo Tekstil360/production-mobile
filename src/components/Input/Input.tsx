@@ -38,6 +38,7 @@ export default function Input({
         secureTextEntry={props.secureTextEntry && !passwordShow}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        placeholderTextColor={colors.descriptionColor}
         theme={{
           left: iconPosition === 'left' && icon !== undefined ? '40px' : '15px',
           right:

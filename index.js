@@ -1,4 +1,4 @@
-import {AppRegistry, Platform} from 'react-native';
+import {AppRegistry, LogBox, Platform} from 'react-native';
 import {name as appName} from './app.json';
 import 'react-native-gesture-handler';
 import RootNavigator from './src/navigation/RootNavigator';
@@ -8,6 +8,7 @@ import {persistor, store} from './src/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {ModalPortal} from 'react-native-modals';
 import KeyboardManager from 'react-native-keyboard-manager';
+LogBox.ignoreAllLogs(true);
 const Production = () => {
   if (Platform.OS === 'ios') {
     KeyboardManager.setEnable(true);
