@@ -12,17 +12,17 @@ import {useDispatch} from 'react-redux';
 import {AppDispatch} from '../../store';
 import {AuthActions} from '../../store/features/authReducer';
 import CustomText from '../../components/Text/Text';
-import dayjs from 'dayjs';
 import useThemeColors from '../../constant/useColor';
 import Footer from '../../components/Footer/Footer';
+import AlertDialog from '../../components/AlertDialog/AlertDialog';
 
 export default function Login(props: any) {
   const colors = useThemeColors();
   const dispatch: AppDispatch = useDispatch();
   const [useLogin, result] = useLoginMutation();
   const [loginDto, setLoginDto] = useState({
-    email: 'ozkankocakaplan07@gmail.com',
-    password: 'admin',
+    email: 'ozkankocakaplan@gmail.com',
+    password: '123456',
   });
   const handleChange = (name: keyof LoginDto, value: string) => {
     setLoginDto({
@@ -34,9 +34,13 @@ export default function Login(props: any) {
     useLogin(loginDto)
       .unwrap()
       .then(res => {
-        console.log(res);
         if (res.isSuccess) {
           dispatch(AuthActions.setUser(res.entity));
+        } else {
+          AlertDialog.showModal({
+            title: 'Hata',
+            message: 'E-posta veya şifre hatalı',
+          });
         }
       })
       .catch(er => Alert.alert(JSON.stringify(er)));
@@ -45,6 +49,8 @@ export default function Login(props: any) {
     <Container>
       <Content>
         <Input
+          autoCapitalize="none"
+          autoCorrect={false}
           value={loginDto.email}
           onChangeText={value => handleChange('email', value)}
           placeholder="E-posta"

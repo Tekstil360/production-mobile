@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -18,6 +18,7 @@ import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {AuthActions} from '../store/features/authReducer';
 import {AppActions} from '../store/features/appReducer';
 import CustomText from '../components/Text/Text';
+import {useGetSeasonMutation} from '../services/seasonService';
 
 const menus = ['Kullanıcılar'];
 interface DrawerContentProps extends DrawerContentComponentProps {
@@ -25,9 +26,14 @@ interface DrawerContentProps extends DrawerContentComponentProps {
 }
 export default function DrawerContent(props: DrawerContentProps) {
   const dispatch: AppDispatch = useDispatch();
+
+  const seasons = useSelector((x: RootState) => x.season.seasons);
+  const userInfo = useSelector((x: RootState) => x.auth.userInfo);
+  const activeSeason = seasons.find(x => x.isActivated);
   const drawerSeasonOpen = useSelector(
     (x: RootState) => x.app.drawerSeasonOpen,
   );
+
   return (
     <Container>
       <InfoContainer>
@@ -41,19 +47,21 @@ export default function DrawerContent(props: DrawerContentProps) {
           <FontAwesomeIcon icon={faBuilding} color={'#fff'} size={20} />
           <View style={{flex: 1}}>
             <TitleText adjustsFontSizeToFit numberOfLines={1}>
-              Robin Tekstil
+              {userInfo.companyName}
             </TitleText>
             <SubTitleContainer
               onPress={() => {
                 dispatch(AppActions.setDrawerSeasonOpen(!drawerSeasonOpen));
               }}>
-              <SubTitleText adjustsFontSizeToFit>1.Sezon</SubTitleText>
+              <SubTitleText adjustsFontSizeToFit>
+                {activeSeason?.seasonName || 'Sezon Seç'}
+              </SubTitleText>
               <FontAwesomeIcon icon={faAngleRight} color={'#fff'} size={20} />
             </SubTitleContainer>
           </View>
         </View>
       </InfoContainer>
-      {!drawerSeasonOpen && (
+      {!drawerSeasonOpen ? (
         <>
           <MenuContainer>
             {menus.map((menu, index) => (
@@ -90,6 +98,14 @@ export default function DrawerContent(props: DrawerContentProps) {
             </MenuItemContainer>
           </View>
         </>
+      ) : (
+        <MenuContainer>
+          {seasons.map((season, index) => (
+            <MenuItemContainer key={index}>
+              <MenuItemText>{season.seasonName}</MenuItemText>
+            </MenuItemContainer>
+          ))}
+        </MenuContainer>
       )}
     </Container>
   );

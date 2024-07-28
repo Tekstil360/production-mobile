@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Container from '../../../components/Container/Container';
 import Button from '../../../components/Button/Button';
 import styled from 'styled-components';
@@ -19,14 +19,48 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
-import {RootStackParamList} from '../../../navigation/RootNavigator';
+
+import {useRegisterMutation} from '../../../services/authService';
+import AlertDialog from '../../../components/AlertDialog/AlertDialog';
+import {RootStackParamList} from '../../../types/Navigator';
 
 export default function Register(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
 ) {
   const dispatch = useDispatch();
+  const [registerLoading, setRegisterLoading] = useState(false);
   const register = useSelector((state: RootState) => state.auth.register);
   const formContainerRef = useRef<FormContainerRef>(null);
+  const [useRegister] = useRegisterMutation();
+  const handleRegister = () => {
+    let result = formContainerRef.current?.validate({
+      firstName: 'Ad alanı boş bırakılamaz!',
+      lastName: 'Soyad alanı boş bırakılamaz!',
+      companyName: 'Şirket ismi alanı boş bırakılamaz!',
+      email: 'E-posta alanı boş bırakılamaz!',
+      phone: 'Telefon alanı boş bırakılamaz!',
+      password: 'Şifre alan boş bırakılamaz!',
+      minLength: 'Şifre en az 6 karakter olmalıdır!',
+    });
+    if (result) {
+      setRegisterLoading(true);
+      useRegister(register)
+        .unwrap()
+        .then(res => {
+          if (res.isSuccess) {
+            props.navigation.navigate('ResultScreen');
+          } else {
+            AlertDialog.showModal({
+              title: 'Hata',
+              message: res.exceptionMessage,
+            });
+          }
+        })
+        .catch(er => console.log(er))
+        .finally(() => setRegisterLoading(false));
+    }
+  };
+
   return (
     <Container>
       <View style={{flex: 1}}>
@@ -167,21 +201,9 @@ export default function Register(
           }}
         />
         <Button
+          loading={registerLoading}
           text="Kayıt Ol"
-          onPress={() => {
-            let result = formContainerRef.current?.validate({
-              firstName: 'Ad alanı boş bırakılamaz!',
-              lastName: 'Soyad alanı boş bırakılamaz!',
-              companyName: 'Şirket ismi alanı boş bırakılamaz!',
-              email: 'E-posta alanı boş bırakılamaz!',
-              phone: 'Telefon alanı boş bırakılamaz!',
-              password: 'Şifre alan boş bırakılamaz!',
-              minLength: 'Şifre en az 6 karakter olmalıdır!',
-            });
-            if (result) {
-              props.navigation.navigate('ResultScreen');
-            }
-          }}
+          onPress={handleRegister}
         />
       </BottomContainer>
     </Container>

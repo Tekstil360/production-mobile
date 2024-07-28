@@ -5,6 +5,7 @@ import {appReducer} from './features/appReducer';
 import {baseApi} from './api';
 import {authReducer} from './features/authReducer';
 import {planReducer} from './features/planReducer';
+import {seasonReducer} from './features/seasonReducer';
 
 const appPersistConfig = {
   key: 'app',
@@ -20,6 +21,7 @@ const authPersistConfig = {
 const rootReducers = combineReducers({
   app: persistReducer(appPersistConfig, appReducer),
   auth: persistReducer(authPersistConfig, authReducer),
+  season: seasonReducer,
   plan: planReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });

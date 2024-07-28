@@ -1,24 +1,94 @@
 import {View, Text, SafeAreaView} from 'react-native';
-import React from 'react';
 import useThemeColors from '../../constant/useColor';
 import styled from 'styled-components';
 import Header, {HeaderProps} from '../Header/Header';
 
 interface ContainerProps extends HeaderProps {
   children?: React.ReactNode;
+  type?: 'container' | 'page';
   header?: boolean;
+  goBackShow?: boolean;
+  bgColor?: string;
+  gap?: number;
+  m?: number;
+  mr?: number;
+  ml?: number;
+  mt?: number;
+  mb?: number;
+  mx?: number;
+  my?: number;
+  p?: number;
+  pl?: number;
+  pr?: number;
+  pt?: number;
+  pb?: number;
+  px?: number;
+  py?: number;
 }
 
-export default function Container(props: ContainerProps) {
+export default function Container({
+  children,
+  header,
+  goBackShow = false,
+  type = 'page',
+  bgColor,
+  ...props
+}: ContainerProps) {
   const colors = useThemeColors();
-  return !props.header ? (
-    <SafeViewContainer style={{backgroundColor: colors.background}}>
-      {props.children}
+  return !header ? (
+    <SafeViewContainer
+      style={{
+        flex: 1,
+        backgroundColor: bgColor ? bgColor : colors.background,
+      }}>
+      <View
+        style={{
+          flex: 1,
+          margin: props.m,
+          marginRight: props.mr,
+          marginLeft: props.ml,
+          marginTop: props.mt,
+          padding: props.p,
+          paddingLeft: props.pl,
+          paddingRight: props.pr,
+          paddingTop: props.pt,
+          paddingBottom: props.pb,
+          gap: props.gap,
+          marginHorizontal: props.mx,
+          marginVertical: props.my,
+          paddingHorizontal: props.px,
+          paddingVertical: props.py,
+        }}>
+        {children}
+      </View>
     </SafeViewContainer>
   ) : (
-    <ViewContainer style={{backgroundColor: colors.background}}>
-      {props.header && <Header {...props} />}
-      {props.children}
+    <ViewContainer
+      style={{
+        backgroundColor: bgColor ? bgColor : colors.background,
+      }}>
+      {header && <Header {...props} goBackShow={goBackShow} />}
+      {type === 'container' ? (
+        <View
+          style={{
+            margin: props.m,
+            marginRight: props.mr,
+            marginLeft: props.ml,
+            marginTop: props.mt,
+            padding: props.p,
+            paddingLeft: props.pl,
+            paddingRight: props.pr,
+            paddingTop: props.pt,
+            paddingBottom: props.pb,
+            gap: props.gap,
+            marginHorizontal: props.mx,
+            marginVertical: props.my,
+            paddingHorizontal: props.px,
+            paddingVertical: props.py,
+          }}></View>
+      ) : (
+        children
+      )}
     </ViewContainer>
   );
 }

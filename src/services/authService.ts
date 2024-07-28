@@ -1,8 +1,10 @@
 import LoginDto from '../dto/Request/LoginDto';
-import SignUpRequest from '../dto/Request/SignUpRequest';
-import LoginResponse from '../dto/Response/LoginResponse';
+import CreateCustomerRequest from '../dto/Request/CreateCustomerRequest';
+import LoginResponse from '../dto/Response/JwtResponse';
 import ServiceResponse from '../dto/Response/ServiceResponse';
 import {baseApi} from '../store/api';
+import UserResponse from '../dto/Response/UserResponse';
+import {AuthActions} from '../store/features/authReducer';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -13,19 +15,33 @@ const authApi = baseApi.injectEndpoints({
         body,
       }),
     }),
-    register: builder.mutation<ServiceResponse<LoginResponse>, LoginDto>({
-      query: (body: SignUpRequest) => ({
-        url: '/register',
+    register: builder.mutation<
+      ServiceResponse<LoginResponse>,
+      CreateCustomerRequest
+    >({
+      query: (body: CreateCustomerRequest) => ({
+        url: '/customer/createCustomer',
         method: 'POST',
         body,
       }),
     }),
-    getMe: builder.query<ServiceResponse<LoginResponse>, void>({
+    getUser: builder.mutation<ServiceResponse<UserResponse>, void>({
       query: () => ({
-        url: 'v1/auth/me',
+        url: '/user',
         method: 'GET',
       }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          const {data} = await queryFulfilled;
+          if (data.isSuccess) {
+            dispatch(AuthActions.setUserInfo(data.entity));
+          }
+        } catch (err) {
+          console.error('Query failed', err);
+        }
+      },
     }),
   }),
 });
-export const {useLoginMutation, useGetMeQuery} = authApi;
+export const {useLoginMutation, useRegisterMutation, useGetUserMutation} =
+  authApi;

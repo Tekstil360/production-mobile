@@ -25,6 +25,7 @@ interface ModalProps {
   onConfirm?: () => void;
   onCancelText?: string;
   onCancel?: () => void;
+  isAutoClose?: boolean;
   type?: 'success' | 'error' | 'warning';
 }
 
@@ -32,6 +33,10 @@ class AlertDialog {
   ids: any[] = [];
 
   showModal(props: ModalProps): Promise<boolean> {
+    let isAutoHide =
+      (props?.isAutoClose || props.onConfirm || props.onCancel
+        ? false
+        : true) ?? true;
     return new Promise(resolve => {
       const id = ModalPortal.show(
         <Modal
@@ -118,8 +123,14 @@ class AlertDialog {
           </ModalContent>
         </Modal>,
       );
-
       this.ids.push(id);
+      if (isAutoHide) {
+        setTimeout(() => {
+          ModalPortal.dismiss(id);
+          this.ids.pop();
+          resolve(false);
+        }, 2000);
+      }
     });
   }
   update() {

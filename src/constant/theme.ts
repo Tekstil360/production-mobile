@@ -30,3 +30,38 @@ export const SIZES = {
   width,
   height,
 };
+export const FONTSIZES = {
+  default: 14,
+  hGiant: 60,
+  h1: 40,
+  h2: 28,
+  h3: 24,
+  h4: 20,
+  h5: 18,
+  h6: 16,
+  body1: 30,
+  body2: 24,
+  body3: 20,
+  body4: 16,
+  body5: 14,
+  body6: 12,
+  caption: 10,
+  caption2: 8,
+  description: 12,
+  description2: 10,
+  description3: 8,
+};
+export const FONTWEIGHT = {
+  bold: 'bold',
+  normal: 'normal',
+  light: 'light',
+  thin: '100',
+};
+export const COLORS = {
+  primary: '#5A4D3C',
+  secondary: '#34495e',
+  textBlack: '#000',
+  textLink: '#2141A6',
+  grey: '#808A99',
+  error: '#ff0000',
+};

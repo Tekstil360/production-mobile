@@ -14,7 +14,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import CustomText from '../Text/Text';
 
-interface OutlineButtonProps extends TouchableOpacityProps {
+export interface OutlineButtonProps extends TouchableOpacityProps {
   icon?: IconProp;
   outline?: boolean;
   loading?: boolean;
@@ -22,6 +22,7 @@ interface OutlineButtonProps extends TouchableOpacityProps {
   textColor?: string;
   backgroundColor?: string;
   borderRadius?: number;
+  width?: string;
 }
 
 export default function Button({
@@ -32,6 +33,7 @@ export default function Button({
   textColor,
   backgroundColor,
   borderRadius = SIZES.radius_lg,
+  width,
   ...props
 }: OutlineButtonProps) {
   const colors = useThemeColors();
@@ -82,7 +84,6 @@ const CustomButton = styled(TouchableOpacity)`
   border-width: 1px;
   height: 45px;
   border-color: ${props => props.theme.borderColor};
-  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
