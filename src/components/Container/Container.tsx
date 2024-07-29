@@ -41,26 +41,30 @@ export default function Container({
         flex: 1,
         backgroundColor: bgColor ? bgColor : colors.background,
       }}>
-      <View
-        style={{
-          flex: 1,
-          margin: props.m,
-          marginRight: props.mr,
-          marginLeft: props.ml,
-          marginTop: props.mt,
-          padding: props.p,
-          paddingLeft: props.pl,
-          paddingRight: props.pr,
-          paddingTop: props.pt,
-          paddingBottom: props.pb,
-          gap: props.gap,
-          marginHorizontal: props.mx,
-          marginVertical: props.my,
-          paddingHorizontal: props.px,
-          paddingVertical: props.py,
-        }}>
-        {children}
-      </View>
+      {type === 'container' ? (
+        <View
+          style={{
+            flex: 1,
+            margin: props.m,
+            marginRight: props.mr,
+            marginLeft: props.ml,
+            marginTop: props.mt,
+            padding: props.p,
+            paddingLeft: props.pl,
+            paddingRight: props.pr,
+            paddingTop: props.pt,
+            paddingBottom: props.pb,
+            gap: props.gap,
+            marginHorizontal: props.mx,
+            marginVertical: props.my,
+            paddingHorizontal: props.px,
+            paddingVertical: props.py,
+          }}>
+          {children}
+        </View>
+      ) : (
+        children
+      )}
     </SafeViewContainer>
   ) : (
     <ViewContainer

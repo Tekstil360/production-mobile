@@ -12,11 +12,23 @@ import Main from '../screens/Main';
 import {RootStackParamList} from '../types/Navigator';
 import SeasonSplash from '../screens/Season/SeasonSplash';
 import ProductionSplash from '../screens/Production/ProductionSplash';
+import {useGetLanguagesMutation} from '../services/appSettingService';
+import {useEffect} from 'react';
+
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootNavigator = () => {
   const {user} = useSelector((x: RootState) => x.auth);
   const {onBoarding} = useSelector((x: RootState) => x.app);
+  const [getLanguages] = useGetLanguagesMutation();
+
+  useEffect(() => {
+    loadLanguages();
+  }, []);
+
+  const loadLanguages = () => {
+    getLanguages();
+  };
 
   return (
     <Stack.Navigator

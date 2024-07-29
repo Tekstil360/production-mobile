@@ -1,8 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
+import initI18n from '../../lang/i18n';
 
 const INITIAL_STATE = {
   onBoarding: true,
   drawerSeasonOpen: false,
+  selectedLanguage: 'tr',
 };
 const appSlice = createSlice({
   name: 'app',
@@ -13,6 +15,12 @@ const appSlice = createSlice({
     },
     setDrawerSeasonOpen: (state, action) => {
       state.drawerSeasonOpen = action.payload;
+    },
+    setSelectedLanguage: (state, action) => {
+      initI18n().then(i18n => {
+        i18n.changeLanguage(action.payload);
+      });
+      state.selectedLanguage = action.payload;
     },
   },
 });

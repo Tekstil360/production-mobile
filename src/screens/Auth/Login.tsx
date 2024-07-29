@@ -2,7 +2,7 @@ import {Alert, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import Container from '../../components/Container/Container';
 import Input from '../../components/Input/Input';
-import {faEnvelope, faUser} from '@fortawesome/free-regular-svg-icons';
+import {faEnvelope} from '@fortawesome/free-regular-svg-icons';
 import {faLock} from '@fortawesome/free-solid-svg-icons';
 import Button from '../../components/Button/Button';
 import styled from 'styled-components';
@@ -15,8 +15,10 @@ import CustomText from '../../components/Text/Text';
 import useThemeColors from '../../constant/useColor';
 import Footer from '../../components/Footer/Footer';
 import AlertDialog from '../../components/AlertDialog/AlertDialog';
+import {useTranslation} from 'react-i18next';
 
 export default function Login(props: any) {
+  const {t} = useTranslation();
   const colors = useThemeColors();
   const dispatch: AppDispatch = useDispatch();
   const [useLogin, result] = useLoginMutation();
@@ -53,13 +55,13 @@ export default function Login(props: any) {
           autoCorrect={false}
           value={loginDto.email}
           onChangeText={value => handleChange('email', value)}
-          placeholder="E-posta"
+          placeholder={t('email')}
           icon={faEnvelope}
         />
         <Input
           value={loginDto.password}
           onChangeText={value => handleChange('password', value)}
-          placeholder="Şifre"
+          placeholder={t('password')}
           icon={faLock}
           secureTextEntry
         />
@@ -67,7 +69,7 @@ export default function Login(props: any) {
           onPress={() => props.navigation.navigate('ForgotPasswordScreen')}
           hitSlop={10}>
           <ForgotPasswordText theme={{colors}}>
-            Şifremi Unuttum
+            {t('forgot_password')}
           </ForgotPasswordText>
         </ForgotPasswordContainer>
         <LoginButtonContainer>
@@ -76,11 +78,11 @@ export default function Login(props: any) {
               handleLogin();
             }}
             loading={result.isLoading}
-            text="Giriş Yap"
+            text={t('login_button')}
           />
         </LoginButtonContainer>
         <AlternativeTextContainer>
-          <AlternativeText theme={{colors}}>veya</AlternativeText>
+          <AlternativeText theme={{colors}}>{t('or')}</AlternativeText>
         </AlternativeTextContainer>
         <RegisterContainer>
           <Button
@@ -88,7 +90,7 @@ export default function Login(props: any) {
             onPress={() => {
               props.navigation.navigate('RegisterScreen');
             }}
-            text="Kayıt Ol"
+            text={t('register_button')}
           />
         </RegisterContainer>
       </Content>

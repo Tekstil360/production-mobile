@@ -8,8 +8,23 @@ import {persistor, store} from './src/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {ModalPortal} from 'react-native-modals';
 import KeyboardManager from 'react-native-keyboard-manager';
+import initI18n from './src/lang/i18n';
+import {useEffect, useState} from 'react';
 LogBox.ignoreAllLogs(true);
 const Production = () => {
+  const [isI18nReady, setI18nReady] = useState(false);
+
+  useEffect(() => {
+    const init = async () => {
+      await initI18n();
+      setI18nReady(true);
+    };
+    init();
+  }, []);
+  if (!isI18nReady) {
+    return null;
+  }
+
   if (Platform.OS === 'ios') {
     KeyboardManager.setEnable(true);
     KeyboardManager.setEnableDebugging(false);

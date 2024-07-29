@@ -1,0 +1,23 @@
+{
+  "translation": {
+    "copyright": "Tüm hakları saklıdır.",
+    "login_button": "Giriş Yap",
+    "register_button": "Kayıt Ol",
+    "or": "veya",
+    "email": "E-posta",
+    "password": "Şifre",
+    "forgot_password": "Şifremi Unuttum",
+    "register": "Kayıt Ol",
+    "register_subTitle": "Kayıt olmak için aşağıdaki bilgileri doldurun",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "companyName": "Şirket Adı",
+    "phone": "Telefon",
+    "cancel_button": "Vazgeç",
+    "privacy_policy": "Gizlilik Sözleşmesini okudum ve kabul ediyorum.",
+    "privacy_policy_summary": "Gizlilik Sözleşmesini",
+    "forgot_password_title": "Şifremi Unuttum",
+    "forgot_password_subTitle": " E-posta adresinizi girin, size şifre sıfırlama bağlantısı göndereceğiz.",
+    "send_button": "Gönder"
+  }
+}

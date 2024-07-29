@@ -1,0 +1,23 @@
+{
+  "translation": {
+    "copyright": "All rights reserved.",
+    "login_button": "Login",
+    "register_button": "Register",
+    "or": "or",
+    "email": "Email",
+    "password": "Password",
+    "forgot_password": "Forgot Password",
+    "register": "Register",
+    "register_subTitle": "Fill in the information below to register",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "companyName": "Company Name",
+    "phone": "Phone",
+    "cancel_button": "Cancel",
+    "privacy_policy": "I have read and accept the Privacy Policy.",
+    "privacy_policy_summary": "Privacy Policy.",
+    "forgot_password_title": "Forgot Password",
+    "forgot_password_subTitle": "Enter your email address, we will send you a password reset link.",
+    "send_button": "Send"
+  }
+}

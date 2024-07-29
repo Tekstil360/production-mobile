@@ -33,7 +33,7 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
     const bottomSheetRef = useRef<BottomSheet>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const cSnapPoints = useMemo(() => snapPoints, [1]);
+    const cSnapPoints = useMemo(() => snapPoints, [snapPoints]);
 
     useImperativeHandle(ref, () => ({
       open: () => {
@@ -63,14 +63,18 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
         ref={bottomSheetRef}
         index={-1}
         snapPoints={cSnapPoints}
-        enableDynamicSizing={true}
+        enableDynamicSizing={snapPoints ? false : true}
         backgroundStyle={styles.contentContainer}
         backdropComponent={renderBackdrop}
         handleIndicatorStyle={{display: indicator ? 'flex' : 'none'}}
         onChange={handleSheetChanges}>
-        <BottomSheetView style={{flex: 0, minHeight: 100}}>
-          {isOpen && children}
-        </BottomSheetView>
+        {snapPoints && snapPoints.length > 0 && isOpen ? (
+          children
+        ) : (
+          <BottomSheetView style={{flex: 0, minHeight: 100}}>
+            {isOpen && children}
+          </BottomSheetView>
+        )}
       </BottomSheet>
     );
   },

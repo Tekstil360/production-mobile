@@ -23,14 +23,25 @@ import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native
 import {useRegisterMutation} from '../../../services/authService';
 import AlertDialog from '../../../components/AlertDialog/AlertDialog';
 import {RootStackParamList} from '../../../types/Navigator';
+import {useTranslation} from 'react-i18next';
+import CustomBottomSheet, {
+  BottomSheetRef,
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import {useGetContractsMutation} from '../../../services/appSettingService';
+import WebView from 'react-native-webview';
+import {SIZES} from '../../../constant/theme';
 
 export default function Register(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
 ) {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const [registerLoading, setRegisterLoading] = useState(false);
   const register = useSelector((state: RootState) => state.auth.register);
   const formContainerRef = useRef<FormContainerRef>(null);
+  const contractBottomSheetRef = useRef<BottomSheetRef>(null);
+  const [contract, setContract] = useState('');
+  const [getContract] = useGetContractsMutation();
   const [useRegister] = useRegisterMutation();
   const handleRegister = () => {
     let result = formContainerRef.current?.validate({
@@ -60,13 +71,26 @@ export default function Register(
         .finally(() => setRegisterLoading(false));
     }
   };
-
+  const htmlContent = `
+  <html>
+  <head>
+    <style>
+      body {
+        font-size: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    ${contract}
+  </body>
+  </html>
+`;
   return (
-    <Container>
-      <View style={{flex: 1}}>
+    <Container type="page">
+      <Container>
         <TitleContainer>
-          <Title>Kayıt Ol</Title>
-          <SubTitle>Kayıt olmak için aşağıdaki bilgileri doldurun</SubTitle>
+          <Title>{t('register')}</Title>
+          <SubTitle>{t('register_subTitle')}</SubTitle>
         </TitleContainer>
         <ScrollView
           keyboardShouldPersistTaps={'handled'}
@@ -92,7 +116,7 @@ export default function Register(
                         }),
                       )
                     }
-                    placeholder="Ad"
+                    placeholder={t('firstName')}
                     icon={faUser}
                   />
                   <Input
@@ -107,7 +131,7 @@ export default function Register(
                         }),
                       )
                     }
-                    placeholder="Soyad"
+                    placeholder={t('lastName')}
                     icon={faUser}
                   />
                   <Input
@@ -122,7 +146,7 @@ export default function Register(
                         }),
                       )
                     }
-                    placeholder="Şirket İsmi"
+                    placeholder={t('companyName')}
                     icon={faBuilding}
                   />
                   <Input
@@ -139,7 +163,7 @@ export default function Register(
                         }),
                       )
                     }
-                    placeholder="E-posta"
+                    placeholder={t('email')}
                     icon={faEnvelope}
                   />
                   <Input
@@ -155,7 +179,7 @@ export default function Register(
                         }),
                       )
                     }
-                    placeholder="Telefon"
+                    placeholder={t('phone')}
                     icon={faPhone}
                   />
                   <Input
@@ -174,7 +198,7 @@ export default function Register(
                         }),
                       )
                     }
-                    placeholder="Şifre"
+                    placeholder={t('password')}
                     icon={faLock}
                     secureTextEntry
                   />
@@ -183,18 +207,29 @@ export default function Register(
             </KeyboardAvoidingView>
             <View style={{marginTop: 10}}>
               <CheckInput
-                label="Gizlilik sözleşmesini okudum ve kabul ediyorum."
-                clickedLabel="Gizlilik sözleşmesini"
-                clickLabel={() => console.log('clicked')}
+                label={t('privacy_policy')}
+                clickedLabel={t('privacy_policy_summary')}
+                clickLabel={() => {
+                  getContract()
+                    .unwrap()
+                    .then(res => {
+                      if (res.isSuccess) {
+                        setContract(res.entity.contractDescription);
+                      }
+                    })
+                    .finally(() => {
+                      contractBottomSheetRef.current?.open();
+                    });
+                }}
               />
             </View>
           </Content>
         </ScrollView>
-      </View>
+      </Container>
       <BottomContainer>
         <Button
           outline
-          text="Vazgeç"
+          text={t('cancel_button')}
           onPress={() => {
             dispatch(AuthActions.clearRegister());
             props.navigation.goBack();
@@ -202,10 +237,13 @@ export default function Register(
         />
         <Button
           loading={registerLoading}
-          text="Kayıt Ol"
+          text={t('register_button')}
           onPress={handleRegister}
         />
       </BottomContainer>
+      <CustomBottomSheet snapPoints={['79%']} ref={contractBottomSheetRef}>
+        <WebView source={{html: htmlContent}} style={{height: '100%'}} />
+      </CustomBottomSheet>
     </Container>
   );
 }

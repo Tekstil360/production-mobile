@@ -6,11 +6,12 @@ import {baseApi} from './api';
 import {authReducer} from './features/authReducer';
 import {planReducer} from './features/planReducer';
 import {seasonReducer} from './features/seasonReducer';
+import {appSettingReducer} from './features/appSettingReducer';
 
 const appPersistConfig = {
   key: 'app',
   storage: AsyncStorage,
-  whitelist: ['onBoarding'],
+  whitelist: ['onBoarding', 'selectedLanguage'],
 };
 const authPersistConfig = {
   key: 'auth',
@@ -23,6 +24,7 @@ const rootReducers = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   season: seasonReducer,
   plan: planReducer,
+  appSettings: appSettingReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

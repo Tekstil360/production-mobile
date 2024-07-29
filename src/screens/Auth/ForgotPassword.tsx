@@ -8,19 +8,18 @@ import CustomText from '../../components/Text/Text';
 import {View} from 'react-native';
 import useThemeColors from '../../constant/useColor';
 import FormContainer, {FormContainerRef} from 'react-native-form-container';
+import {useTranslation} from 'react-i18next';
 
 export default function ForgotPassword(props: any) {
+  const {t} = useTranslation();
   const colors = useThemeColors();
   const formContainerRef = React.useRef<FormContainerRef>(null);
   const [email, setEmail] = useState('');
   return (
     <Container>
       <TitleContainer>
-        <Title>Şifremi Unuttum</Title>
-        <SubTitle>
-          E-posta adresinizi girin, size şifre sıfırlama bağlantısı
-          göndereceğiz.
-        </SubTitle>
+        <Title>{t('forgot_password_title')}</Title>
+        <SubTitle>{t('forgot_password_subTitle')}</SubTitle>
       </TitleContainer>
       <Content>
         <FormContainer formContainerRef={formContainerRef}>
@@ -32,13 +31,13 @@ export default function ForgotPassword(props: any) {
             value={email}
             onChangeText={setEmail}
             validation="email"
-            placeholder="E-posta"
+            placeholder={t('email')}
             icon={faEnvelope}
           />
         </FormContainer>
         <ForgotButtonContainer>
           <Button
-            text="Gönder"
+            text={t('send_button')}
             onPress={() => {
               let result = formContainerRef.current?.validate({
                 email: 'E-posta adresi geçerli değil!',
@@ -48,7 +47,7 @@ export default function ForgotPassword(props: any) {
           />
         </ForgotButtonContainer>
         <AlternativeTextContainer>
-          <AlternativeText theme={{colors}}>veya</AlternativeText>
+          <AlternativeText theme={{colors}}>{t('or')}</AlternativeText>
         </AlternativeTextContainer>
         <LoginContainer>
           <Button
@@ -56,7 +55,7 @@ export default function ForgotPassword(props: any) {
             onPress={() => {
               props.navigation.navigate('LoginScreen');
             }}
-            text="Vazgeç"
+            text={t('cancel_button')}
           />
         </LoginContainer>
       </Content>
@@ -89,9 +88,10 @@ const AlternativeText = styled(CustomText)`
   color: ${props => props.theme.colors.textColor};
 `;
 const TitleContainer = styled(View)`
-  padding: 20px 0;
   align-items: center;
+  margin-top: 20px;
   gap: 15px;
+  padding-horizontal: 20px;
 `;
 const Title = styled(CustomText)`
   font-size: 22px;
@@ -101,4 +101,5 @@ const Title = styled(CustomText)`
 const SubTitle = styled(CustomText)`
   font-size: 14px;
   color: #666;
+  text-align: center;
 `;
