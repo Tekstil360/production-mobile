@@ -4,7 +4,7 @@ import useThemeColors from '../../constant/useColor';
 import {OutlineButtonProps} from './Button';
 import {SIZES} from '../../constant/theme';
 import styled from 'styled-components';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import Icon from '../Icon/Icon';
 
 export default function IconButton({
   icon,
@@ -39,7 +39,7 @@ export default function IconButton({
           ? 'transparent'
           : backgroundColor || colors.primary,
       }}>
-      {icon && <FontAwesomeIcon icon={icon} color={colors.textColor} />}
+      {icon && <Icon color={textColor} icon={icon} />}
     </CustomButton>
   );
 }

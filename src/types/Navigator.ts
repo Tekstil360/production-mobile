@@ -8,4 +8,5 @@ export type RootStackParamList = {
   ForgotPasswordScreen: undefined;
   ResultScreen: undefined;
   DrawerNavigator: {welcome?: boolean};
+  Productions: undefined;
 };

@@ -16,12 +16,14 @@ import useThemeColors from '../../constant/useColor';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {FormInputProps} from 'react-native-form-container';
 import CustomText from '../Text/Text';
+import Icon from '../Icon/Icon';
 
 export default function Input({
   iconPosition = 'left',
   icon = undefined,
+  iconColor,
   ...props
-}: FormInputProps) {
+}: FormInputProps & {iconColor?: string}) {
   const colors = useThemeColors();
   const [passwordShow, setPasswordShow] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -30,7 +32,7 @@ export default function Input({
   return (
     <View>
       {iconPosition === 'left' && icon && (
-        <IconLeft icon={icon} size={20} color={colors.iconColor} />
+        <IconLeft icon={icon} size={20} color={colors.primary} />
       )}
       <CustomInput
         autoFocus={false}
@@ -48,16 +50,16 @@ export default function Input({
       />
       {props.secureTextEntry && (
         <PasswordIconButton onPress={() => setPasswordShow(!passwordShow)}>
-          <FontAwesomeIcon
+          <Icon
             icon={passwordShow ? faEye : faEyeSlash}
             size={20}
-            color={colors.iconColor}
+            color={colors.primary}
           />
         </PasswordIconButton>
       )}
 
       {iconPosition === 'right' && icon !== undefined && (
-        <IconRight icon={icon} size={20} color={colors.iconColor} />
+        <IconRight icon={icon} size={20} color={colors.primary} />
       )}
       {props.errorMessage && (
         <CustomText

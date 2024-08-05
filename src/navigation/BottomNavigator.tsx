@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
@@ -10,9 +10,14 @@ import CustomBottomSheet, {
 
 import FabricScreen from '../screens/Fabric/FabricScreen';
 import WelcomeContent from '../components/BottomSheetContent/WelcomeContent';
+import useThemeColors from '../constant/useColor';
+import Icon from '../components/Icon/Icon';
+import CustomText from '../components/Text/Text';
+import JeansPantsSvg from '../assets/productions/JeansPantsSvg';
 
 const Tab = createBottomTabNavigator();
 export default function BottomNavigator(props: any) {
+  const colors = useThemeColors();
   const welcomeBottomSheetRef = useRef<BottomSheetRef>(null);
   const {welcome} = props.route.params;
   useEffect(() => {
@@ -31,40 +36,108 @@ export default function BottomNavigator(props: any) {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
+          tabBarStyle: {
+            backgroundColor: colors.primary,
+          },
+          tabBarLabelStyle: {
+            fontWeight: 'bold',
+          },
         }}>
         <Tab.Screen
           name="Anasayfa"
           options={{
-            tabBarIcon: ({color, size}) => (
-              <FontAwesomeIcon icon={faHome} color={color} size={size} />
+            tabBarIcon: ({focused, size}) => (
+              <Icon
+                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                icon={faHome}
+                size={size}
+              />
             ),
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={Home}
         />
         <Tab.Screen
           name="Kumaşlar"
           options={{
-            tabBarIcon: ({color, size}) => (
-              <FontAwesomeIcon icon={faHome} color={color} size={size} />
+            tabBarIcon: ({focused, size}) => (
+              <Icon
+                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                icon={faHome}
+                size={size}
+              />
             ),
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={FabricScreen}
         />
         <Tab.Screen
+          name="mycart"
+          component={Home}
+          listeners={({navigation}) => ({
+            tabPress: e => {
+              e.preventDefault();
+            },
+          })}
+          options={{
+            tabBarLabel: '',
+            tabBarIcon: ({color, size}) => (
+              <TouchableOpacity
+                onPress={() => {}}
+                activeOpacity={0.7}
+                style={{
+                  position: 'absolute',
+                  bottom: 5,
+                  height: 58,
+                  width: 58,
+                  borderRadius: 58,
+                  backgroundColor: colors.primary,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  shadowColor: '#000',
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.4,
+                  shadowRadius: 4.84,
+                  elevation: 5,
+                }}>
+                <JeansPantsSvg width={32} height={32} fill="white" />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Tab.Screen
           name="Ürün Takibi"
           options={{
-            tabBarIcon: ({color, size}) => (
-              <FontAwesomeIcon icon={faHome} color={color} size={size} />
+            tabBarIcon: ({focused, size}) => (
+              <Icon
+                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                icon={faHome}
+                size={size}
+              />
             ),
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={Home}
         />
+
         <Tab.Screen
           name="Siparişler"
           options={{
-            tabBarIcon: ({color, size}) => (
-              <FontAwesomeIcon icon={faHome} color={color} size={size} />
+            tabBarIcon: ({focused, size}) => (
+              <Icon
+                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                icon={faHome}
+                size={size}
+              />
             ),
+            tabBarActiveTintColor: '#fff',
+            tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={Home}
         />

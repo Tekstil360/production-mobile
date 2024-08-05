@@ -2,30 +2,54 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import Container from '../Container/Container';
 import Input from '../Input/Input';
-import {BottomSheetView} from '@gorhom/bottom-sheet';
-import Button from '../Button/Button';
+import {BottomSheetScrollView, BottomSheetView} from '@gorhom/bottom-sheet';
 import styled from 'styled-components';
 
-export default function AddFabricContent() {
+import Button from '../Button/Button';
+import Title from '../Title/Title';
+import FormatHelper from '../../helper/FormatHelper';
+
+interface AddFabricContentProps {
+  onClose: () => void;
+}
+export default function AddFabricContent(props: AddFabricContentProps) {
+  const [price, setPrice] = React.useState('');
   return (
-    <Container bgColor="white" p={10}>
-      <BottomSheetView style={{minHeight: 100, gap: 10}}>
-        <Input placeholder="Kumaş Adı" />
+    <Container type="container" bgColor="white" m={10}>
+      <Title
+        title="Kumaş Ekle"
+        subTitle="Kumaş eklemek için aşağıdaki bilgileri doldurunuz."
+      />
+      <BottomSheetScrollView
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{gap: 10}}>
+        <Input placeholder="Kumaş Kodu" />
+        <Input placeholder="Kumaş Marka" />
+        <Input placeholder="Kumaş Model" />
         <PriceContainer>
           <PriceInputContainer>
-            <Input keyboardType="numeric" placeholder="Kumaş Alış Fiyatı" />
+            <Input
+              keyboardType="numeric"
+              value={price}
+              onChangeText={text => setPrice(FormatHelper.formatPrice(text))}
+              placeholder="Kumaş Alış Fiyatı"
+            />
           </PriceInputContainer>
           <PriceInputContainer>
             <Input keyboardType="numeric" placeholder="Kumaş Satış Fiyatı" />
           </PriceInputContainer>
-          <PriceInputContainer theme={{flex: 0.5}}>
-            <Input keyboardType="numeric" placeholder="Kdv" />
-          </PriceInputContainer>
         </PriceContainer>
-        <View style={{marginBottom: 20}}>
-          <Button text="Ekle" borderRadius={10} />
-        </View>
-      </BottomSheetView>
+        <Input keyboardType="numeric" placeholder="Kdv" />
+        <Title
+          title="Kumaş Özellikleri"
+          subTitle="Kumaş özelliklerini ekleyin."
+        />
+        <Input placeholder="Kumaş Rengi" />
+      </BottomSheetScrollView>
+      <View style={{marginBottom: 25}}>
+        <Button onPress={props.onClose} text="Kumaş Ekle" borderRadius={10} />
+      </View>
     </Container>
   );
 }

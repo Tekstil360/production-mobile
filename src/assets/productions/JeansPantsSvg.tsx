@@ -4,7 +4,6 @@ import {SvgType} from '../../types/type';
 
 export default function JeansPantsSvg({
   fill = '#C9C9C9',
-
   height = 24,
   width = 31,
 }: SvgType) {

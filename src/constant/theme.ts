@@ -64,4 +64,5 @@ export const COLORS = {
   textLink: '#2141A6',
   grey: '#808A99',
   error: '#ff0000',
+  white: '#fff',
 };

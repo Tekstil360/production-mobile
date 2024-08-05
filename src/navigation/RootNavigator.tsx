@@ -14,6 +14,7 @@ import SeasonSplash from '../screens/Season/SeasonSplash';
 import ProductionSplash from '../screens/Production/ProductionSplash';
 import {useGetLanguagesMutation} from '../services/appSettingService';
 import {useEffect} from 'react';
+import Productions from '../screens/Production/Productions';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -107,6 +108,13 @@ const RootNavigator = () => {
           <Stack.Screen
             name="DrawerNavigator"
             component={DrawerNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Productions"
+            component={Productions}
             options={{
               headerShown: false,
             }}

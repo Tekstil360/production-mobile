@@ -1,12 +1,11 @@
-import {View, Text, SafeAreaView, TouchableOpacity} from 'react-native';
-import React, {useEffect} from 'react';
+import {View, SafeAreaView, TouchableOpacity} from 'react-native';
+import React from 'react';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBuilding} from '@fortawesome/free-regular-svg-icons';
 import {
   faAngleRight,
   faRightFromBracket,
@@ -18,15 +17,16 @@ import AlertDialog from '../components/AlertDialog/AlertDialog';
 import {AuthActions} from '../store/features/authReducer';
 import {AppActions} from '../store/features/appReducer';
 import CustomText from '../components/Text/Text';
-import {useGetSeasonMutation} from '../services/seasonService';
+import useThemeColors from '../constant/useColor';
+import Icon from '../components/Icon/Icon';
 
-const menus = ['Kullanıcılar'];
+const menus = ['Kullanıcılar', 'Üretimlerim', 'Ürünlerim', 'Ayarlar'];
 interface DrawerContentProps extends DrawerContentComponentProps {
   drawerSeasonOpen: boolean;
 }
 export default function DrawerContent(props: DrawerContentProps) {
   const dispatch: AppDispatch = useDispatch();
-
+  const colors = useThemeColors();
   const seasons = useSelector((x: RootState) => x.season.seasons);
   const userInfo = useSelector((x: RootState) => x.auth.userInfo);
   const activeSeason = seasons.find(x => x.isActivated);
@@ -44,8 +44,13 @@ export default function DrawerContent(props: DrawerContentProps) {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <FontAwesomeIcon icon={faBuilding} color={'#fff'} size={20} />
-          <View style={{flex: 1}}>
+          <View
+            style={{
+              flex: 1,
+              paddingVertical: 10,
+              paddingHorizontal: 5,
+              borderRadius: 10,
+            }}>
             <TitleText adjustsFontSizeToFit numberOfLines={1}>
               {userInfo.companyName}
             </TitleText>
@@ -56,7 +61,11 @@ export default function DrawerContent(props: DrawerContentProps) {
               <SubTitleText adjustsFontSizeToFit>
                 {activeSeason?.seasonName || 'Sezon Seç'}
               </SubTitleText>
-              <FontAwesomeIcon icon={faAngleRight} color={'#fff'} size={20} />
+              <FontAwesomeIcon
+                icon={faAngleRight}
+                color={colors.white}
+                size={20}
+              />
             </SubTitleContainer>
           </View>
         </View>
@@ -65,8 +74,12 @@ export default function DrawerContent(props: DrawerContentProps) {
         <>
           <MenuContainer>
             {menus.map((menu, index) => (
-              <MenuItemContainer key={index}>
-                <FontAwesomeIcon icon={faUsers} color={'#fff'} size={20} />
+              <MenuItemContainer
+                onPress={() => {
+                  props.navigation.navigate('Productions');
+                }}
+                key={index}>
+                <Icon icon={faUsers} color={colors.white} size={20} />
                 <MenuItemText>{menu}</MenuItemText>
               </MenuItemContainer>
             ))}
@@ -124,7 +137,7 @@ const InfoContainer = styled(View)`
 `;
 const TitleText = styled(CustomText)`
   font-size: 20px;
-  color: #fff;
+  color: ${props => props.theme.textColor || '#fff'};
   font-weight: bold;
   margin-bottom: 5px;
 `;
@@ -138,7 +151,7 @@ const SubTitleContainer = styled(TouchableOpacity)`
 `;
 const SubTitleText = styled(CustomText)`
   font-size: 12px;
-  color: #fff;
+  color: ${props => props.theme.textColor || '#fff'};
   font-weight: bold;
 `;
 const MenuContainer = styled(DrawerContentScrollView)`
@@ -149,12 +162,18 @@ const MenuItemContainer = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;
   padding: 10px;
-  background-color: #cbc1b7;
+  background-color: ${props => props.theme.bgColor || '#9c6644'};
   border-radius: 5px;
   margin-bottom: 5px;
 `;
+const SeasonText = styled(CustomText)`
+  font-size: 16px;
+  color: ${props => props.theme.textColor || '#fff'};
+  font-weight: bold;
+  margin-left: 10px;
+`;
 const MenuItemText = styled(CustomText)`
-  color: #fff;
+  color: ${props => props.theme.textColor || '#fff'};
   font-size: 16px;
   font-weight: bold;
   margin-left: 10px;

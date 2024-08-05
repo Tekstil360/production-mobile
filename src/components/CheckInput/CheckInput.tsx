@@ -10,6 +10,8 @@ import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
 import useThemeColors from '../../constant/useColor';
+import CustomText from '../Text/Text';
+import Icon from '../Icon/Icon';
 
 interface CheckInputProps extends TouchableOpacityProps {
   checked?: boolean;
@@ -26,7 +28,7 @@ export default function CheckInput(props: CheckInputProps) {
       let findIndex = FindLabelByIndex();
       let words = props.label?.split(' ');
       return (
-        <Label>
+        <CustomText>
           {words
             ?.filter((c, i) => {
               if (findIndex.length === 1 && i === findIndex[0]) {
@@ -48,7 +50,7 @@ export default function CheckInput(props: CheckInputProps) {
                     onPress={props.clickLabel}
                     key={index}
                     style={{backgroundColor: 'transparent'}}>
-                    <Label
+                    <CustomText
                       key={index}
                       style={{
                         color: colors.textColor,
@@ -56,20 +58,20 @@ export default function CheckInput(props: CheckInputProps) {
                         textDecorationLine: 'underline',
                       }}>
                       {ConvertLabelByIndex() + ' '}
-                    </Label>
+                    </CustomText>
                   </TouchableOpacity>
                 );
               }
               return (
                 <TouchableOpacity activeOpacity={1} key={index}>
-                  <Label>{item} </Label>
+                  <CustomText>{item} </CustomText>
                 </TouchableOpacity>
               );
             })}
-        </Label>
+        </CustomText>
       );
     }
-    return <Label>{props.label}</Label>;
+    return <CustomText fontWeight="bold">{props.label}</CustomText>;
   };
 
   const FindLabelByIndex = () => {
@@ -96,7 +98,7 @@ export default function CheckInput(props: CheckInputProps) {
     <Container>
       <InputContainer {...props} activeOpacity={0.7}>
         {!props.checked ? (
-          <FontAwesomeIcon color={colors.iconColor} size={20} icon={faCheck} />
+          <Icon color={colors.primary} size={20} icon={faCheck} />
         ) : null}
       </InputContainer>
       <View style={{marginTop: Platform.OS === 'ios' ? 4 : 0}}>
@@ -118,9 +120,4 @@ const Container = styled(View)`
   flex-direction: row;
   align-items: center;
   gap: 10px;
-`;
-const Label = styled(Text)`
-  font-size: 13px;
-  font-weight: 400;
-  color: #444;
 `;
