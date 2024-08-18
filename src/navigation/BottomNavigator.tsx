@@ -12,7 +12,6 @@ import FabricScreen from '../screens/Fabric/FabricScreen';
 import WelcomeContent from '../components/BottomSheetContent/WelcomeContent';
 import useThemeColors from '../constant/useColor';
 import Icon from '../components/Icon/Icon';
-import CustomText from '../components/Text/Text';
 import JeansPantsSvg from '../assets/productions/JeansPantsSvg';
 
 const Tab = createBottomTabNavigator();
@@ -48,12 +47,12 @@ export default function BottomNavigator(props: any) {
           options={{
             tabBarIcon: ({focused, size}) => (
               <Icon
-                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                color={!focused ? colors.unActiveBottomTab : '#564839'}
                 icon={faHome}
                 size={size}
               />
             ),
-            tabBarActiveTintColor: '#fff',
+            tabBarActiveTintColor: '#564839',
             tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={Home}
@@ -63,12 +62,12 @@ export default function BottomNavigator(props: any) {
           options={{
             tabBarIcon: ({focused, size}) => (
               <Icon
-                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                color={!focused ? colors.unActiveBottomTab : '#564839'}
                 icon={faHome}
                 size={size}
               />
             ),
-            tabBarActiveTintColor: '#fff',
+            tabBarActiveTintColor: '#564839',
             tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={FabricScreen}
@@ -105,7 +104,7 @@ export default function BottomNavigator(props: any) {
                   shadowRadius: 4.84,
                   elevation: 5,
                 }}>
-                <JeansPantsSvg width={32} height={32} fill="white" />
+                <JeansPantsSvg width={32} height={32} fill="#564839" />
               </TouchableOpacity>
             ),
           }}
@@ -115,12 +114,12 @@ export default function BottomNavigator(props: any) {
           options={{
             tabBarIcon: ({focused, size}) => (
               <Icon
-                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                color={!focused ? colors.unActiveBottomTab : '#564839'}
                 icon={faHome}
                 size={size}
               />
             ),
-            tabBarActiveTintColor: '#fff',
+            tabBarActiveTintColor: '#564839',
             tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={Home}
@@ -131,12 +130,12 @@ export default function BottomNavigator(props: any) {
           options={{
             tabBarIcon: ({focused, size}) => (
               <Icon
-                color={!focused ? colors.unActiveBottomTab : '#fff'}
+                color={!focused ? colors.unActiveBottomTab : '#564839'}
                 icon={faHome}
                 size={size}
               />
             ),
-            tabBarActiveTintColor: '#fff',
+            tabBarActiveTintColor: '#564839',
             tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
           component={Home}

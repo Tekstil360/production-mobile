@@ -58,7 +58,7 @@ export const FONTWEIGHT = {
   thin: '100',
 };
 export const COLORS = {
-  primary: '#5A4D3C',
+  primary: '#564839',
   secondary: '#34495e',
   textBlack: '#000',
   textLink: '#2141A6',

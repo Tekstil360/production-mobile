@@ -56,7 +56,7 @@ export default function Header({
           <TitleContainer>
             <CustomText
               fontSizes="body3"
-              color="white"
+              color="primary"
               fontWeight="bold"
               adjustsFontSizeToFit={true}>
               {title}
