@@ -7,7 +7,7 @@ import useThemeColors from '../../../constant/useColor';
 import CustomText from '../../../components/Text/Text';
 import Button from '../../../components/Button/Button';
 import LottieView from 'lottie-react-native';
-import {CheckAnimation} from '../../../mocks/LottieData';
+import {CheckAnimation} from '../../../data/LottieData';
 import {SIZES} from '../../../constant/theme';
 import {useDispatch} from 'react-redux';
 import {AuthActions} from '../../../store/features/authReducer';

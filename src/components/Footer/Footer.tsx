@@ -12,7 +12,8 @@ import {useTranslation} from 'react-i18next';
 
 export default function Footer() {
   const colors = useThemeColors();
-  const dispatch = useDispatch();
+
+  const dispatch = useDispatch<any>();
   const languages = useSelector((x: RootState) => x.appSettings.languages);
   const selectedLanguage = useSelector(
     (x: RootState) => x.app.selectedLanguage,
@@ -27,6 +28,9 @@ export default function Footer() {
       <FooterHelpContainer>
         {activeLanguage && !showOtherLanguages ? (
           <FlagsContainer
+            onLongPress={() => {
+              dispatch(AppActions.setOnBoarding(true));
+            }}
             activeOpacity={0.7}
             onPress={() => {
               setShowOtherLanguages(!showOtherLanguages);

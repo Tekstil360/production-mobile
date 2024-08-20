@@ -11,7 +11,7 @@ import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 
 export default function DrawerFooter() {
   const dispatch = useDispatch();
-  const navigation = useNavigation<any>();
+
   return (
     <View style={{marginHorizontal: 10}}>
       <MenuItemContainer
@@ -23,7 +23,6 @@ export default function DrawerFooter() {
             onConfirmText: 'Çıkış Yap',
             onCancelText: 'İptal',
             onConfirm: () => {
-              navigation.closeDrawer();
               dispatch(AuthActions.clearUser());
             },
             onCancel() {

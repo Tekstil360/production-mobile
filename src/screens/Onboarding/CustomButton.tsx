@@ -9,21 +9,21 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import {OnboardingData} from '../../mocks/OnBoardingData';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../../navigation/RootNavigator';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../store';
 import {AppActions} from '../../store/features/appReducer';
 import {SIZES} from '../../constant/theme';
+import {RootStackParamList} from '../../types/Navigator';
 
 type Props = {
   dataLength: number;
   flatListIndex: SharedValue<number>;
   flatListRef: AnimatedRef<FlatList<any>>;
   x: SharedValue<number>;
-  colors?: string[];
+  colors: string[];
   text?: string;
 };
 
@@ -84,7 +84,7 @@ const CustomButton = ({
     const backgroundColor = interpolateColor(
       x.value,
       [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH],
-      colors || ['#FFA500', '#00914C', '#F15937'],
+      ['#FFA500', '#008022', '#F15937', '#7DA3FB'],
     );
 
     return {
@@ -100,7 +100,14 @@ const CustomButton = ({
         } else {
           navigation.reset({
             index: 0,
-            routes: [{name: user === null ? 'LoginScreen' : 'DrawerNavigator'}],
+            routes: [
+              {
+                name:
+                  Object.keys(user).length === 0
+                    ? 'LoginScreen'
+                    : 'DrawerNavigator',
+              },
+            ],
           });
           dispatch(AppActions.setOnBoarding(false));
         }
@@ -108,7 +115,7 @@ const CustomButton = ({
       <Animated.View
         style={[styles.container, buttonAnimationStyle, animatedColor]}>
         <Animated.Text style={[styles.textButton, textAnimationStyle]}>
-          {text || ' Get Started'}
+          {text || ' Başla'}
         </Animated.Text>
         <Animated.Image
           source={require('../../assets/images/ArrowIcon.png')}

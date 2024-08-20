@@ -6,6 +6,7 @@ import Icon from '../../components/Icon/Icon';
 import {Menus} from '../../data/data';
 import {useNavigation} from '@react-navigation/native';
 import {faUsers} from '@fortawesome/free-solid-svg-icons';
+import {SvgXml} from 'react-native-svg';
 
 export default function DrawerMenu() {
   const navigation = useNavigation<any>();
@@ -17,7 +18,15 @@ export default function DrawerMenu() {
             navigation.navigate('Productions');
           }}
           key={index}>
-          <Icon icon={faUsers} color={'#564839'} size={20} />
+          <View style={{width: 25}}>
+            <SvgXml
+              xml={menu.icon}
+              width={menu.width}
+              height={menu.height}
+              color={'#564839'}
+            />
+          </View>
+
           <MenuItemText>{menu.name}</MenuItemText>
         </MenuItemContainer>
       ))}

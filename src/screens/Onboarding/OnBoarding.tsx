@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedRef,
 } from 'react-native-reanimated';
-import data, {OnboardingData} from '../../mocks/OnBoardingData';
+import data, {OnboardingData} from '../../data/OnBoardingData';
 import CustomButton from './CustomButton';
 import Pagination from './Pagination';
 import RenderItem from './RenderItem';
@@ -40,7 +40,6 @@ const OnBoarding = () => {
         renderItem={({item, index}) => {
           return <RenderItem item={item} index={index} x={x} />;
         }}
-        keyExtractor={item => item.id}
         scrollEventThrottle={16}
         horizontal={true}
         bounces={false}
@@ -53,11 +52,12 @@ const OnBoarding = () => {
         }}
       />
       <View style={styles.bottomContainer}>
-        <Pagination data={data} x={x} />
+        <Pagination data={data} x={x} colors={data.map(x => x.textColor)} />
         <CustomButton
           flatListRef={flatListRef}
           flatListIndex={flatListIndex}
           dataLength={data.length}
+          colors={['#FFA500', '#008022', '#F15937', '#7DA3FB']}
           x={x}
         />
       </View>

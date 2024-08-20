@@ -12,12 +12,11 @@ import {SIZES} from '../../constant/theme';
 type Props = {
   index: number;
   x: SharedValue<number>;
-  colors?: string[];
+  colors: string[];
 };
 
 const Dot = ({index, x, colors}: Props) => {
   const SCREEN_WIDTH = SIZES.width;
-
   const animatedDotStyle = useAnimatedStyle(() => {
     const widthAnimation = interpolate(
       x.value,
@@ -26,7 +25,7 @@ const Dot = ({index, x, colors}: Props) => {
         index * SCREEN_WIDTH,
         (index + 1) * SCREEN_WIDTH,
       ],
-      [10, 20, 10],
+      [10, 20, 10, 20],
       Extrapolation.CLAMP,
     );
 
@@ -50,8 +49,7 @@ const Dot = ({index, x, colors}: Props) => {
     const backgroundColor = interpolateColor(
       x.value,
       [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH],
-
-      colors || ['#FFA500', '#00914C', '#F15937'],
+      colors,
     );
 
     return {

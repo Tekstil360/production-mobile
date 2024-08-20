@@ -3,12 +3,11 @@ import React from 'react';
 import {SharedValue} from 'react-native-reanimated';
 
 import Dot from './Dot';
-import {OnboardingData} from '../../mocks/OnBoardingData';
 
 type Props = {
   data: any[];
   x: SharedValue<number>;
-  colors?: string[];
+  colors: string[];
 };
 const Pagination = ({data, x, colors}: Props) => {
   return (

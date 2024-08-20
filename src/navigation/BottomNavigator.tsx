@@ -13,6 +13,8 @@ import WelcomeContent from '../components/BottomSheetContent/WelcomeContent';
 import useThemeColors from '../constant/useColor';
 import Icon from '../components/Icon/Icon';
 import JeansPantsSvg from '../assets/productions/JeansPantsSvg';
+import {SvgXml} from 'react-native-svg';
+import {ICONS} from '../constant/theme';
 
 const Tab = createBottomTabNavigator();
 export default function BottomNavigator(props: any) {
@@ -61,10 +63,11 @@ export default function BottomNavigator(props: any) {
           name="Kumaşlar"
           options={{
             tabBarIcon: ({focused, size}) => (
-              <Icon
+              <SvgXml
                 color={!focused ? colors.unActiveBottomTab : '#564839'}
-                icon={faHome}
-                size={size}
+                xml={ICONS.Fabric}
+                width={'35'}
+                height={'35'}
               />
             ),
             tabBarActiveTintColor: '#564839',
@@ -113,10 +116,11 @@ export default function BottomNavigator(props: any) {
           name="Ürün Takibi"
           options={{
             tabBarIcon: ({focused, size}) => (
-              <Icon
+              <SvgXml
                 color={!focused ? colors.unActiveBottomTab : '#564839'}
-                icon={faHome}
-                size={size}
+                height={'30'}
+                width={'35'}
+                xml={ICONS.Tracking}
               />
             ),
             tabBarActiveTintColor: '#564839',
@@ -129,10 +133,11 @@ export default function BottomNavigator(props: any) {
           name="Siparişler"
           options={{
             tabBarIcon: ({focused, size}) => (
-              <Icon
+              <SvgXml
                 color={!focused ? colors.unActiveBottomTab : '#564839'}
-                icon={faHome}
-                size={size}
+                height={'30'}
+                width={'35'}
+                xml={ICONS.Orders}
               />
             ),
             tabBarActiveTintColor: '#564839',

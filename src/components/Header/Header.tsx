@@ -15,6 +15,8 @@ import {faBell} from '@fortawesome/free-regular-svg-icons';
 import CustomText from '../Text/Text';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import Icon from '../Icon/Icon';
+import {SvgXml} from 'react-native-svg';
+import {ICONS} from '../../constant/theme';
 
 export interface HeaderProps {
   title?: string;
@@ -49,7 +51,16 @@ export default function Header({
               navigation.dispatch(DrawerActions.openDrawer());
             }
           }}>
-          <Icon icon={goBackShow ? faAngleLeft : faBars} size={25} />
+          {goBackShow ? (
+            <Icon icon={faAngleLeft} size={25} />
+          ) : (
+            <SvgXml
+              color={colors.iconColor}
+              xml={ICONS.MenuBar}
+              width="30"
+              height="30"
+            />
+          )}
         </IconLeft>
 
         {title?.length != 0 && (

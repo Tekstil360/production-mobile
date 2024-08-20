@@ -10,7 +10,7 @@ import CustomText from '../../components/Text/Text';
 import styled from 'styled-components';
 import {SvgType} from '../../types/type';
 
-import {ProductionData} from '../../mocks/ProductionData';
+import {ProductionData} from '../../data/ProductionData';
 import Button from '../../components/Button/Button';
 import {SIZES} from '../../constant/theme';
 import CustomBottomSheet, {

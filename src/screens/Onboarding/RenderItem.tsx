@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import LottieView from 'lottie-react-native';
-import {OnboardingData} from '../../mocks/OnBoardingData';
+import {OnboardingData} from '../../data/OnBoardingData';
 import CustomText from '../../components/Text/Text';
 import {SIZES} from '../../constant/theme';
 
@@ -29,7 +29,7 @@ const RenderItem = ({index, x, item}: Props) => {
         index * SCREEN_WIDTH,
         (index + 1) * SCREEN_WIDTH,
       ],
-      [200, 0, -200],
+      [200, 0, -200, 0],
       Extrapolation.CLAMP,
     );
 
@@ -74,8 +74,8 @@ const RenderItem = ({index, x, item}: Props) => {
         <LottieView
           source={item.animation}
           style={{
-            width: SCREEN_WIDTH * 0.9,
-            height: SCREEN_WIDTH * 0.9,
+            width: SCREEN_WIDTH * 1,
+            height: SCREEN_WIDTH * 1,
           }}
           autoPlay
           loop
@@ -85,7 +85,8 @@ const RenderItem = ({index, x, item}: Props) => {
         <CustomText style={[styles.itemText, {color: item.textColor}]}>
           {item.text}
         </CustomText>
-        <CustomText style={[styles.itemDescription, {color: item.textColor}]}>
+        <CustomText
+          style={[styles.itemDescription, {color: item.descriptionTextColor}]}>
           {item.description}
         </CustomText>
       </View>

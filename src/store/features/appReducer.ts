@@ -18,7 +18,7 @@ const appSlice = createSlice({
     },
     setSelectedLanguage: (state, action) => {
       initI18n().then(i18n => {
-        i18n.changeLanguage(action.payload);
+        i18n?.changeLanguage(action.payload);
       });
       state.selectedLanguage = action.payload;
     },
