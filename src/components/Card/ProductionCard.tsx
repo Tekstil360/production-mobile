@@ -2,66 +2,34 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import dayjs from 'dayjs';
 import CustomText from '../Text/Text';
+import JeansPantsSvg from '../../assets/productions/JeansPantsSvg';
+import ProductionResponse from '../../dto/Response/ProductionResponse';
 
-export default function ProductionCard() {
+interface ProductionCardProps
+  extends React.ComponentProps<typeof TouchableOpacity> {
+  production: ProductionResponse;
+}
+
+export default function ProductionCard({
+  production,
+  ...props
+}: ProductionCardProps) {
   return (
-    <View style={styles.container}>
-      <View style={styles.image}>
-        <CustomText style={{textAlign: 'center'}}>ProductionCard</CustomText>
-      </View>
-      <View style={styles.productionOperationContainer}>
-        <View
-          style={{
-            width: 40,
-            borderRightWidth: 1,
-            borderRightColor: 'gray',
-          }}>
-          <CustomText numberOfLines={2} style={styles.operationDateText}>
-            {dayjs().format('DD MMMM')}
-          </CustomText>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          style={styles.productionOperation}>
-          <CustomText style={{color: 'white'}} numberOfLines={1}>
-            Tailor
-          </CustomText>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <TouchableOpacity
+      {...props}
+      activeOpacity={0.7}
+      style={{
+        backgroundColor: 'white',
+        padding: 10,
+        margin: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#ddd',
+      }}>
+      <JeansPantsSvg />
+      <CustomText fontWeight="bold">{production.name}</CustomText>
+    </TouchableOpacity>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    margin: 10,
-    borderRadius: 10,
-  },
-  image: {
-    width: 75,
-    height: 75,
-    backgroundColor: 'red',
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  productionOperationContainer: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'lightblue',
-  },
-  productionOperation: {
-    backgroundColor: '#34495b',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  operationDateText: {
-    fontSize: 9,
-    color: 'gray',
-    textAlign: 'center',
-  },
-});

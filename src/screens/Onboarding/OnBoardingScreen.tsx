@@ -10,7 +10,7 @@ import CustomButton from './CustomButton';
 import Pagination from './Pagination';
 import RenderItem from './RenderItem';
 
-const OnBoarding = () => {
+const OnBoardingScreen = () => {
   const flatListRef = useAnimatedRef<FlatList<OnboardingData>>();
   const x = useSharedValue(0);
   const flatListIndex = useSharedValue(0);
@@ -65,7 +65,7 @@ const OnBoarding = () => {
   );
 };
 
-export default OnBoarding;
+export default OnBoardingScreen;
 
 const styles = StyleSheet.create({
   container: {

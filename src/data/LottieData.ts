@@ -6,3 +6,4 @@ export const ProductionSales = require('../assets/animations/ProductionSales.jso
 export const ProductionStock = require('../assets/animations/ProductionStock.json');
 export const ProductionReport = require('../assets/animations/ProductionReport.json');
 export const CheckAnimation = require('../assets/animations/Check.json');
+export const ZipperAnimation = require('../assets/animations/Zipper.json');

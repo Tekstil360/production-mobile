@@ -21,6 +21,7 @@ export default function Footer() {
   const activeLanguage = languages.find(
     x => x.languageCode === selectedLanguage,
   );
+
   const [showOtherLanguages, setShowOtherLanguages] = useState(false);
   const {t} = useTranslation();
   return (
@@ -45,6 +46,7 @@ export default function Footer() {
           <View>
             <ScrollView
               horizontal
+              contentContainerStyle={{gap: 10}}
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}>
               {languages.map((x, i) => {

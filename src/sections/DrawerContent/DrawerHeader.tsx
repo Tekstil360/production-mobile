@@ -10,6 +10,7 @@ import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
 
 export default function DrawerHeader() {
   const seasons = useSelector((x: RootState) => x.season.seasons);
+
   const userInfo = useSelector((x: RootState) => x.auth.userInfo);
   const activeSeason = seasons.find(x => x.isActivated);
   const drawerSeasonOpen = useSelector(

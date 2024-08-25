@@ -1,3 +1,5 @@
+import ProductionResponse from '../dto/Response/ProductionResponse';
+
 export type RootStackParamList = {
   Main: undefined;
   SeasonSplash: undefined;
@@ -9,4 +11,13 @@ export type RootStackParamList = {
   ResultScreen: undefined;
   DrawerNavigator: {welcome?: boolean};
   Productions: undefined;
+  Users: undefined;
+  ProductionCodes: undefined;
+  StockManagement: undefined;
+  SaleManagement: undefined;
+  Pastal: undefined;
+  Reports: undefined;
+  Seasons: undefined;
+  Profile: undefined;
+  Settings: undefined;
 };

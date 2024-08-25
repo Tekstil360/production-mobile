@@ -1,5 +1,5 @@
 import {View, Text, ScrollView} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import Container from '../../components/Container/Container';
 import Button from '../../components/Button/Button';
 import FabricCard from '../../components/Card/FabricCard';
@@ -10,7 +10,6 @@ import AddFabricContent from '../../components/BottomSheetContent/AddFabricConte
 import Input from '../../components/Input/Input';
 import {faFilter, faSearch} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
-import {useGetProduciontsMutation} from '../../services/productionService';
 
 export default function FabricScreen() {
   const addFabricBottomSheetRef = useRef<BottomSheetRef>(null);

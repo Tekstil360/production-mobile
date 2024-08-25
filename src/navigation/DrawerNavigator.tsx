@@ -1,5 +1,4 @@
-import {View, Text} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import BottomNavigator from './BottomNavigator';
 import DrawerContent from './DrawerContent';
@@ -8,7 +7,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../types/Navigator';
-import {useFocusEffect} from '@react-navigation/native';
+
 import {useGetSeasonMutation} from '../services/seasonService';
 const Drawer = createDrawerNavigator();
 export default function DrawerNavigator(
@@ -26,9 +25,7 @@ export default function DrawerNavigator(
   }, [isFocused]);
   return (
     <Drawer.Navigator
-      drawerContent={props => (
-        <DrawerContent drawerSeasonOpen={drawerSeasonOpen} {...props} />
-      )}
+      drawerContent={props => <DrawerContent />}
       screenOptions={{
         drawerStyle: {
           width: drawerSeasonOpen ? SIZES.width : SIZES.width * 0.7,

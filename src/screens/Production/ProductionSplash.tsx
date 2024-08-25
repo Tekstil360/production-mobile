@@ -29,6 +29,9 @@ import CreateProductionRequest from '../../dto/Request/CreateProductionRequest';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import AlertDialog from '../../components/AlertDialog/AlertDialog';
+import ProductionIconCard, {
+  ProductionIconProps,
+} from '../../components/Card/ProductionIconCard';
 
 export default function ProductionSplash(
   props: NativeStackScreenProps<RootStackParamList, 'ProductionSplash'>,
@@ -37,7 +40,7 @@ export default function ProductionSplash(
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const formContainerRef = useRef<FormContainerRef>(null);
   const [productionList, setProductionList] =
-    useState<Array<ProductionProps>>(ProductionData);
+    useState<Array<ProductionIconProps>>(ProductionData);
   const [productionName, setProductionName] = useState('');
   const [loading, setLoading] = useState(false);
   const [createProductions] = useCreateProductionMutation();
@@ -57,7 +60,7 @@ export default function ProductionSplash(
   };
   const nextStep = () => {
     setLoading(true);
-    createProductions(selected)
+    createProductions(selected[0])
       .unwrap()
       .then(e => {
         if (e.isSuccess) {
@@ -101,18 +104,23 @@ export default function ProductionSplash(
           showsVerticalScrollIndicator={false}>
           <ProductionContainer>
             {productionList.map((item, index) => (
-              <ProductionCard
+              <ProductionIconCard
                 selected={selected.some(x => x.name === item.title)}
                 onPress={() => {
                   if (selected.some(x => x.name === item.title)) {
                     setSelected(selected.filter(x => x.name !== item.title));
                   } else {
-                    setSelected([
-                      ...selected,
-                      {
-                        name: item.title,
-                      },
-                    ]);
+                    if (item.title) {
+                      setSelected([
+                        ...selected,
+                        {
+                          name: item.title,
+                          icon: '',
+                          transactions: [],
+                          errors: [],
+                        },
+                      ]);
+                    }
                   }
                 }}
                 key={index}
@@ -177,30 +185,7 @@ export default function ProductionSplash(
     </ProductionPage>
   );
 }
-interface ProductionProps extends TouchableOpacityProps {
-  title: string;
-  ImageSvg?: React.ComponentType<SvgType>;
-  selected?: boolean;
-}
-const ProductionCard = (props: ProductionProps) => {
-  const {title, selected, ImageSvg} = props;
 
-  return (
-    <ProductionContent
-      theme={{color: selected ? '#FFC107' : '#f2f2f2'}}
-      {...props}
-      activeOpacity={0.7}>
-      <ProductionImage>
-        {ImageSvg ? (
-          <ImageSvg height={40} width={40} />
-        ) : (
-          <NonImageSvg height={40} width={40} />
-        )}
-      </ProductionImage>
-      <ProductionTitle>{title}</ProductionTitle>
-    </ProductionContent>
-  );
-};
 const ProductionPage = styled(SafeAreaView)`
   flex: 1;
   background-color: #fff;

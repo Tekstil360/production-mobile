@@ -83,8 +83,8 @@ const CustomButton = ({
   const animatedColor = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       x.value,
-      [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH],
-      ['#FFA500', '#008022', '#F15937', '#7DA3FB'],
+      [0, SCREEN_WIDTH, 2 * SCREEN_WIDTH, 3 * SCREEN_WIDTH],
+      colors,
     );
 
     return {

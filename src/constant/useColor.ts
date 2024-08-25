@@ -3,7 +3,8 @@ import useColorScheme from './useColorScheme';
 const Colors = {
   light: {
     background: '#f9f9f9',
-    primary: '#564839',
+    primary: '#D7C9BC',
+    buttonColor: '#9c6644',
     textColor: '#70664C',
     secondary: '#a55eea',
     inputBorder: '#ebeff3',
@@ -17,7 +18,8 @@ const Colors = {
   },
   dark: {
     background: '#f9f9f9',
-    primary: '#564839',
+    primary: '#D7C9BC',
+    buttonColor: '#9c6644',
     textColor: '#70664C',
     secondary: '#a55eea',
     inputBorder: '#ebeff3',

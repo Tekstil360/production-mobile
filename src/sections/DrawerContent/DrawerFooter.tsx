@@ -1,19 +1,28 @@
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import React from 'react';
 import styled from 'styled-components';
 import CustomText from '../../components/Text/Text';
 import AlertDialog from '../../components/AlertDialog/AlertDialog';
-import {useNavigation} from '@react-navigation/native';
+import Icon from '../../components/Icon/Icon';
+import {View, TouchableOpacity} from 'react-native';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {AuthActions} from '../../store/features/authReducer';
-import Icon from '../../components/Icon/Icon';
-import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import {faRightFromBracket, faUser} from '@fortawesome/free-solid-svg-icons';
+import {RootStackParamList} from '../../types/Navigator';
 
 export default function DrawerFooter() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <View style={{marginHorizontal: 10}}>
+      <MenuItemContainer
+        onPress={() => {
+          navigate.navigate('Profile');
+        }}
+        activeOpacity={0.7}>
+        <Icon icon={faUser} color={'#564839'} size={20} />
+        <MenuItemText>Profilim</MenuItemText>
+      </MenuItemContainer>
       <MenuItemContainer
         activeOpacity={0.7}
         onPress={() => {
@@ -37,10 +46,6 @@ export default function DrawerFooter() {
   );
 }
 
-const MenuContainer = styled(ScrollView)`
-  flex: 1;
-  padding: 10px;
-`;
 const MenuItemContainer = styled(TouchableOpacity)`
   flex-direction: row;
   align-items: center;

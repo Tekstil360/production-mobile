@@ -53,10 +53,10 @@ export default function Button({
       activeOpacity={props.activeOpacity || 0.7}
       theme={{
         borderRadius: borderRadius,
-        borderColor: backgroundColor || colors.primary,
+        borderColor: backgroundColor || colors.buttonColor,
         backgroundColor: outline
           ? 'transparent'
-          : backgroundColor || colors.primary,
+          : backgroundColor || colors.buttonColor,
       }}>
       {icon && <IconLeft icon={icon} color={colors.textColor} />}
       {loading ? (

@@ -1,4 +1,3 @@
-import AlertDialog from '../components/AlertDialog/AlertDialog';
 import SeasonResponse from '../dto/Response/SeasonResponse';
 import ServiceResponse from '../dto/Response/ServiceResponse';
 import {baseApi} from '../store/api';
