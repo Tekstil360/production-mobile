@@ -43,5 +43,12 @@ const initI18n = async () => {
     console.error('Error initializing i18n:', error);
   }
 };
+export type Resource = keyof typeof tr | keyof typeof en;
+export const getLanguage = () => i18n.language;
 
+export const getResourceByKey = (key: Resource) => {
+  let language = getLanguage();
+  let res = resources as any;
+  return res[language][key];
+};
 export default initI18n;

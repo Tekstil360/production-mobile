@@ -4,7 +4,7 @@ import {
   ProductionReport,
   ProductionSales,
   ProductionStock,
-} from './LottieData';
+} from '../assets/animations';
 
 export interface OnboardingData {
   id: number;

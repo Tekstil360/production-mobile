@@ -1,3 +1,4 @@
+import AlertDialog from '../components/AlertDialog/AlertDialog';
 import CreateProductionRequest from '../dto/Request/CreateProductionRequest';
 import ProductionResponse from '../dto/Response/ProductionResponse';
 import ServiceResponse from '../dto/Response/ServiceResponse';
@@ -13,10 +14,12 @@ const productionService = baseApi.injectEndpoints({
       }),
       async onQueryStarted(arg, {dispatch, queryFulfilled}) {
         try {
+          AlertDialog.showLoading();
           const {data} = await queryFulfilled;
           if (data.isSuccess) {
             dispatch(ProductionActions.setProductions(data.list));
           }
+          AlertDialog.hideLoading();
         } catch (err) {
           console.error('Query failed', err);
         }

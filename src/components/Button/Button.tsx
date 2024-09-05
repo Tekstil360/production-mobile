@@ -40,7 +40,11 @@ export default function Button({
   var lockPressed = false;
   return (
     <CustomButton
+      testID={props.testID}
       onPress={event => {
+        if (props.disabled) {
+          return;
+        }
         if (lockPressed) {
           return;
         }
@@ -50,11 +54,15 @@ export default function Button({
         }, 1000);
         props.onPress && props.onPress(event);
       }}
-      activeOpacity={props.activeOpacity || 0.7}
+      activeOpacity={props.activeOpacity || props.disabled ? 1 : 0.7}
       theme={{
         borderRadius: borderRadius,
-        borderColor: backgroundColor || colors.buttonColor,
-        backgroundColor: outline
+        borderColor: props.disabled
+          ? '#EBEBE4'
+          : backgroundColor || colors.buttonColor,
+        backgroundColor: props.disabled
+          ? '#EBEBE4'
+          : outline
           ? 'transparent'
           : backgroundColor || colors.buttonColor,
       }}>
@@ -64,7 +72,11 @@ export default function Button({
       ) : (
         <ButtonText
           theme={{
-            color: outline ? textColor || colors.primary : colors.white,
+            color: props.disabled
+              ? '#ccc'
+              : outline
+              ? textColor || colors.primary
+              : colors.white,
           }}>
           {text}
         </ButtonText>

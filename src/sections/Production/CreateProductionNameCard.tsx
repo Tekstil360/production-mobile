@@ -9,7 +9,13 @@ import {SvgXml} from 'react-native-svg';
 import useThemeColors from '../../constant/useColor';
 import Icon from '../../components/Icon/Icon';
 import {faImage} from '@fortawesome/free-solid-svg-icons';
-import {ProductionIcons, TransactionIcons} from '../../constant/theme';
+
+import {
+  getIconProductionRecommendation,
+  getProductionIconByKey,
+} from '../../helper/IconHelper';
+import TextLink from '../../components/TextLink/TextLink';
+import FormatHelper from '../../helper/FormatHelper';
 
 interface CreateProductionNameCardProps {
   onOpenProductionIconsSheet: () => void;
@@ -23,41 +29,73 @@ export default function CreateProductionNameCard({
   );
   const colors = useThemeColors();
   const dispatch = useDispatch();
+
+  let findRecommendation = getIconProductionRecommendation(icon);
+  let replaceRecommendation = FormatHelper.replacePrefixedWord(
+    getIconProductionRecommendation(icon),
+  );
+  let replaceSplitText = FormatHelper.extractWordWithPrefix(
+    getIconProductionRecommendation(icon),
+  );
   return (
-    <InputContainer>
-      <InputItem alignItem="center" flex={0.1}>
-        <TouchableOpacity
-          onPress={() => {
-            onOpenProductionIconsSheet();
-          }}
-          hitSlop={15}>
-          {icon ? (
-            <SvgXml
-              color={colors.iconColor}
-              xml={ProductionIcons[icon]}
-              width={25}
-              height={25}
+    <>
+      <InputContainer>
+        <InputItem alignItem="center" flex={0.1}>
+          <TouchableOpacity
+            testID="productionIconButton"
+            onPress={() => {
+              onOpenProductionIconsSheet();
+            }}
+            hitSlop={15}>
+            {icon ? (
+              <SvgXml
+                color={colors.iconColor}
+                xml={getProductionIconByKey(icon)}
+                width={25}
+                height={25}
+              />
+            ) : (
+              <Icon icon={faImage} size={20} />
+            )}
+          </TouchableOpacity>
+        </InputItem>
+        <InputItem>
+          <Input
+            testID="productionNameInput"
+            placeholder="Üretim Adı"
+            value={name}
+            onChangeText={text =>
+              dispatch(
+                ProductionActions.handleCreateProductionRequest({
+                  key: 'name',
+                  value: text,
+                }),
+              )
+            }
+          />
+        </InputItem>
+      </InputContainer>
+      {findRecommendation && replaceSplitText && replaceSplitText != name && (
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flex: 0.12}}></View>
+          <View style={{flex: 0.9}}>
+            <TextLink
+              text={replaceRecommendation}
+              splitText={replaceSplitText}
+              testID="recommendationText"
+              onClick={e => {
+                dispatch(
+                  ProductionActions.handleCreateProductionRequest({
+                    key: 'name',
+                    value: e,
+                  }),
+                );
+              }}
             />
-          ) : (
-            <Icon icon={faImage} size={20} />
-          )}
-        </TouchableOpacity>
-      </InputItem>
-      <InputItem>
-        <Input
-          placeholder="Üretim Adı"
-          value={name}
-          onChangeText={text =>
-            dispatch(
-              ProductionActions.handleCreateProductionRequest({
-                key: 'name',
-                value: text,
-              }),
-            )
-          }
-        />
-      </InputItem>
-    </InputContainer>
+          </View>
+        </View>
+      )}
+    </>
   );
 }
 const InputContainer = styled(View)`

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CustomText from '../../components/Text/Text';
 import {View, ScrollView, TouchableOpacity} from 'react-native';
-import {Menus} from '../../data/data';
+import {Menus} from '../../data/MenuData';
 import {useNavigation} from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
 
@@ -12,6 +12,7 @@ export default function DrawerMenu() {
     <MenuContainer>
       {Menus.map((menu, index) => (
         <MenuItemContainer
+          testID={`drawerMenuItem-${menu.route}`}
           onPress={() => {
             navigation.navigate(menu.route);
           }}

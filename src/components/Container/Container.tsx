@@ -24,6 +24,7 @@ interface ContainerProps extends HeaderProps {
   pb?: number;
   px?: number;
   py?: number;
+  flex?: number;
 }
 
 export default function Container({
@@ -32,19 +33,20 @@ export default function Container({
   goBackShow = false,
   type = 'page',
   bgColor,
+  flex = 1,
   ...props
 }: ContainerProps) {
   const colors = useThemeColors();
   return !header ? (
     <SafeViewContainer
+      flex={flex}
       style={{
-        flex: 1,
         backgroundColor: bgColor ? bgColor : colors.background,
       }}>
       {type === 'container' ? (
         <View
           style={{
-            flex: 1,
+            flex: flex,
             margin: props.m,
             marginRight: props.mr,
             marginLeft: props.ml,
@@ -69,6 +71,7 @@ export default function Container({
     </SafeViewContainer>
   ) : (
     <ViewContainer
+      flex={flex}
       style={{
         backgroundColor: bgColor ? bgColor : colors.background,
       }}>
@@ -98,11 +101,11 @@ export default function Container({
     </ViewContainer>
   );
 }
-const ViewContainer = styled(View)`
-  flex: 1;
+const ViewContainer = styled(View)<{flex?: number}>`
+  flex: ${props => props.flex || 1};
   background-color: ${props => props.theme.background};
 `;
-const SafeViewContainer = styled(SafeAreaView)`
-  flex: 1;
+const SafeViewContainer = styled(SafeAreaView)<{flex?: number}>`
+  flex: ${props => props.flex || 1};
   background-color: ${props => props.theme.background};
 `;

@@ -1,27 +1,29 @@
 import {View} from 'react-native';
 import React from 'react';
-import Container from '../Container/Container';
-
-import Title from '../Title/Title';
-
-import Button from '../Button/Button';
 
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-import Input from '../Input/Input';
+
 import styled from 'styled-components';
 
+import {useDispatch, useSelector} from 'react-redux';
+
+import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {
   ProductionActions,
   StepType,
-} from '../../store/features/productionReducer';
-import {useDispatch, useSelector} from 'react-redux';
-
-import {RootState} from '../../store';
-
-import {useCreateProductionMutation} from '../../services/productionService';
-import CreateProductionErrorCard from '../../sections/Production/CreateProductionErrorCard';
-import CreateProductionTransactionCard from '../../sections/Production/CreateProductionTransactionCard';
-import CreateProductionNameCard from '../../sections/Production/CreateProductionNameCard';
+} from '../../../store/features/productionReducer';
+import {RootState} from '../../../store';
+import {
+  useCreateProductionMutation,
+  useGetProductionsMutation,
+} from '../../../services/productionService';
+import Container from '../../Container/Container';
+import Title from '../../Title/Title';
+import CreateProductionNameCard from '../../../sections/Production/CreateProductionNameCard';
+import CreateProductionErrorCard from '../../../sections/Production/CreateProductionErrorCard';
+import CreateProductionTransactionCard from '../../../sections/Production/CreateProductionTransactionCard';
+import IconButton from '../../Button/IconButton';
+import Button from '../../Button/Button';
 
 interface AddFabricContentProps {
   onClose: () => void;
@@ -36,6 +38,7 @@ export default function AddProductionContent({
   onOpenProductionIconsSheet,
   step,
 }: AddFabricContentProps) {
+  const [getProductions] = useGetProductionsMutation();
   const [useCreateProduction] = useCreateProductionMutation();
   const dispatch = useDispatch();
   const {createProductionRequest} = useSelector(
@@ -59,30 +62,12 @@ export default function AddProductionContent({
           </BottomSheetScrollView>
         </>
       )}
-      {step === 'productionError' && (
-        <>
-          <Title
-            title="Üretim Hataları"
-            subTitle="Üretim sırasında oluşan hataları ekleyin."
-          />
-          <BottomSheetScrollView>
-            {createProductionRequest.errors.map((el, index) => {
-              return (
-                <CreateProductionErrorCard
-                  key={index}
-                  indexNumber={index}
-                  item={el}
-                />
-              );
-            })}
-          </BottomSheetScrollView>
-        </>
-      )}
+
       {step === 'transaction' && (
         <>
           <Title
             title="Üretim Süreçleri"
-            subTitle="Üretim süreçlerini ekleyin."
+            subTitle="Bu süreçler üretimdeki adımlar olabilir."
           />
           <BottomSheetScrollView contentContainerStyle={{gap: 10}}>
             {createProductionRequest.transactions.map((el, index) => {
@@ -95,6 +80,42 @@ export default function AddProductionContent({
                 />
               );
             })}
+            <View style={{alignItems: 'center'}}>
+              <IconButton
+                testID="addTransactionButton"
+                onPress={() => {
+                  dispatch(ProductionActions.addTransaction());
+                }}
+                icon={faPlus}
+              />
+            </View>
+          </BottomSheetScrollView>
+        </>
+      )}
+      {step === 'productionError' && (
+        <>
+          <Title
+            title="Üretim Hataları"
+            subTitle="Bu hatalar üretim süreçlerindeki hatalar olabilir."
+          />
+          <BottomSheetScrollView>
+            {createProductionRequest.errors.map((el, index) => {
+              return (
+                <CreateProductionErrorCard
+                  key={index}
+                  indexNumber={index}
+                  item={el}
+                />
+              );
+            })}
+            <View style={{alignItems: 'center'}}>
+              <IconButton
+                onPress={() => {
+                  dispatch(ProductionActions.addError());
+                }}
+                icon={faPlus}
+              />
+            </View>
           </BottomSheetScrollView>
         </>
       )}
@@ -117,25 +138,42 @@ export default function AddProductionContent({
         )}
         <ButtonItem flex={1.5}>
           <Button
+            testID="nextButton"
+            disabled={
+              step === 'production'
+                ? !createProductionRequest.name
+                : step === 'transaction'
+                ? createProductionRequest.transactions.filter(
+                    x => x.name.length != 0,
+                  ).length === 0
+                : step === 'productionError'
+                ? createProductionRequest.errors.length === 0
+                : false
+            }
             onPress={() => {
               step === 'production' &&
                 dispatch(ProductionActions.setStep({step: 'transaction'}));
               step === 'transaction' &&
                 dispatch(ProductionActions.setStep({step: 'productionError'}));
               createProductionRequest.errors.length === 0 &&
+                createProductionRequest.transactions.length != 0 &&
                 dispatch(
                   ProductionActions.setCreateProductionErrorRequest(
-                    createProductionRequest.transactions.map(x => ({
-                      name: `${x.name} Hatası`,
-                    })),
+                    createProductionRequest.transactions
+                      .filter(x => x.name.length != 0)
+                      .map(x => ({
+                        name: `${x.name} Hatası`,
+                      })),
                   ),
                 );
               step === 'productionError' &&
                 useCreateProduction(createProductionRequest)
                   .unwrap()
-                  .then(e => {
-                    console.log(e);
-                    onClose();
+                  .then(async e => {
+                    const {data} = await getProductions();
+                    if (data) {
+                      onClose();
+                    }
                   })
                   .catch(e => {
                     console.log(e);

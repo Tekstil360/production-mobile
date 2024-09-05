@@ -1,9 +1,10 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import React from 'react';
-import dayjs from 'dayjs';
 import CustomText from '../Text/Text';
-import JeansPantsSvg from '../../assets/productions/JeansPantsSvg';
 import ProductionResponse from '../../dto/Response/ProductionResponse';
+import styled from 'styled-components';
+import CustomSvgXml from '../Icon/CustomSvgXml';
+import {getProductionIconByKey} from '../../helper/IconHelper';
 
 interface ProductionCardProps
   extends React.ComponentProps<typeof TouchableOpacity> {
@@ -14,22 +15,20 @@ export default function ProductionCard({
   production,
   ...props
 }: ProductionCardProps) {
+  let icon = getProductionIconByKey(production.icon);
   return (
-    <TouchableOpacity
-      {...props}
-      activeOpacity={0.7}
-      style={{
-        backgroundColor: 'white',
-        padding: 10,
-        margin: 5,
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#ddd',
-      }}>
-      <JeansPantsSvg />
+    <ProductionCardContainer {...props} activeOpacity={0.7}>
+      <CustomSvgXml width={25} height={25} xml={icon} />
       <CustomText fontWeight="bold">{production.name}</CustomText>
-    </TouchableOpacity>
+    </ProductionCardContainer>
   );
 }
+const ProductionCardContainer = styled(TouchableOpacity)`
+  background-color: white;
+  padding: 10px;
+  margin: 5px;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 5px;
+  gap: 5px;
+`;

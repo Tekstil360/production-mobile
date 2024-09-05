@@ -1,6 +1,6 @@
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 import Login from '../screens/Auth/Login';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
 import DrawerNavigator from './DrawerNavigator';
 import OnBoarding from '../screens/Onboarding/OnBoardingScreen';
@@ -24,14 +24,30 @@ import Reports from '../screens/Reports/ReportScreen';
 import Settings from '../screens/Settings/SettingScreen';
 import Seasons from '../screens/Season/SeasonScreen';
 import Profile from '../screens/Profile/ProfileScreen';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {AuthActions} from '../store/features/authReducer';
+import PaymentScreen from '../screens/Payment/PaymentScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const RootNavigator = () => {
-  const {user} = useSelector((x: RootState) => x.auth);
+const RootNavigator = (props: any) => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const dispatch = useDispatch();
+
+  const {user, isSubscriptionExpired} = useSelector((x: RootState) => x.auth);
   const {onBoarding} = useSelector((x: RootState) => x.app);
 
   const [getLanguages] = useGetLanguagesMutation();
+
+  useEffect(() => {
+    if (isSubscriptionExpired) {
+      navigation.reset({
+        index: 0,
+        routes: [{name: 'PaymentScreen'}],
+      });
+      dispatch(AuthActions.clearSubscriptionExpired());
+    }
+  }, [isSubscriptionExpired, dispatch]);
 
   useEffect(() => {
     loadLanguages();
@@ -188,6 +204,13 @@ const RootNavigator = () => {
           <Stack.Screen
             name="Settings"
             component={Settings}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="PaymentScreen"
+            component={PaymentScreen}
             options={{
               headerShown: false,
             }}

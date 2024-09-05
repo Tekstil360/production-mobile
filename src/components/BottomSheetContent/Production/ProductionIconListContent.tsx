@@ -1,9 +1,11 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import Container from '../Container/Container';
+import Container from '../../Container/Container';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-import {ProductionIcons} from '../../constant/theme';
-import ProductionIconCard from '../Card/ProductionIconCard';
+
+import ProductionIconCard from '../../Card/ProductionIconCard';
+import Button from '../../Button/Button';
+import {ProductionIcons} from '../../../data/IconData';
 
 interface ProductionIconListContentProps {
   onPress?: (icon: string) => void;
@@ -28,6 +30,7 @@ export default function ProductionIconListContent({
           let iconSvg = ProductionIcons[icon];
           return (
             <ProductionIconCard
+              testID={`icon-${index}`}
               onPress={() => {
                 onPress && onPress(icon);
               }}

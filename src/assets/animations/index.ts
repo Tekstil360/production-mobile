@@ -1,0 +1,10 @@
+export const OnboardingAnimation1 = require('./Onboarding1.json');
+export const OnboardingAnimation2 = require('./Onboarding2.json');
+export const OnboardingAnimation3 = require('./Onboarding3.json');
+export const ProductionManagement = require('./ProductionManagement.json');
+export const ProductionSales = require('./ProductionSales.json');
+export const ProductionStock = require('./ProductionStock.json');
+export const ProductionReport = require('./ProductionReport.json');
+export const CheckAnimation = require('./Check.json');
+export const ZipperAnimation = require('./Zipper.json');
+export const LoadingAnimation = require('./Loading.json');

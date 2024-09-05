@@ -21,6 +21,7 @@ export default function IconButton({
   var lockPressed = false;
   return (
     <CustomButton
+      testID={props.testID}
       onPress={event => {
         if (lockPressed) {
           return;

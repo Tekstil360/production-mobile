@@ -1,5 +1,3 @@
-import ProductionResponse from '../dto/Response/ProductionResponse';
-
 export type RootStackParamList = {
   Main: undefined;
   SeasonSplash: undefined;
@@ -20,4 +18,5 @@ export type RootStackParamList = {
   Seasons: undefined;
   Profile: undefined;
   Settings: undefined;
+  PaymentScreen: undefined;
 };

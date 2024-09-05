@@ -54,7 +54,6 @@ export default function ProductionSplash(
         title: productionName,
       });
       setProductionList(temp);
-      console.log('Ürün Eklendi.');
       bottomSheetRef.current?.close();
     }
   };

@@ -1,10 +1,9 @@
 import React from 'react';
 import Container from '../Container/Container';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-import {TransactionIcons} from '../../constant/theme';
-import ProductionIconCard from '../Card/ProductionIconCard';
-import {TouchableOpacityProps} from 'react-native';
 
+import ProductionIconCard from '../Card/ProductionIconCard';
+import {TransactionIcons} from '../../data/IconData';
 interface TransactionIconListContentProps {
   onPress?: (e: string) => void;
 }

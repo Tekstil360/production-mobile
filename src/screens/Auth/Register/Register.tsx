@@ -29,7 +29,6 @@ import CustomBottomSheet, {
 } from '../../../components/CBottomSheet/CustomBottomSheet';
 import {useGetContractsMutation} from '../../../services/appSettingService';
 import WebView from 'react-native-webview';
-import {SIZES} from '../../../constant/theme';
 
 export default function Register(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,

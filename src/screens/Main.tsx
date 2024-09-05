@@ -13,12 +13,14 @@ export default function Main({
 
   useEffect(() => {
     const fetchData = async () => {
-      await getUser();
-      const {data} = await useProductions();
-      if (data?.count === 0) {
-        navigation.replace('ProductionSplash');
-      } else {
-        navigation.replace('DrawerNavigator', {welcome: false});
+      const {data: userData} = await getUser();
+      if (userData) {
+        const {data} = await useProductions();
+        if (data?.count === 0) {
+          navigation.replace('ProductionSplash');
+        } else {
+          navigation.replace('DrawerNavigator', {welcome: false});
+        }
       }
     };
 

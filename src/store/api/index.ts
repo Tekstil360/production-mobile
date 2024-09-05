@@ -1,6 +1,14 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {
+  createApi,
+  fetchBaseQuery,
+  BaseQueryFn,
+  FetchBaseQueryError,
+  FetchArgs,
+} from '@reduxjs/toolkit/query/react';
+import {AuthActions} from '../features/authReducer';
 
 export const BaseUrl = 'http://192.168.1.141:8080';
+
 const baseQuery = fetchBaseQuery({
   baseUrl: BaseUrl,
   prepareHeaders: (headers, {getState}: any) => {
@@ -14,8 +22,22 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
+const customBaseQuery: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  const result = await baseQuery(args, api, extraOptions);
+
+  if (result.error && result.error.status === 402) {
+    api.dispatch(AuthActions.setSubscriptionExpired(true));
+  }
+
+  return result;
+};
+
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  baseQuery: baseQuery,
+  baseQuery: customBaseQuery,
   endpoints: builder => ({}),
 });

@@ -1,5 +1,5 @@
-import {View, Text} from 'react-native';
-import React, {useEffect} from 'react';
+import {View} from 'react-native';
+import React from 'react';
 import Container from '../../../components/Container/Container';
 import styled from 'styled-components';
 
@@ -7,12 +7,11 @@ import useThemeColors from '../../../constant/useColor';
 import CustomText from '../../../components/Text/Text';
 import Button from '../../../components/Button/Button';
 import LottieView from 'lottie-react-native';
-import {CheckAnimation} from '../../../data/LottieData';
+import {CheckAnimation} from '../../../assets/animations';
 import {SIZES} from '../../../constant/theme';
 import {useDispatch} from 'react-redux';
 import {AuthActions} from '../../../store/features/authReducer';
-import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
-import {RootStackParamList} from '../../../navigation/RootNavigator';
+
 import {useFocusEffect} from '@react-navigation/native';
 
 export default function Result(props: any) {

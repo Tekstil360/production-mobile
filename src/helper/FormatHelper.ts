@@ -16,5 +16,29 @@ class FormatHelper {
     let formattedNumber = number.toString().replace(/,/g, '');
     return Number(formattedNumber);
   };
+  extractWordWithPrefix(text: string) {
+    const match = text.match(/[\[\{](.*?)[\]\}]/);
+    if (match) {
+      return match[1];
+    }
+    return null;
+  }
+  extractWithSuffix(text: string) {
+    const match = text.match(/[\[\{](.*?)[\]\}]/);
+    if (match) {
+      return match[1];
+    }
+    return null;
+  }
+  replacePrefixedWord(text: string) {
+    const match = text.match(/[\[\{](.*?)[\]\}]/);
+    if (match) {
+      console.log(match[1]);
+      const word = match[1];
+      const updatedText = text.replace(match[0], word);
+      return updatedText;
+    }
+    return text;
+  }
 }
 export default new FormatHelper();

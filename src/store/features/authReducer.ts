@@ -7,11 +7,13 @@ interface AuthState {
   user: LoginResponse;
   register: CreateCustomerRequest;
   userInfo: UserResponse;
+  isSubscriptionExpired: boolean;
 }
 const INITIAL_STATE: AuthState = {
   user: {} as LoginResponse,
   register: {} as CreateCustomerRequest,
   userInfo: {} as UserResponse,
+  isSubscriptionExpired: false,
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -35,6 +37,12 @@ const authSlice = createSlice({
     },
     clearRegister(state) {
       state.register = {} as CreateCustomerRequest;
+    },
+    setSubscriptionExpired(state, action: PayloadAction<boolean>) {
+      state.isSubscriptionExpired = action.payload;
+    },
+    clearSubscriptionExpired(state) {
+      state.isSubscriptionExpired = false;
     },
   },
 });

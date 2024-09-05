@@ -1,9 +1,8 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Home from '../screens/Home';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faHome} from '@fortawesome/free-solid-svg-icons';
+
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../components/CBottomSheet/CustomBottomSheet';
@@ -14,7 +13,9 @@ import useThemeColors from '../constant/useColor';
 import Icon from '../components/Icon/Icon';
 import JeansPantsSvg from '../assets/productions/JeansPantsSvg';
 import {SvgXml} from 'react-native-svg';
-import {ICONS} from '../constant/theme';
+import {MenuIcon} from '../data/IconData';
+import {faHome} from '@fortawesome/free-solid-svg-icons';
+import CustomSvgXml from '../components/Icon/CustomSvgXml';
 
 const Tab = createBottomTabNavigator();
 export default function BottomNavigator(props: any) {
@@ -63,11 +64,11 @@ export default function BottomNavigator(props: any) {
           name="Kumaşlar"
           options={{
             tabBarIcon: ({focused, size}) => (
-              <SvgXml
+              <CustomSvgXml
                 color={!focused ? colors.unActiveBottomTab : '#564839'}
-                xml={ICONS.Fabric}
-                width={'35'}
-                height={'35'}
+                xml={MenuIcon.Fabric}
+                width={35}
+                height={35}
               />
             ),
             tabBarActiveTintColor: '#564839',
@@ -120,7 +121,7 @@ export default function BottomNavigator(props: any) {
                 color={!focused ? colors.unActiveBottomTab : '#564839'}
                 height={'30'}
                 width={'35'}
-                xml={ICONS.Tracking}
+                xml={MenuIcon.Tracking}
               />
             ),
             tabBarActiveTintColor: '#564839',
@@ -137,7 +138,7 @@ export default function BottomNavigator(props: any) {
                 color={!focused ? colors.unActiveBottomTab : '#564839'}
                 height={'30'}
                 width={'35'}
-                xml={ICONS.Orders}
+                xml={MenuIcon.Orders}
               />
             ),
             tabBarActiveTintColor: '#564839',

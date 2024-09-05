@@ -19,5 +19,30 @@
     "forgot_password_title": "Şifremi Unuttum",
     "forgot_password_subTitle": " E-posta adresinizi girin, size şifre sıfırlama bağlantısı göndereceğiz.",
     "send_button": "Gönder"
+  },
+  "iconTransactionRecommendation": {
+    "cutting": "Bunu mu demek istediniz? Kesim",
+    "tailor": "Bunu mu demek istediniz? Terzi",
+    "iron": "Bunu mu demek istediniz? Ütü",
+    "washing": "Bunu mu demek istediniz? Yıkama",
+    "cleaning": "Bunu mu demek istediniz? Temizlik",
+    "package": "Bunu mu demek istediniz? Paketleme",
+    "filling": "Bunu mu demek istediniz? Dolum",
+    "cone": "Bunu mu demek istediniz? Konik",
+    "material": "Bunu mu demek istediniz? Malzeme",
+    "leaher": "Bunu mu demek istediniz? Deri",
+    "check": "Bunu mu demek istediniz? Kontrol",
+    "tag": "Bunu mu demek istediniz? Etiket"
+  },
+  "iconProductionRecommendation": {
+    "default": "İcon bulunamadı ise varsayılan icon kullanılacaktır.",
+    "babyPijama": "Bunu mu demek istediniz? [Bebek Pijama]",
+    "jacket": "Bunu mu demek istediniz? [Ceket]",
+    "jeansPants": "Bunu mu demek istediniz? [Kot Pantolon]",
+    "scarf": "Bunu mu demek istediniz? [Atkı]",
+    "shirt": "Bunu mu demek istediniz? [Gömlek]",
+    "shortPant": "Bunu mu demek istediniz? [Şort]",
+    "skirt": "Bunu mu demek istediniz? [Etek]",
+    "tshirt": "Bunu mu demek istediniz? [T-shirt]"
   }
 }

@@ -8,10 +8,11 @@ import CreateProductionTransactionRequest from '../../dto/Request/CreateProducti
 import {useDispatch} from 'react-redux';
 import {ProductionActions} from '../../store/features/productionReducer';
 import {SvgFromXml} from 'react-native-svg';
-import {TransactionIcons} from '../../constant/theme';
+
 import useThemeColors from '../../constant/useColor';
 import Input from '../../components/Input/Input';
 import Icon from '../../components/Icon/Icon';
+import {getTransactionIconByKey} from '../../helper/IconHelper';
 
 interface CreateProductionTransactionCardProps {
   onOpenImageSheet: () => void;
@@ -41,7 +42,7 @@ export default function CreateProductionTransactionCard({
                 {item.icon ? (
                   <SvgFromXml
                     color={colors.iconColor}
-                    xml={TransactionIcons[item.icon]}
+                    xml={getTransactionIconByKey(item.icon)}
                     width={25}
                     height={25}
                   />

@@ -1,8 +1,7 @@
 import {AppRegistry, LogBox, Platform} from 'react-native';
 import {name as appName} from './app.json';
-import 'react-native-gesture-handler';
 import RootNavigator from './src/navigation/RootNavigator';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import {persistor, store} from './src/store';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -10,6 +9,7 @@ import {ModalPortal} from 'react-native-modals';
 import KeyboardManager from 'react-native-keyboard-manager';
 import initI18n from './src/lang/i18n';
 import {useEffect, useState} from 'react';
+import 'react-native-gesture-handler';
 LogBox.ignoreAllLogs(true);
 const Production = () => {
   const [isI18nReady, setI18nReady] = useState(false);

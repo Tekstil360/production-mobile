@@ -40,8 +40,9 @@ export default function Login(props: any) {
           dispatch(AuthActions.setUser(res.entity));
         } else {
           AlertDialog.showModal({
+            hideCancelBtn: true,
             title: 'Hata',
-            message: 'E-posta veya şifre hatalı',
+            message: res.exceptionMessage,
           });
         }
       })
@@ -51,6 +52,7 @@ export default function Login(props: any) {
     <Container>
       <Content>
         <Input
+          testID="emailInput"
           autoCapitalize="none"
           autoCorrect={false}
           value={loginDto.email}
@@ -59,6 +61,7 @@ export default function Login(props: any) {
           icon={faEnvelope}
         />
         <Input
+          testID="passwordInput"
           value={loginDto.password}
           onChangeText={value => handleChange('password', value)}
           placeholder={t('password')}
@@ -74,6 +77,7 @@ export default function Login(props: any) {
         </ForgotPasswordContainer>
         <LoginButtonContainer>
           <Button
+            testID="loginButton"
             onPress={() => {
               handleLogin();
             }}

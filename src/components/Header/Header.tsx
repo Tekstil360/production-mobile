@@ -16,7 +16,7 @@ import CustomText from '../Text/Text';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import Icon from '../Icon/Icon';
 import {SvgXml} from 'react-native-svg';
-import {ICONS} from '../../constant/theme';
+import {MenuIcon} from '../../data/IconData';
 
 export interface HeaderProps {
   title?: string;
@@ -43,6 +43,7 @@ export default function Header({
       }}>
       <Container>
         <IconLeft
+          testID="drawerMenuButton"
           hitSlop={15}
           onPress={() => {
             if (goBackShow) {
@@ -56,7 +57,7 @@ export default function Header({
           ) : (
             <SvgXml
               color={colors.iconColor}
-              xml={ICONS.MenuBar}
+              xml={MenuIcon.MenuBar}
               width="30"
               height="30"
             />

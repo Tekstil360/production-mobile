@@ -32,4 +32,5 @@ const TitleContainer = styled(View)`
 const SubTitle = styled(CustomText)`
   font-size: 14px;
   color: #666;
+  text-align: center;
 `;

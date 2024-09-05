@@ -15,12 +15,15 @@ import {
   faWarning,
 } from '@fortawesome/free-solid-svg-icons';
 import CustomText from '../Text/Text';
+import LottieView from 'lottie-react-native';
+import {LoadingAnimation} from '../../assets/animations';
 
 interface ModalProps {
   title?: string;
   message?: string;
   content?: any;
   disableCloseOnTouchOutside?: boolean;
+  hideCancelBtn?: boolean;
   onConfirmText?: string;
   onConfirm?: () => void;
   onCancelText?: string;
@@ -32,6 +35,36 @@ interface ModalProps {
 class AlertDialog {
   ids: any[] = [];
 
+  showLoading() {
+    const id = ModalPortal.show(
+      <Modal
+        visible={true}
+        onTouchOutside={() => {
+          ModalPortal.dismiss(id);
+        }}
+        modalStyle={{backgroundColor: 'transparent'}}
+        overlayBackgroundColor={'black'}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <LottieView
+            style={{width: 100, height: 100}}
+            autoPlay
+            loop
+            source={LoadingAnimation}
+          />
+        </View>
+      </Modal>,
+    );
+    this.ids.push(id);
+  }
+  hideLoading() {
+    ModalPortal.dismiss(this.ids[this.ids.length - 1]);
+    this.ids.pop();
+  }
   showModal(props: ModalProps): Promise<boolean> {
     let isAutoHide =
       (props?.isAutoClose || props.onConfirm || props.onCancel
@@ -94,7 +127,7 @@ class AlertDialog {
               )}
               {
                 <ButtonContainer>
-                  {props.onCancel && (
+                  {!props.hideCancelBtn && (
                     <Button
                       outline
                       text={props.onCancelText || 'İptal'}

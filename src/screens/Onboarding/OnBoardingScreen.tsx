@@ -54,6 +54,7 @@ const OnBoardingScreen = () => {
       <View style={styles.bottomContainer}>
         <Pagination data={data} x={x} colors={data.map(x => x.textColor)} />
         <CustomButton
+          testID="onboardingButton"
           flatListRef={flatListRef}
           flatListIndex={flatListIndex}
           dataLength={data.length}
