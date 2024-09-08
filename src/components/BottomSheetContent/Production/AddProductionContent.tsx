@@ -24,8 +24,10 @@ import CreateProductionErrorCard from '../../../sections/Production/CreateProduc
 import CreateProductionTransactionCard from '../../../sections/Production/CreateProductionTransactionCard';
 import IconButton from '../../Button/IconButton';
 import Button from '../../Button/Button';
+import AlertDialog from '../../AlertDialog/AlertDialog';
 
 interface AddFabricContentProps {
+  handleOnPress?: () => void;
   onClose: () => void;
   onOpenProductionIconsSheet: () => void;
   onOpenTransactionIconsSheet: () => void;
@@ -37,6 +39,7 @@ export default function AddProductionContent({
   onOpenTransactionIconsSheet,
   onOpenProductionIconsSheet,
   step,
+  handleOnPress,
 }: AddFabricContentProps) {
   const [getProductions] = useGetProductionsMutation();
   const [useCreateProduction] = useCreateProductionMutation();
@@ -45,6 +48,30 @@ export default function AddProductionContent({
     (state: RootState) => state.production,
   );
 
+  const handleSave = () => {
+    if (handleOnPress) {
+      handleOnPress();
+      return;
+    }
+    useCreateProduction(createProductionRequest)
+      .unwrap()
+      .then(async e => {
+        if (!e.isSuccess) {
+          AlertDialog.showModal({
+            isAutoClose: true,
+            title: 'Hata',
+            message: e?.exceptionMessage,
+          });
+        }
+        const {data} = await getProductions();
+        if (data?.isSuccess) {
+          onClose();
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
   return (
     <Container type="container" bgColor="white" p={10}>
       {step === 'production' && (
@@ -166,18 +193,7 @@ export default function AddProductionContent({
                       })),
                   ),
                 );
-              step === 'productionError' &&
-                useCreateProduction(createProductionRequest)
-                  .unwrap()
-                  .then(async e => {
-                    const {data} = await getProductions();
-                    if (data) {
-                      onClose();
-                    }
-                  })
-                  .catch(e => {
-                    console.log(e);
-                  });
+              step === 'productionError' && handleSave();
             }}
             text={step === 'productionError' ? 'Kaydet' : 'Devam Et'}
             borderRadius={10}

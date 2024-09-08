@@ -4,10 +4,13 @@ import {RootStackParamList} from '../types/Navigator';
 import {useGetUserMutation} from '../services/authService';
 
 import {useGetProductionsMutation} from '../services/productionService';
+import {useDispatch} from 'react-redux';
+import {AuthActions} from '../store/features/authReducer';
 
 export default function Main({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Main'>) {
+  const dispatch = useDispatch();
   const [getUser] = useGetUserMutation();
   const [useProductions] = useGetProductionsMutation();
 

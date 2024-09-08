@@ -8,7 +8,7 @@ const planApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getPlans: builder.mutation<ServiceResponse<PlanResponse>, void>({
       query: () => ({
-        url: '/plan/plans',
+        url: '/plan/plan-mobile-list',
         method: 'GET',
       }),
       onQueryStarted: async (arg, {dispatch, queryFulfilled}) => {

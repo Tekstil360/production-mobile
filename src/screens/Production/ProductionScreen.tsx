@@ -8,8 +8,12 @@ import {useGetProductionsMutation} from '../../services/productionService';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
+import {RootStackParamList} from '../../types/Navigator';
 
-export default function ProductionScreen() {
+export default function ProductionScreen({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList>) {
   const [getProductions] = useGetProductionsMutation();
   const {productions} = useSelector((state: RootState) => state.production);
 
@@ -25,7 +29,16 @@ export default function ProductionScreen() {
         <CustomFlatList
           handleRefresh={getProductions}
           data={productions}
-          renderItem={({item}: any) => <ProductionCard production={item} />}
+          renderItem={({item}: any) => (
+            <ProductionCard
+              onPress={() => {
+                navigation.navigate('ProductionDetail', {
+                  productionId: item.id,
+                });
+              }}
+              production={item}
+            />
+          )}
         />
       </Container>
       <CreateProduction />

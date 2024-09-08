@@ -12,6 +12,8 @@ import CustomText from '../Text/Text';
 import NonImageSvg from '../../assets/productions/NonImageSvg';
 import {SvgXml} from 'react-native-svg';
 import useThemeColors from '../../constant/useColor';
+import Icon from '../Icon/Icon';
+import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
 
 export interface ProductionIconProps extends TouchableOpacityProps {
   title?: string;
@@ -20,6 +22,12 @@ export interface ProductionIconProps extends TouchableOpacityProps {
   selected?: boolean;
   size?: 'small' | 'medium';
   numColumn?: number;
+  deleteIcon?: boolean;
+  deleteProduction?: () => void;
+  editIcon?: boolean;
+  editProduction?: () => void;
+  iconHeight?: number;
+  iconWidth?: number;
 }
 const ProductionIconCard = (props: ProductionIconProps) => {
   const {title, selected, ImageSvg, size, xmlSvg, numColumn} = props;
@@ -31,6 +39,16 @@ const ProductionIconCard = (props: ProductionIconProps) => {
       theme={{color: selected ? '#FFC107' : '#f2f2f2'}}
       {...props}
       activeOpacity={0.7}>
+      {props.deleteIcon && (
+        <IconContainer onPress={props.deleteProduction}>
+          <Icon icon={faTrash} />
+        </IconContainer>
+      )}
+      {props.editIcon && (
+        <IconContainer onPress={props.editProduction}>
+          <Icon icon={faEdit} />
+        </IconContainer>
+      )}
       <ProductionImage height={size === 'small' ? '25px' : '100px'}>
         {ImageSvg || xmlSvg ? (
           ImageSvg ? (
@@ -40,8 +58,8 @@ const ProductionIconCard = (props: ProductionIconProps) => {
               <SvgXml
                 color={colors.iconColor}
                 xml={xmlSvg}
-                height={30}
-                width={30}
+                height={props.iconHeight || 30}
+                width={props.iconWidth || 30}
               />
             )
           )
@@ -76,4 +94,10 @@ const ProductionTitle = styled(CustomText)`
   font-size: 14px;
   color: #666;
   margin-top: 10px;
+`;
+const IconContainer = styled(TouchableOpacity)`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
 `;

@@ -1,10 +1,8 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import Container from '../../Container/Container';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
 import ProductionIconCard from '../../Card/ProductionIconCard';
-import Button from '../../Button/Button';
 import {ProductionIcons} from '../../../data/IconData';
 
 interface ProductionIconListContentProps {
@@ -26,18 +24,17 @@ export default function ProductionIconListContent({
           justifyContent: 'space-between',
           gap: 10,
         }}>
-        {Object.keys(ProductionIcons).map((icon: string, index) => {
-          let iconSvg = ProductionIcons[icon];
+        {ProductionIcons.map((icon, index) => {
           return (
             <ProductionIconCard
               testID={`icon-${index}`}
               onPress={() => {
-                onPress && onPress(icon);
+                onPress && onPress(icon.key);
               }}
               numColumn={3}
               key={index}
               size="small"
-              xmlSvg={iconSvg}
+              xmlSvg={icon.icon}
             />
           );
         })}

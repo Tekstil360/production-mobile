@@ -8,14 +8,18 @@ export type StepType = 'production' | 'transaction' | 'productionError';
 
 interface ProductionState {
   productions: ProductionResponse[];
+  production: ProductionResponse | null;
   step: StepType;
   createProductionRequest: CreateProductionRequest;
+  createMultipleProductionRequest: CreateProductionRequest[];
   selectedIndex: number;
 }
 const INITIAL_STATE: ProductionState = {
   productions: [],
+  production: null,
   step: 'production',
   selectedIndex: 0,
+  createMultipleProductionRequest: [],
   createProductionRequest: {
     name: '',
     icon: '',
@@ -30,6 +34,9 @@ const productionSlice = createSlice({
   reducers: {
     setProductions(state, action) {
       state.productions = action.payload;
+    },
+    setProduction(state, action: {payload: ProductionResponse}) {
+      state.production = action.payload;
     },
     setStep(state, action: {payload: StepPayload}) {
       state.step = action.payload.step;
@@ -67,6 +74,14 @@ const productionSlice = createSlice({
       temp[action.payload.indexNumber][action.payload.key] =
         action.payload.value;
     },
+    setCreateProductionRequest(
+      state,
+      action: {payload: {entity: CreateProductionRequest}},
+    ) {
+      if (action.payload.entity) {
+        state.createProductionRequest = action.payload.entity;
+      }
+    },
     addTransaction(state) {
       state.createProductionRequest.transactions.push({
         name: '',
@@ -102,6 +117,26 @@ const productionSlice = createSlice({
         transactions: [{name: '', icon: '', orderNumber: 1}],
         errors: [],
       };
+    },
+    resetCreateMultipleProductionRequest(state) {
+      state.createMultipleProductionRequest = [];
+    },
+    addCreateMultipleProductionRequest(state) {
+      state.createMultipleProductionRequest.push(state.createProductionRequest);
+      state.createProductionRequest = {
+        name: '',
+        icon: '',
+        transactions: [{name: '', icon: '', orderNumber: 1}],
+        errors: [],
+      };
+    },
+    setCreateMultipleProductionRequest(
+      state,
+      action: {payload: {entity: CreateProductionRequest[]}},
+    ) {
+      if (action.payload.entity) {
+        state.createMultipleProductionRequest = action.payload.entity;
+      }
     },
   },
 });

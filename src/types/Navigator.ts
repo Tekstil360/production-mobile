@@ -19,4 +19,5 @@ export type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   PaymentScreen: undefined;
+  ProductionDetail: {productionId: number};
 };

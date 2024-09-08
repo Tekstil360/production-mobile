@@ -27,6 +27,7 @@ import Profile from '../screens/Profile/ProfileScreen';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AuthActions} from '../store/features/authReducer';
 import PaymentScreen from '../screens/Payment/PaymentScreen';
+import ProductionDetail from '../screens/Production/ProductionDetail';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -148,6 +149,13 @@ const RootNavigator = (props: any) => {
           <Stack.Screen
             name="Productions"
             component={Productions}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="ProductionDetail"
+            component={ProductionDetail}
             options={{
               headerShown: false,
             }}

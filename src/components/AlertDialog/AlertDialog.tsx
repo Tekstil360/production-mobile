@@ -127,18 +127,19 @@ class AlertDialog {
               )}
               {
                 <ButtonContainer>
-                  {!props.hideCancelBtn && (
-                    <Button
-                      outline
-                      text={props.onCancelText || 'İptal'}
-                      onPress={() => {
-                        ModalPortal.dismiss(id);
-                        this.ids.pop();
-                        resolve(false);
-                        props.onCancel && props.onCancel();
-                      }}
-                    />
-                  )}
+                  {props.hideCancelBtn !== undefined &&
+                    !props.hideCancelBtn && (
+                      <Button
+                        outline
+                        text={props.onCancelText || 'İptal'}
+                        onPress={() => {
+                          ModalPortal.dismiss(id);
+                          this.ids.pop();
+                          resolve(false);
+                          props.onCancel && props.onCancel();
+                        }}
+                      />
+                    )}
                   {props.onConfirm && (
                     <Button
                       text={props.onConfirmText || 'Onayla'}

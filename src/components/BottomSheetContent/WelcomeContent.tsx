@@ -9,7 +9,7 @@ import CustomText from '../Text/Text';
 import Button from '../Button/Button';
 export default function WelcomeContent({close}: {close: () => void}) {
   return (
-    <Container p={10} bgColor="white">
+    <Container type="container" p={10} bgColor="white">
       <BottomSheetView style={{minHeight: 100}}>
         <TitleContainer>
           <Title>Hoşgeldiniz</Title>

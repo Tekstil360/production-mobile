@@ -25,6 +25,28 @@ const productionService = baseApi.injectEndpoints({
         }
       },
     }),
+    getProductionById: build.mutation<
+      ServiceResponse<ProductionResponse>,
+      number
+    >({
+      query: id => ({
+        url: `production/${id}`,
+        method: 'GET',
+      }),
+      onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          AlertDialog.showLoading();
+          queryFulfilled.then(({data}) => {
+            if (data.isSuccess) {
+              dispatch(ProductionActions.setProduction(data.entity));
+            }
+            AlertDialog.hideLoading();
+          });
+        } catch (err) {
+          console.error('Query failed', err);
+        }
+      },
+    }),
     createProduction: build.mutation<
       ServiceResponse<ProductionResponse>,
       CreateProductionRequest
@@ -38,7 +60,24 @@ const productionService = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    createMultipleProduction: build.mutation<
+      ServiceResponse<ProductionResponse>,
+      CreateProductionRequest[]
+    >({
+      query: data => ({
+        url: `/production/multiple`,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
-export const {useGetProductionsMutation, useCreateProductionMutation} =
-  productionService;
+export const {
+  useGetProductionsMutation,
+  useCreateProductionMutation,
+  useCreateMultipleProductionMutation,
+  useGetProductionByIdMutation,
+} = productionService;

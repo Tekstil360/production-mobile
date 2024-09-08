@@ -4,9 +4,9 @@ import {ProductionIconType, TransactionIconType} from '../types/type';
 
 export const getProductionIconByKey = (name: ProductionIconType): string => {
   let icons = ProductionIcons;
-  let find = icons[name];
+  let find = icons.find(x => x.key === name)?.icon;
 
-  return find ? find : icons['default'];
+  return find ? find : icons[0].icon;
 };
 export const getTransactionIconByKey = (name: TransactionIconType): string => {
   let icons = TransactionIcons;
