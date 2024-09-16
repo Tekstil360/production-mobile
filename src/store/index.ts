@@ -8,6 +8,8 @@ import {planReducer} from './features/planReducer';
 import {seasonReducer} from './features/seasonReducer';
 import {appSettingReducer} from './features/appSettingReducer';
 import {productionReducer} from './features/productionReducer';
+import {userReducer} from './features/userReducer';
+import {customerReducer} from './features/customerReducer';
 
 const appPersistConfig = {
   key: 'app',
@@ -27,6 +29,8 @@ const rootReducers = combineReducers({
   plan: planReducer,
   appSettings: appSettingReducer,
   production: productionReducer,
+  user: userReducer,
+  customer: customerReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

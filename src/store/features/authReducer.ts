@@ -1,6 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import LoginResponse from '../../dto/Response/JwtResponse';
-import CreateCustomerRequest from '../../dto/Request/CreateCustomerRequest';
+import CreateCustomerRequest from '../../dto/Request/CreateDealerRequest';
 import UserResponse from '../../dto/Response/UserResponse';
 
 interface AuthState {
@@ -22,7 +22,7 @@ const authSlice = createSlice({
     setUser(state, action) {
       state.user = action.payload;
     },
-    clearUser(state) {
+    logout(state) {
       state.user = {} as LoginResponse;
     },
     setRegister(state, action: PayloadAction<RegisterActions>) {

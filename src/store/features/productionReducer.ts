@@ -1,25 +1,28 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import ProductionResponse from '../../dto/Response/ProductionResponse';
-import CreateProductionRequest from '../../dto/Request/CreateProductionRequest';
-import CreateProductionErrorRequest from '../../dto/Request/CreateProductionErrorRequest';
-import CreateProductionTransactionRequest from '../../dto/Request/CreateProductionTransactionRequest';
 
+import UpdateProductionRequest from '../../dto/Request/Production/UpdateProductionRequest';
+import ProductionResponse from '../../dto/Response/Production/ProductionResponse';
+import CreateProductionRequest from '../../dto/Request/Production/CreateProductionRequest';
+import CreateProductionErrorRequest from '../../dto/Request/Production/CreateProductionErrorRequest';
+import CreateProductionTransactionRequest from '../../dto/Request/Production/CreateProductionTransactionRequest';
 export type StepType = 'production' | 'transaction' | 'productionError';
 
 interface ProductionState {
   productions: ProductionResponse[];
-  production: ProductionResponse | null;
+  selectedProduction: ProductionResponse | null;
   step: StepType;
   createProductionRequest: CreateProductionRequest;
+  updateProductionRequest: UpdateProductionRequest | null;
   createMultipleProductionRequest: CreateProductionRequest[];
   selectedIndex: number;
 }
 const INITIAL_STATE: ProductionState = {
   productions: [],
-  production: null,
+  selectedProduction: null,
   step: 'production',
   selectedIndex: 0,
   createMultipleProductionRequest: [],
+  updateProductionRequest: null,
   createProductionRequest: {
     name: '',
     icon: '',
@@ -35,8 +38,18 @@ const productionSlice = createSlice({
     setProductions(state, action) {
       state.productions = action.payload;
     },
-    setProduction(state, action: {payload: ProductionResponse}) {
-      state.production = action.payload;
+    updateProductionsById(state, action: {payload: ProductionResponse}) {
+      state.productions = state.productions.map(item =>
+        item.id === action.payload.id ? action.payload : item,
+      );
+    },
+    deleteProductionById(state, action: {payload: number}) {
+      state.productions = state.productions.filter(
+        item => item.id !== action.payload,
+      );
+    },
+    setSelectedProduction(state, action: {payload: ProductionResponse}) {
+      state.selectedProduction = action.payload;
     },
     setStep(state, action: {payload: StepPayload}) {
       state.step = action.payload.step;
@@ -138,11 +151,81 @@ const productionSlice = createSlice({
         state.createMultipleProductionRequest = action.payload.entity;
       }
     },
+    setUpdateProductionRequest(
+      state,
+      action: {payload: {entity: UpdateProductionRequest}},
+    ) {
+      if (action.payload.entity) {
+        state.updateProductionRequest = action.payload.entity;
+      }
+    },
+    handleUpdateProductionRequest(
+      state,
+      action: PayloadAction<{key: keyof UpdateProductionRequest; value: any}>,
+    ) {
+      let temp = {...state.updateProductionRequest} as any;
+      temp[action.payload.key] = action.payload.value;
+      state.updateProductionRequest = temp;
+    },
+    handleUpdateProductionTransactionRequest(
+      state,
+      action: PayloadAction<{
+        key: keyof UpdateProductionRequest;
+        value: any;
+        indexNumber: number;
+      }>,
+    ) {
+      let temp = [...(state.updateProductionRequest?.transactions as any)];
+      temp[action.payload.indexNumber][action.payload.key] =
+        action.payload.value;
+    },
+    handleUpdateProductionErrorRequest(
+      state,
+      action: PayloadAction<{
+        key: keyof UpdateProductionRequest;
+        value: any;
+        indexNumber: number;
+      }>,
+    ) {
+      let temp = [...(state.updateProductionRequest?.errors as any)];
+      temp[action.payload.indexNumber][action.payload.key] =
+        action.payload.value;
+    },
+    addUpdateError(state) {
+      state.updateProductionRequest?.errors.push({
+        name: '',
+        id: 0,
+      });
+    },
+    addUpdateTransaction(state) {
+      state.updateProductionRequest?.transactions.push({
+        name: '',
+        id: 0,
+        icon: '',
+        orderNumber: state.updateProductionRequest.transactions
+          ? state.updateProductionRequest.transactions.length + 1
+          : 1,
+      });
+    },
+    removeUpdateTransaction(state, action: PayloadAction<number>) {
+      state.updateProductionRequest?.transactions.splice(action.payload, 1);
+    },
+    removeUpdateError(state, action: PayloadAction<number>) {
+      state.updateProductionRequest?.errors.splice(action.payload, 1);
+    },
+    resetUpdateProductionRequest(state) {
+      state.updateProductionRequest = null;
+      state.step = 'production';
+    },
   },
 });
 
 export const productionReducer = productionSlice.reducer;
 export const ProductionActions = productionSlice.actions;
+
+export const getInUseProduction = (state: ProductionState) => {
+  return state.productions.find(item => item.inUse);
+};
 
 interface StepPayload {
   step: StepType;

@@ -2,9 +2,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import styled from 'styled-components';
 import Input from '../../components/Input/Input';
-import {useDispatch, useSelector} from 'react-redux';
-import {ProductionActions} from '../../store/features/productionReducer';
-import {RootState} from '../../store';
+
 import {SvgXml} from 'react-native-svg';
 import useThemeColors from '../../constant/useColor';
 import Icon from '../../components/Icon/Icon';
@@ -17,19 +15,20 @@ import {
 import TextLink from '../../components/TextLink/TextLink';
 import FormatHelper from '../../helper/FormatHelper';
 
-interface CreateProductionNameCardProps {
+interface ProductionNameCardProps {
   onOpenProductionIconsSheet: () => void;
+  name: string;
+  icon: string;
+  handleChangeName: (text: string) => void;
 }
 
-export default function CreateProductionNameCard({
+export default function ProductionNameCard({
+  name,
+  icon,
+  handleChangeName,
   onOpenProductionIconsSheet,
-}: CreateProductionNameCardProps) {
-  const {name, icon} = useSelector(
-    (state: RootState) => state.production.createProductionRequest,
-  );
+}: ProductionNameCardProps) {
   const colors = useThemeColors();
-  const dispatch = useDispatch();
-
   let findRecommendation = getIconProductionRecommendation(icon);
   let replaceRecommendation = FormatHelper.replacePrefixedWord(
     getIconProductionRecommendation(icon),
@@ -64,14 +63,7 @@ export default function CreateProductionNameCard({
             testID="productionNameInput"
             placeholder="Üretim Adı"
             value={name}
-            onChangeText={text =>
-              dispatch(
-                ProductionActions.handleCreateProductionRequest({
-                  key: 'name',
-                  value: text,
-                }),
-              )
-            }
+            onChangeText={text => handleChangeName(text)}
           />
         </InputItem>
       </InputContainer>
@@ -84,12 +76,7 @@ export default function CreateProductionNameCard({
               splitText={replaceSplitText}
               testID="recommendationText"
               onClick={e => {
-                dispatch(
-                  ProductionActions.handleCreateProductionRequest({
-                    key: 'name',
-                    value: e,
-                  }),
-                );
+                handleChangeName(e);
               }}
             />
           </View>

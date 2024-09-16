@@ -32,7 +32,7 @@ export default function DrawerFooter() {
             onConfirmText: 'Çıkış Yap',
             onCancelText: 'İptal',
             onConfirm: () => {
-              dispatch(AuthActions.clearUser());
+              dispatch(AuthActions.logout());
             },
             onCancel() {
               AlertDialog.dismiss();

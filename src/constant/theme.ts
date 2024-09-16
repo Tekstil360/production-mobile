@@ -65,4 +65,5 @@ export const COLORS = {
   grey: '#808A99',
   error: '#ff0000',
   white: '#fff',
+  green: '#01A101',
 };

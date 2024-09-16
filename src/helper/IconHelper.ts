@@ -1,14 +1,13 @@
 import {ProductionIcons, TransactionIcons} from '../data/IconData';
 import {getResourceByKey} from '../lang/i18n';
-import {ProductionIconType, TransactionIconType} from '../types/type';
 
-export const getProductionIconByKey = (name: ProductionIconType): string => {
+export const getProductionIconByKey = (name: string): string => {
   let icons = ProductionIcons;
   let find = icons.find(x => x.key === name)?.icon;
 
   return find ? find : icons[0].icon;
 };
-export const getTransactionIconByKey = (name: TransactionIconType): string => {
+export const getTransactionIconByKey = (name: string): string => {
   let icons = TransactionIcons;
   let find = icons[name];
   return find ? find : icons['default'];

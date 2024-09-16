@@ -1,12 +1,12 @@
 import {TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import CustomText from '../Text/Text';
-import ProductionResponse from '../../dto/Response/ProductionResponse';
 import styled from 'styled-components';
 import CustomSvgXml from '../Icon/CustomSvgXml';
 import {getProductionIconByKey} from '../../helper/IconHelper';
 import Icon from '../Icon/Icon';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
+import ProductionResponse from '../../dto/Response/Production/ProductionResponse';
 
 interface ProductionCardProps
   extends React.ComponentProps<typeof TouchableOpacity> {

@@ -49,7 +49,6 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
 
     const handleSheetChanges = (index: number) => {
       setIsOpen(index !== -1);
-      console.log('index', index);
       if (index === -1) {
         close && close();
       }

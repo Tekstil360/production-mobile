@@ -4,9 +4,8 @@ import styled from 'styled-components';
 
 import {faImage, faTrash} from '@fortawesome/free-solid-svg-icons';
 
-import CreateProductionTransactionRequest from '../../dto/Request/CreateProductionTransactionRequest';
+import CreateProductionTransactionRequest from '../../dto/Request/Production/CreateProductionTransactionRequest';
 import {useDispatch} from 'react-redux';
-import {ProductionActions} from '../../store/features/productionReducer';
 import {SvgFromXml} from 'react-native-svg';
 
 import useThemeColors from '../../constant/useColor';
@@ -14,16 +13,26 @@ import Input from '../../components/Input/Input';
 import Icon from '../../components/Icon/Icon';
 import {getTransactionIconByKey} from '../../helper/IconHelper';
 
-interface CreateProductionTransactionCardProps {
+interface ProductionTransactionCardProps {
   onOpenImageSheet: () => void;
   indexNumber: number;
   item: CreateProductionTransactionRequest;
+  icon?: string;
+  name: string;
+  handleChangeName: (text: string) => void;
+  deleteTransaction: () => void;
+  setSelectedTransaction: () => void;
 }
-export default function CreateProductionTransactionCard({
+export default function ProductionTransactionCard({
+  name,
+  icon,
+  deleteTransaction,
+  setSelectedTransaction,
+  handleChangeName,
   onOpenImageSheet,
   item,
   indexNumber,
-}: CreateProductionTransactionCardProps) {
+}: ProductionTransactionCardProps) {
   const dispatch = useDispatch();
   const colors = useThemeColors();
 
@@ -35,7 +44,7 @@ export default function CreateProductionTransactionCard({
             {
               <TouchableOpacity
                 onPress={() => {
-                  dispatch(ProductionActions.setSelectedIndex(indexNumber));
+                  setSelectedTransaction();
                   onOpenImageSheet();
                 }}
                 hitSlop={15}>
@@ -57,13 +66,7 @@ export default function CreateProductionTransactionCard({
               placeholder="Üretim Süreci"
               value={item.name}
               onChangeText={text => {
-                dispatch(
-                  ProductionActions.handleCreateProductionTransactionRequest({
-                    key: 'name',
-                    value: text,
-                    indexNumber: indexNumber,
-                  }),
-                );
+                handleChangeName(text);
               }}
             />
           </InputItem>
@@ -72,7 +75,7 @@ export default function CreateProductionTransactionCard({
       <InputItem alignItem="center" flex={0.1}>
         <TouchableOpacity
           onPress={() => {
-            dispatch(ProductionActions.removeTransaction(indexNumber));
+            deleteTransaction();
           }}>
           <Icon icon={faTrash} size={20} />
         </TouchableOpacity>

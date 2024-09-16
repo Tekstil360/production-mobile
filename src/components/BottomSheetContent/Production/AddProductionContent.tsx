@@ -2,11 +2,7 @@ import {View} from 'react-native';
 import React from 'react';
 
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-
-import styled from 'styled-components';
-
 import {useDispatch, useSelector} from 'react-redux';
-
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {
   ProductionActions,
@@ -19,12 +15,14 @@ import {
 } from '../../../services/productionService';
 import Container from '../../Container/Container';
 import Title from '../../Title/Title';
-import CreateProductionNameCard from '../../../sections/Production/CreateProductionNameCard';
-import CreateProductionErrorCard from '../../../sections/Production/CreateProductionErrorCard';
-import CreateProductionTransactionCard from '../../../sections/Production/CreateProductionTransactionCard';
+import CreateProductionNameCard from '../../../sections/Production/ProductionNameCard';
+
+import CreateProductionTransactionCard from '../../../sections/Production/ProductionTransactionCard';
 import IconButton from '../../Button/IconButton';
 import Button from '../../Button/Button';
 import AlertDialog from '../../AlertDialog/AlertDialog';
+import {Flex} from '../../../constant/GlobalStyled';
+import CreateProductionErrorCard from '../../../sections/Production/ProductionErrorCard';
 
 interface AddFabricContentProps {
   handleOnPress?: () => void;
@@ -46,6 +44,9 @@ export default function AddProductionContent({
   const dispatch = useDispatch();
   const {createProductionRequest} = useSelector(
     (state: RootState) => state.production,
+  );
+  const {name, icon} = useSelector(
+    (state: RootState) => state.production.createProductionRequest,
   );
 
   const handleSave = () => {
@@ -82,6 +83,16 @@ export default function AddProductionContent({
           />
           <BottomSheetScrollView>
             <CreateProductionNameCard
+              name={name}
+              icon={icon}
+              handleChangeName={(text: string) => {
+                dispatch(
+                  ProductionActions.handleCreateProductionRequest({
+                    key: 'name',
+                    value: text,
+                  }),
+                );
+              }}
               onOpenProductionIconsSheet={() => {
                 onOpenProductionIconsSheet();
               }}
@@ -100,6 +111,25 @@ export default function AddProductionContent({
             {createProductionRequest.transactions.map((el, index) => {
               return (
                 <CreateProductionTransactionCard
+                  icon={el.icon}
+                  name={el.name}
+                  handleChangeName={(text: string) => {
+                    dispatch(
+                      ProductionActions.handleCreateProductionTransactionRequest(
+                        {
+                          key: 'name',
+                          value: text,
+                          indexNumber: index,
+                        },
+                      ),
+                    );
+                  }}
+                  deleteTransaction={() => {
+                    dispatch(ProductionActions.removeTransaction(index));
+                  }}
+                  setSelectedTransaction={() => {
+                    dispatch(ProductionActions.setSelectedIndex(index));
+                  }}
                   key={index}
                   indexNumber={index}
                   item={el}
@@ -129,9 +159,20 @@ export default function AddProductionContent({
             {createProductionRequest.errors.map((el, index) => {
               return (
                 <CreateProductionErrorCard
+                  removeError={() => {
+                    dispatch(ProductionActions.removeError(index));
+                  }}
+                  name={el.name}
+                  handleChangeName={(text: string) => {
+                    dispatch(
+                      ProductionActions.handleCreateProductionErrorRequest({
+                        key: 'name',
+                        value: text,
+                        indexNumber: index,
+                      }),
+                    );
+                  }}
                   key={index}
-                  indexNumber={index}
-                  item={el}
                 />
               );
             })}
@@ -149,7 +190,7 @@ export default function AddProductionContent({
 
       <View style={{marginBottom: 25, flexDirection: 'row', gap: 10}}>
         {step != 'production' && (
-          <ButtonItem>
+          <Flex>
             <Button
               outline
               onPress={() => {
@@ -161,9 +202,9 @@ export default function AddProductionContent({
               text={'Geri'}
               borderRadius={10}
             />
-          </ButtonItem>
+          </Flex>
         )}
-        <ButtonItem flex={1.5}>
+        <Flex flex={1.5}>
           <Button
             testID="nextButton"
             disabled={
@@ -198,12 +239,8 @@ export default function AddProductionContent({
             text={step === 'productionError' ? 'Kaydet' : 'Devam Et'}
             borderRadius={10}
           />
-        </ButtonItem>
+        </Flex>
       </View>
     </Container>
   );
 }
-
-const ButtonItem = styled(View)<{flex?: number}>`
-  flex: ${({flex}) => flex || 1};
-`;

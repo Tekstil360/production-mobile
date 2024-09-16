@@ -7,7 +7,8 @@ interface ProductionResponse {
   name: string;
   status: string;
   icon: string;
-  productionTransactionList: ProductionTransactionResponse[];
-  productionErrorList: ProductionErrorResponse[];
+  inUse: boolean;
+  transactions: ProductionTransactionResponse[];
+  errors: ProductionErrorResponse[];
 }
 export default ProductionResponse;

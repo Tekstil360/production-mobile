@@ -8,7 +8,7 @@ import {RootState} from '../../store';
 import Icon from '../../components/Icon/Icon';
 import {faAngleRight} from '@fortawesome/free-solid-svg-icons';
 
-export default function DrawerHeader() {
+export default function DrawerHeader({showSeason}: {showSeason: boolean}) {
   const seasons = useSelector((x: RootState) => x.season.seasons);
 
   const userInfo = useSelector((x: RootState) => x.auth.userInfo);
@@ -37,15 +37,17 @@ export default function DrawerHeader() {
           <TitleText adjustsFontSizeToFit numberOfLines={1}>
             {userInfo.companyName}
           </TitleText>
-          <SubTitleContainer
-            onPress={() => {
-              dispatch(AppActions.setDrawerSeasonOpen(!drawerSeasonOpen));
-            }}>
-            <SubTitleText adjustsFontSizeToFit>
-              {activeSeason?.seasonName || 'Sezon Seç'}
-            </SubTitleText>
-            <Icon icon={faAngleRight} size={20} />
-          </SubTitleContainer>
+          {showSeason && (
+            <SubTitleContainer
+              onPress={() => {
+                dispatch(AppActions.setDrawerSeasonOpen(!drawerSeasonOpen));
+              }}>
+              <SubTitleText adjustsFontSizeToFit>
+                {activeSeason?.seasonName || 'Sezon Seç'}
+              </SubTitleText>
+              <Icon icon={faAngleRight} size={20} />
+            </SubTitleContainer>
+          )}
         </View>
       </View>
     </InfoContainer>

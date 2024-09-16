@@ -16,10 +16,16 @@ import {SvgXml} from 'react-native-svg';
 import {MenuIcon} from '../data/IconData';
 import {faHome} from '@fortawesome/free-solid-svg-icons';
 import CustomSvgXml from '../components/Icon/CustomSvgXml';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
+import {getInUseProduction} from '../store/features/productionReducer';
+import {getProductionIconByKey} from '../helper/IconHelper';
 
 const Tab = createBottomTabNavigator();
 export default function BottomNavigator(props: any) {
   const colors = useThemeColors();
+  const productions = useSelector((state: RootState) => state.production);
+  const inUseProduction = getInUseProduction(productions);
   const welcomeBottomSheetRef = useRef<BottomSheetRef>(null);
   const {welcome} = props.route.params;
   useEffect(() => {
@@ -77,7 +83,7 @@ export default function BottomNavigator(props: any) {
           component={FabricScreen}
         />
         <Tab.Screen
-          name="mycart"
+          name="myProduction"
           component={Home}
           listeners={({navigation}) => ({
             tabPress: e => {
@@ -86,7 +92,7 @@ export default function BottomNavigator(props: any) {
           })}
           options={{
             tabBarLabel: '',
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({color, size, focused}) => (
               <TouchableOpacity
                 onPress={() => {}}
                 activeOpacity={0.7}
@@ -108,7 +114,12 @@ export default function BottomNavigator(props: any) {
                   shadowRadius: 4.84,
                   elevation: 5,
                 }}>
-                <JeansPantsSvg width={32} height={32} fill="#564839" />
+                <SvgXml
+                  color={'#564839'}
+                  height={'30'}
+                  width={'35'}
+                  xml={getProductionIconByKey(inUseProduction?.icon || '')}
+                />
               </TouchableOpacity>
             ),
           }}

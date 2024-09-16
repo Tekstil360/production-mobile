@@ -18,6 +18,14 @@ export const Menus = [
     width: '25',
   },
   {
+    id: 3,
+    name: 'Müşteriler',
+    route: 'Customers',
+    icon: MenuIcon.Customer,
+    height: '25',
+    width: '25',
+  },
+  {
     id: 4,
     name: 'Stok Yönetimi',
     icon: MenuIcon.Stock,

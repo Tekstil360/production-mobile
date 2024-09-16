@@ -10,7 +10,6 @@ import ForgotPassword from '../screens/Auth/ForgotPassword';
 
 import Main from '../screens/Main';
 import {RootStackParamList} from '../types/Navigator';
-import SeasonSplash from '../screens/Season/SeasonSplash';
 import ProductionSplash from '../screens/Production/ProductionSplash';
 import {useGetLanguagesMutation} from '../services/appSettingService';
 import {useEffect} from 'react';
@@ -27,7 +26,8 @@ import Profile from '../screens/Profile/ProfileScreen';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AuthActions} from '../store/features/authReducer';
 import PaymentScreen from '../screens/Payment/PaymentScreen';
-import ProductionDetail from '../screens/Production/ProductionDetail';
+import {useGetUserPermissionMutation} from '../services/userService';
+import Screens from '../types/Screens';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -35,11 +35,12 @@ const RootNavigator = (props: any) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
 
+  const {userPermission} = useSelector((x: RootState) => x.user);
   const {user, isSubscriptionExpired} = useSelector((x: RootState) => x.auth);
   const {onBoarding} = useSelector((x: RootState) => x.app);
 
+  const [useUserPermission] = useGetUserPermissionMutation();
   const [getLanguages] = useGetLanguagesMutation();
-
   useEffect(() => {
     if (isSubscriptionExpired) {
       navigation.reset({
@@ -52,10 +53,50 @@ const RootNavigator = (props: any) => {
 
   useEffect(() => {
     loadLanguages();
+    loadUserPermission();
   }, []);
 
   const loadLanguages = () => {
     getLanguages();
+  };
+  const loadUserPermission = async () => {
+    if (user.id) {
+      await useUserPermission();
+    }
+  };
+  const AuthStack = () => {
+    return (
+      <>
+        <Stack.Screen
+          name="LoginScreen"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={Register}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ResultScreen"
+          component={Result}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPassword}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </>
+    );
   };
 
   return (
@@ -73,38 +114,7 @@ const RootNavigator = (props: any) => {
           }}
         />
       )}
-      {Object.keys(user).length === 0 && (
-        <>
-          <Stack.Screen
-            name="LoginScreen"
-            component={Login}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="RegisterScreen"
-            component={Register}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="ResultScreen"
-            component={Result}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="ForgotPasswordScreen"
-            component={ForgotPassword}
-            options={{
-              headerShown: false,
-            }}
-          />
-        </>
-      )}
+      {Object.keys(user).length === 0 && AuthStack()}
       {Object.keys(user).length !== 0 && (
         <>
           <Stack.Screen
@@ -114,15 +124,37 @@ const RootNavigator = (props: any) => {
               headerShown: false,
             }}
           />
-          <Stack.Group navigationKey="Season">
+          {Screens.filter(x => {
+            if (userPermission) {
+              let check = userPermission.some(c =>
+                c.permissionScreenList.some(d => d === x.name),
+              );
+              return check;
+            }
+            return false;
+          }).map((screen, index) => (
             <Stack.Screen
-              name="SeasonSplash"
-              component={SeasonSplash}
+              key={index}
+              name={screen.name as any}
+              component={screen.component}
+              initialParams={{
+                ...screen.initialParams,
+                actionPermissions: screen.initialParams.actionPermissions.map(
+                  x => {
+                    return {
+                      ...x,
+                      permission: userPermission.some(c =>
+                        c.permissionScreenList.some(d => d === x.action),
+                      ),
+                    };
+                  },
+                ),
+              }}
               options={{
                 headerShown: false,
               }}
             />
-          </Stack.Group>
+          ))}
           <Stack.Group navigationKey="Production">
             <Stack.Screen
               name="ProductionSplash"
@@ -153,13 +185,7 @@ const RootNavigator = (props: any) => {
               headerShown: false,
             }}
           />
-          <Stack.Screen
-            name="ProductionDetail"
-            component={ProductionDetail}
-            options={{
-              headerShown: false,
-            }}
-          />
+
           <Stack.Screen
             name="ProductionCodes"
             component={ProductionCodes}
@@ -195,13 +221,7 @@ const RootNavigator = (props: any) => {
               headerShown: false,
             }}
           />
-          <Stack.Screen
-            name="Seasons"
-            component={Seasons}
-            options={{
-              headerShown: false,
-            }}
-          />
+
           <Stack.Screen
             name="Profile"
             component={Profile}

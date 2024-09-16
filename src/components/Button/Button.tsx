@@ -14,6 +14,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import CustomText from '../Text/Text';
 
+type ButtonSize = 'small' | 'medium';
 export interface OutlineButtonProps extends TouchableOpacityProps {
   icon?: IconProp;
   outline?: boolean;
@@ -23,6 +24,7 @@ export interface OutlineButtonProps extends TouchableOpacityProps {
   backgroundColor?: string;
   borderRadius?: number;
   width?: string;
+  size?: ButtonSize;
 }
 
 export default function Button({
@@ -32,14 +34,16 @@ export default function Button({
   text,
   textColor,
   backgroundColor,
-  borderRadius = SIZES.radius_lg,
+  borderRadius = SIZES.radius,
   width,
+  size = 'medium',
   ...props
 }: OutlineButtonProps) {
   const colors = useThemeColors();
   var lockPressed = false;
   return (
     <CustomButton
+      size={size}
       testID={props.testID}
       onPress={event => {
         if (props.disabled) {
@@ -71,6 +75,7 @@ export default function Button({
         <ActivityIndicator color={'white'} />
       ) : (
         <ButtonText
+          size={size}
           theme={{
             color: props.disabled
               ? '#ccc'
@@ -88,20 +93,19 @@ export default function Button({
 const IconLeft = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
-const CustomButton = styled(TouchableOpacity)`
+const CustomButton = styled(TouchableOpacity)<{size: ButtonSize}>`
   background-color: ${props => props.theme.backgroundColor};
   padding: 10px;
   border-radius: ${props => props.theme.borderRadius}px;
-  min-width: 150px;
   border-width: 1px;
-  height: 45px;
+  height: ${props => (props.size === 'small' ? 35 : 45)}px;
   border-color: ${props => props.theme.borderColor};
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
-const ButtonText = styled(CustomText)`
+const ButtonText = styled(CustomText)<{size?: ButtonSize}>`
   color: ${props => props.theme.color};
-  font-size: ${SIZES.font}px;
+  font-size: ${props => (props.size === 'small' ? 12 : 16)}px;
   font-weight: bold;
 `;

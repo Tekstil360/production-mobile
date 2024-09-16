@@ -29,6 +29,7 @@ import CustomBottomSheet, {
 } from '../../../components/CBottomSheet/CustomBottomSheet';
 import {useGetContractsMutation} from '../../../services/appSettingService';
 import WebView from 'react-native-webview';
+import {Flex} from '../../../constant/GlobalStyled';
 
 export default function Register(
   props: NativeStackScreenProps<RootStackParamList, 'RegisterScreen'>,
@@ -226,19 +227,23 @@ export default function Register(
         </ScrollView>
       </Container>
       <BottomContainer>
-        <Button
-          outline
-          text={t('cancel_button')}
-          onPress={() => {
-            dispatch(AuthActions.clearRegister());
-            props.navigation.goBack();
-          }}
-        />
-        <Button
-          loading={registerLoading}
-          text={t('register_button')}
-          onPress={handleRegister}
-        />
+        <Flex flex={0.5}>
+          <Button
+            outline
+            text={t('cancel_button')}
+            onPress={() => {
+              dispatch(AuthActions.clearRegister());
+              props.navigation.goBack();
+            }}
+          />
+        </Flex>
+        <Flex>
+          <Button
+            loading={registerLoading}
+            text={t('register_button')}
+            onPress={handleRegister}
+          />
+        </Flex>
       </BottomContainer>
       <CustomBottomSheet snapPoints={['79%']} ref={contractBottomSheetRef}>
         <WebView source={{html: htmlContent}} style={{height: '100%'}} />
@@ -248,7 +253,8 @@ export default function Register(
 }
 
 const BottomContainer = styled(View)`
-  margin: 0px 30px;
+  margin: 0px 20px;
+  gap: 10px;
   padding: 15px 0px;
   flex-direction: row;
   justify-content: space-between;

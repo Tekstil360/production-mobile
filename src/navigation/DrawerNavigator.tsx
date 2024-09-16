@@ -9,20 +9,22 @@ import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native
 import {RootStackParamList} from '../types/Navigator';
 
 import {useGetSeasonMutation} from '../services/seasonService';
+import useHasPermission from '../hooks/useHasPermission';
 const Drawer = createDrawerNavigator();
 export default function DrawerNavigator(
   props: NativeStackScreenProps<RootStackParamList, 'DrawerNavigator'>,
 ) {
+  const canSeason = useHasPermission('Season');
   const [getSeason] = useGetSeasonMutation();
   const drawerSeasonOpen = useSelector(
     (x: RootState) => x.app.drawerSeasonOpen,
   );
   let isFocused = props.navigation.isFocused();
   useEffect(() => {
-    if (isFocused) {
+    if (isFocused && canSeason) {
       getSeason();
     }
-  }, [isFocused]);
+  }, [isFocused, canSeason]);
   return (
     <Drawer.Navigator
       drawerContent={props => <DrawerContent />}

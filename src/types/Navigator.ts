@@ -15,9 +15,13 @@ export type RootStackParamList = {
   SaleManagement: undefined;
   Pastal: undefined;
   Reports: undefined;
-  Seasons: undefined;
+  Seasons: {actionPermissions: ActionPermissions[]};
+  Customers: {actionPermissions: ActionPermissions[]};
   Profile: undefined;
   Settings: undefined;
   PaymentScreen: undefined;
-  ProductionDetail: {productionId: number};
 };
+export interface ActionPermissions {
+  action: string;
+  permission: boolean;
+}

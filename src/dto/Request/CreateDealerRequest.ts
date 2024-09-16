@@ -1,4 +1,4 @@
-interface CreateCustomerRequest {
+interface CreateDealerRequest {
   firstName: string;
   lastName: string;
   email: string;
@@ -6,4 +6,4 @@ interface CreateCustomerRequest {
   companyName: string;
   password: string;
 }
-export default CreateCustomerRequest;
+export default CreateDealerRequest;

@@ -5,12 +5,20 @@ import {View, ScrollView, TouchableOpacity} from 'react-native';
 import {Menus} from '../../data/MenuData';
 import {useNavigation} from '@react-navigation/native';
 import {SvgXml} from 'react-native-svg';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 export default function DrawerMenu() {
   const navigation = useNavigation<any>();
+  const {userPermission} = useSelector((state: RootState) => state.user);
+
   return (
     <MenuContainer>
-      {Menus.map((menu, index) => (
+      {Menus.filter(m => {
+        return userPermission?.some(c =>
+          c.permissionScreenList.some(d => d === m.route),
+        );
+      }).map((menu, index) => (
         <MenuItemContainer
           testID={`drawerMenuItem-${menu.route}`}
           onPress={() => {

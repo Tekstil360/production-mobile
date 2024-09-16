@@ -1,10 +1,10 @@
 import LoginDto from '../dto/Request/LoginDto';
-import CreateCustomerRequest from '../dto/Request/CreateCustomerRequest';
 import LoginResponse from '../dto/Response/JwtResponse';
 import ServiceResponse from '../dto/Response/ServiceResponse';
 import {baseApi} from '../store/api';
 import UserResponse from '../dto/Response/UserResponse';
 import {AuthActions} from '../store/features/authReducer';
+import CreateDealerRequest from '../dto/Request/CreateDealerRequest';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -17,10 +17,10 @@ const authApi = baseApi.injectEndpoints({
     }),
     register: builder.mutation<
       ServiceResponse<LoginResponse>,
-      CreateCustomerRequest
+      CreateDealerRequest
     >({
-      query: (body: CreateCustomerRequest) => ({
-        url: '/customer/createCustomer',
+      query: (body: CreateDealerRequest) => ({
+        url: '/dealer/createDealer',
         method: 'POST',
         body,
       }),

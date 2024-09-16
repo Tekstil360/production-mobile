@@ -4,7 +4,7 @@ import Modal, {
   SlideAnimation,
 } from 'react-native-modals';
 import {SIZES} from '../../constant/theme';
-import {Appearance, Text, View} from 'react-native';
+import {View} from 'react-native';
 import Button from '../Button/Button';
 import styled from 'styled-components';
 import Divider from '../Divider/Divider';
@@ -17,6 +17,7 @@ import {
 import CustomText from '../Text/Text';
 import LottieView from 'lottie-react-native';
 import {LoadingAnimation} from '../../assets/animations';
+import {Flex} from '../../constant/GlobalStyled';
 
 interface ModalProps {
   title?: string;
@@ -78,7 +79,7 @@ class AlertDialog {
             if (!props.disableCloseOnTouchOutside) {
               ModalPortal.dismiss(id);
               this.ids.pop();
-              resolve(true);
+              resolve(false);
             }
           }}
           overlayBackgroundColor={'black'}
@@ -127,29 +128,33 @@ class AlertDialog {
               )}
               {
                 <ButtonContainer>
-                  {props.hideCancelBtn !== undefined &&
+                  {(props.hideCancelBtn !== undefined || props.onCancel) &&
                     !props.hideCancelBtn && (
+                      <Flex>
+                        <Button
+                          outline
+                          text={props.onCancelText || 'İptal'}
+                          onPress={() => {
+                            ModalPortal.dismiss(id);
+                            this.ids.pop();
+                            resolve(false);
+                            props.onCancel && props.onCancel();
+                          }}
+                        />
+                      </Flex>
+                    )}
+                  {props.onConfirm && (
+                    <Flex>
                       <Button
-                        outline
-                        text={props.onCancelText || 'İptal'}
+                        text={props.onConfirmText || 'Onayla'}
                         onPress={() => {
                           ModalPortal.dismiss(id);
                           this.ids.pop();
-                          resolve(false);
-                          props.onCancel && props.onCancel();
+                          resolve(true);
+                          props.onConfirm && props.onConfirm();
                         }}
                       />
-                    )}
-                  {props.onConfirm && (
-                    <Button
-                      text={props.onConfirmText || 'Onayla'}
-                      onPress={() => {
-                        ModalPortal.dismiss(id);
-                        this.ids.pop();
-                        resolve(false);
-                        props.onConfirm && props.onConfirm();
-                      }}
-                    />
+                    </Flex>
                   )}
                 </ButtonContainer>
               }
@@ -167,6 +172,16 @@ class AlertDialog {
       }
     });
   }
+  error(message: string): Promise<boolean> {
+    return this.showModal({message, type: 'error'});
+  }
+  success(message: string): Promise<boolean> {
+    return this.showModal({message: message, type: 'success'});
+  }
+  warning(message: string): Promise<boolean> {
+    return this.showModal({message, type: 'warning'});
+  }
+
   update() {
     this.ids.forEach(item => {
       ModalPortal.update(item);

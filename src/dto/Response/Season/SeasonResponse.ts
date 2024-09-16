@@ -5,5 +5,6 @@ interface SeasonResponse {
   customerId: number;
   isDefault: boolean;
   isActivated: boolean;
+  status: 'ACTIVE' | 'INACTIVE';
 }
 export default SeasonResponse;

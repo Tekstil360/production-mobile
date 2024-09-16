@@ -3,44 +3,36 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {faTrash} from '@fortawesome/free-solid-svg-icons';
-import CreateProductionErrorRequest from '../../dto/Request/CreateProductionErrorRequest';
-import {useDispatch} from 'react-redux';
-import {ProductionActions} from '../../store/features/productionReducer';
+
 import Input from '../../components/Input/Input';
 import Icon from '../../components/Icon/Icon';
 
-interface CreateProductionErrorCardProps {
-  item: CreateProductionErrorRequest;
-  indexNumber: number;
+interface ProductionErrorCardProps {
+  name: string;
+  removeError: () => void;
+  handleChangeName: (text: string) => void;
 }
 
-export default function CreateProductionErrorCard({
-  item,
-  indexNumber,
-}: CreateProductionErrorCardProps) {
-  const dispatch = useDispatch();
-
+export default function ProductionErrorCard({
+  name,
+  removeError,
+  handleChangeName,
+}: ProductionErrorCardProps) {
   return (
     <InputContainer>
       <InputItem>
         <Input
           placeholder="Üretim Hatası"
-          value={item.name}
+          value={name}
           onChangeText={text => {
-            dispatch(
-              ProductionActions.handleCreateProductionErrorRequest({
-                key: 'name',
-                value: text,
-                indexNumber: indexNumber,
-              }),
-            );
+            handleChangeName(text);
           }}
         />
       </InputItem>
       <InputItem flex={0.1}>
         <TouchableOpacity
           onPress={() => {
-            dispatch(ProductionActions.removeError(indexNumber));
+            removeError();
           }}>
           <Icon icon={faTrash} size={20} />
         </TouchableOpacity>

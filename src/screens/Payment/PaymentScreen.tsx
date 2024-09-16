@@ -38,7 +38,7 @@ export default function PaymentScreen() {
         useCancelSubscription().then(res => {
           const {data} = res;
           if (data?.entity) {
-            dispatch(AuthActions.clearUser());
+            dispatch(AuthActions.logout());
           }
         });
       },

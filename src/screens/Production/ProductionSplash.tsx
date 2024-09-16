@@ -15,11 +15,7 @@ import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native
 import {RootStackParamList} from '../../types/Navigator';
 import {CommonActions} from '@react-navigation/native';
 import {BottomSheetView} from '@gorhom/bottom-sheet';
-import {
-  useCreateMultipleProductionMutation,
-  useCreateProductionMutation,
-} from '../../services/productionService';
-import CreateProductionRequest from '../../dto/Request/CreateProductionRequest';
+import {useCreateMultipleProductionMutation} from '../../services/productionService';
 import AlertDialog from '../../components/AlertDialog/AlertDialog';
 import ProductionIconCard from '../../components/Card/ProductionIconCard';
 import {ProductionIcons} from '../../data/IconData';

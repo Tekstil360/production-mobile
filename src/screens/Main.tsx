@@ -4,19 +4,18 @@ import {RootStackParamList} from '../types/Navigator';
 import {useGetUserMutation} from '../services/authService';
 
 import {useGetProductionsMutation} from '../services/productionService';
-import {useDispatch} from 'react-redux';
-import {AuthActions} from '../store/features/authReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store';
 
 export default function Main({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Main'>) {
-  const dispatch = useDispatch();
   const [getUser] = useGetUserMutation();
   const [useProductions] = useGetProductionsMutation();
 
   useEffect(() => {
     const fetchData = async () => {
-      const {data: userData} = await getUser();
+      const {data: userData, error} = await getUser();
       if (userData) {
         const {data} = await useProductions();
         if (data?.count === 0) {
@@ -24,6 +23,7 @@ export default function Main({
         } else {
           navigation.replace('DrawerNavigator', {welcome: false});
         }
+      } else {
       }
     };
 
