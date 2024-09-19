@@ -90,6 +90,7 @@ export default function Login(props: any) {
         </AlternativeTextContainer>
         <RegisterContainer>
           <Button
+            width={'200px'}
             outline
             onPress={() => {
               props.navigation.navigate('RegisterScreen');

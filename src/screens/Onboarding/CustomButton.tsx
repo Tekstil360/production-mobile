@@ -37,7 +37,6 @@ const CustomButton = ({
   text,
   testID,
 }: Props) => {
-  console.log(testID);
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((x: RootState) => x.auth.user);
   const SCREEN_WIDTH = SIZES.width;
@@ -99,7 +98,6 @@ const CustomButton = ({
     <TouchableWithoutFeedback
       testID={testID}
       onPress={() => {
-        console.log(testID);
         if (flatListIndex.value < dataLength - 1) {
           flatListRef.current?.scrollToIndex({index: flatListIndex.value + 1});
         } else {

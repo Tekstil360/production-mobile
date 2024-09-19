@@ -16,18 +16,18 @@ import {useEffect} from 'react';
 import Productions from '../screens/Production/ProductionScreen';
 import Users from '../screens/Users/UserScreen';
 import ProductionCodes from '../screens/ProductCode/ProductionCodeScreen';
-import StockManagement from '../screens/StockManagement/StockManagement';
+import StockManagement from '../screens/StockManagement/StockManagementScreen';
 import SaleManagement from '../screens/SaleManagement/SaleManagementScreen';
 import Pastals from '../screens/Pastal/PastalScreen';
 import Reports from '../screens/Reports/ReportScreen';
 import Settings from '../screens/Settings/SettingScreen';
-import Seasons from '../screens/Season/SeasonScreen';
 import Profile from '../screens/Profile/ProfileScreen';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {AuthActions} from '../store/features/authReducer';
 import PaymentScreen from '../screens/Payment/PaymentScreen';
 import {useGetUserPermissionMutation} from '../services/userService';
 import Screens from '../types/Screens';
+import FormatHelper from '../helper/FormatHelper';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -126,17 +126,22 @@ const RootNavigator = (props: any) => {
           />
           {Screens.filter(x => {
             if (userPermission) {
+              let permissionKeys = FormatHelper.convertArrayToLowerCase(
+                x.permissionKey,
+              ).includes(x.name.toLocaleLowerCase());
               let check = userPermission.some(c =>
-                c.permissionScreenList.some(d => d === x.name),
+                c.permissionScreenList.some(d =>
+                  d.toLocaleLowerCase().includes(x.name.toLocaleLowerCase()),
+                ),
               );
-              return check;
+              return check || permissionKeys;
             }
             return false;
           }).map((screen, index) => (
             <Stack.Screen
               key={index}
               name={screen.name as any}
-              component={screen.component}
+              component={screen.component as any}
               initialParams={{
                 ...screen.initialParams,
                 actionPermissions: screen.initialParams.actionPermissions.map(
@@ -178,30 +183,9 @@ const RootNavigator = (props: any) => {
               headerShown: false,
             }}
           />
-          <Stack.Screen
-            name="Productions"
-            component={Productions}
-            options={{
-              headerShown: false,
-            }}
-          />
 
           <Stack.Screen
-            name="ProductionCodes"
-            component={ProductionCodes}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="StockManagement"
-            component={StockManagement}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="SaleManagement"
+            name="SaleManagements"
             component={SaleManagement}
             options={{
               headerShown: false,

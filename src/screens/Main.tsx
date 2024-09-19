@@ -6,12 +6,14 @@ import {useGetUserMutation} from '../services/authService';
 import {useGetProductionsMutation} from '../services/productionService';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../store';
+import {AuthActions} from '../store/features/authReducer';
 
 export default function Main({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Main'>) {
   const [getUser] = useGetUserMutation();
   const [useProductions] = useGetProductionsMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +26,7 @@ export default function Main({
           navigation.replace('DrawerNavigator', {welcome: false});
         }
       } else {
+        dispatch(AuthActions.logout());
       }
     };
 

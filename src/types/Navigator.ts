@@ -10,9 +10,9 @@ export type RootStackParamList = {
   DrawerNavigator: {welcome?: boolean};
   Productions: undefined;
   Users: undefined;
-  ProductionCodes: undefined;
-  StockManagement: undefined;
-  SaleManagement: undefined;
+  Productioncodes: undefined;
+  StockManagements: {actionPermissions: ActionPermissions[]};
+  SaleManagements: undefined;
   Pastal: undefined;
   Reports: undefined;
   Seasons: {actionPermissions: ActionPermissions[]};

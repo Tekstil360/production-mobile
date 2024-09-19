@@ -41,8 +41,6 @@ export default function TextLink(props: TextLinkProps) {
                     hitSlop={20}
                     testID={props.testID}
                     onPress={() => {
-                      console.log(props.testID);
-
                       props.onClick && props.onClick(props.splitText || '');
                     }}
                     key={index}

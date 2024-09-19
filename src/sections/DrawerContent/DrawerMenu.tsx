@@ -15,9 +15,16 @@ export default function DrawerMenu() {
   return (
     <MenuContainer>
       {Menus.filter(m => {
-        return userPermission?.some(c =>
-          c.permissionScreenList.some(d => d === m.route),
+        let userPermissionCheck = userPermission?.some(c =>
+          c.permissionScreenList
+            .map(psc => psc.toLocaleLowerCase())
+            .some(d =>
+              m.permissionKeys
+                .map(c => c.toLocaleLowerCase())
+                .includes(d.toLocaleLowerCase()),
+            ),
         );
+        return userPermissionCheck;
       }).map((menu, index) => (
         <MenuItemContainer
           testID={`drawerMenuItem-${menu.route}`}

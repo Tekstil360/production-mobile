@@ -33,12 +33,14 @@ class FormatHelper {
   replacePrefixedWord(text: string) {
     const match = text.match(/[\[\{](.*?)[\]\}]/);
     if (match) {
-      console.log(match[1]);
       const word = match[1];
       const updatedText = text.replace(match[0], word);
       return updatedText;
     }
     return text;
   }
+  convertArrayToLowerCase = (array: any[]) => {
+    return array?.map(c => c.toLocaleLowerCase()) || [];
+  };
 }
 export default new FormatHelper();

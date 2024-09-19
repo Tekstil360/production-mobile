@@ -43,6 +43,7 @@ export default function Button({
   var lockPressed = false;
   return (
     <CustomButton
+      width={width}
       size={size}
       testID={props.testID}
       onPress={event => {
@@ -93,7 +94,10 @@ export default function Button({
 const IconLeft = styled(FontAwesomeIcon)`
   margin-right: 10px;
 `;
-const CustomButton = styled(TouchableOpacity)<{size: ButtonSize}>`
+const CustomButton = styled(TouchableOpacity)<{
+  size: ButtonSize;
+  width?: string;
+}>`
   background-color: ${props => props.theme.backgroundColor};
   padding: 10px;
   border-radius: ${props => props.theme.borderRadius}px;
@@ -103,6 +107,7 @@ const CustomButton = styled(TouchableOpacity)<{size: ButtonSize}>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: ${props => props.width || 'auto'};
 `;
 const ButtonText = styled(CustomText)<{size?: ButtonSize}>`
   color: ${props => props.theme.color};

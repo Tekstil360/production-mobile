@@ -52,6 +52,7 @@ export default function Result(props: any) {
         </SubTitle>
         <StartButtonContainer>
           <Button
+            width="200px"
             backgroundColor={colors.success}
             textColor={colors.success}
             text="Giriş Yap"

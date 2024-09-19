@@ -7,7 +7,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 import {AuthActions} from '../features/authReducer';
 
-export const BaseUrl = 'http://192.168.1.141:8080';
+export const BaseUrl = 'http://192.168.1.140:8080';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BaseUrl,

@@ -42,7 +42,6 @@ export default function ForgotPassword(props: any) {
               let result = formContainerRef.current?.validate({
                 email: 'E-posta adresi geçerli değil!',
               });
-              console.log(result, 'sonuc');
             }}
           />
         </ForgotButtonContainer>

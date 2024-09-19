@@ -25,6 +25,7 @@ import {ProductionActions} from '../../store/features/productionReducer';
 import ProductionIconListContent from '../../components/BottomSheetContent/Production/ProductionIconListContent';
 import TransactionIconListContent from '../../components/BottomSheetContent/TransactionIconListContent';
 import {RootState} from '../../store';
+import {useGetUserPermissionMutation} from '../../services/userService';
 
 export default function ProductionSplash(
   props: NativeStackScreenProps<RootStackParamList, 'ProductionSplash'>,
@@ -39,7 +40,7 @@ export default function ProductionSplash(
   const addMultipleProductionRef = useRef<BottomSheetRef>(null);
   const productionIconsBottomSheetRef = useRef<BottomSheetRef>(null);
   const transctionIconsBottomSheetRef = useRef<BottomSheetRef>(null);
-
+  const [useUserPermission] = useGetUserPermissionMutation();
   const [productionList, setProductionList] =
     useState<Array<{icon: string; key: string; name: string}>>(ProductionIcons);
   const [productionName, setProductionName] = useState('');
@@ -78,8 +79,9 @@ export default function ProductionSplash(
     setLoading(true);
     createProductions(createMultipleProductionRequest)
       .unwrap()
-      .then(e => {
+      .then(async e => {
         if (e.isSuccess) {
+          await useUserPermission();
           props.navigation.dispatch(
             CommonActions.reset({
               index: 0,
