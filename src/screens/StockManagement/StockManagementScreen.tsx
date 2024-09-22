@@ -1,40 +1,62 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import Container from '../../components/Container/Container';
-import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
+import CustomText from '../../components/Text/Text';
+import ColPlaceholder from '../../components/Placeholder/ColPlaceholder';
 import {RootStackParamList} from '../../types/Navigator';
-import ActionPermissionHelper from '../../types/ActionPermissionHelper';
 import useHasPermission from '../../hooks/useHasPermission';
-import Button from '../../components/Button/Button';
+import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
+import {ColBackground, ColTitle} from '../../constant/GlobalStyled';
 
 export default function StockManagementScreen({
   navigation,
   route,
-}: NativeStackScreenProps<RootStackParamList, 'StockManagements'>) {
-  let filteredProductionCodes = route.params.actionPermissions.filter(x =>
-    x.action.includes('Productioncodes'),
-  );
-  let filteredStockManagement = route.params.actionPermissions.filter(x =>
-    x.action.includes('StockManagement'),
-  );
-  const canProductionCode = ActionPermissionHelper.canPermission(
-    filteredProductionCodes,
-    'Productioncodes',
-  );
-  const canStockManagement = ActionPermissionHelper.canPermission(
-    filteredStockManagement,
-    'StockManagement',
-  );
+}: NativeStackScreenProps<RootStackParamList, 'Stockmanagements'>) {
+  const canProductionCode = useHasPermission('Productioncodes');
+  const canProductionCodeProperty = useHasPermission('Productioncodepropertys');
+  const canMaterial = useHasPermission('Materials');
+  const canMaterialProperty = useHasPermission('Materialpropertys');
   return (
     <Container header title="Stok Yönetimi" goBackShow>
       <Container type="container" p={10}>
-        {canProductionCode.canPage && (
-          <Button
-            text="Ürün Kodlarım"
-            onPress={() => {
-              navigation.navigate('Productioncodes');
-            }}
-          />
+        {(canProductionCode || canProductionCodeProperty) && (
+          <>
+            <ColTitle>
+              <CustomText fontSizes="normal" color="primary" fontWeight="bold">
+                Ürün Stok Yönetimi
+              </CustomText>
+            </ColTitle>
+            <ColBackground>
+              {canProductionCode && (
+                <ColPlaceholder
+                  onPress={() => navigation.navigate('Productioncodes', {})}
+                  name="Ürün Kodları"
+                />
+              )}
+              {canProductionCodeProperty && (
+                <ColPlaceholder
+                  onPress={() =>
+                    navigation.navigate('Productioncodepropertys', {})
+                  }
+                  name="Ürün Özellikleri"
+                />
+              )}
+            </ColBackground>
+          </>
+        )}
+        {(canMaterial || canMaterialProperty) && (
+          <>
+            <ColTitle>
+              <CustomText fontSizes="normal" color="primary" fontWeight="bold">
+                Malzeme Stok Yönetimi
+              </CustomText>
+            </ColTitle>
+            <ColBackground>
+              {canMaterial && <ColPlaceholder name="Malzemeler" />}
+              {canMaterialProperty && (
+                <ColPlaceholder name="Malzeme Özellikleri" />
+              )}
+            </ColBackground>
+          </>
         )}
       </Container>
     </Container>

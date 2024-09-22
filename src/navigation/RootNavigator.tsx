@@ -13,10 +13,7 @@ import {RootStackParamList} from '../types/Navigator';
 import ProductionSplash from '../screens/Production/ProductionSplash';
 import {useGetLanguagesMutation} from '../services/appSettingService';
 import {useEffect} from 'react';
-import Productions from '../screens/Production/ProductionScreen';
 import Users from '../screens/Users/UserScreen';
-import ProductionCodes from '../screens/ProductCode/ProductionCodeScreen';
-import StockManagement from '../screens/StockManagement/StockManagementScreen';
 import SaleManagement from '../screens/SaleManagement/SaleManagementScreen';
 import Pastals from '../screens/Pastal/PastalScreen';
 import Reports from '../screens/Reports/ReportScreen';
@@ -134,7 +131,7 @@ const RootNavigator = (props: any) => {
                   d.toLocaleLowerCase().includes(x.name.toLocaleLowerCase()),
                 ),
               );
-              return check || permissionKeys;
+              return check;
             }
             return false;
           }).map((screen, index) => (

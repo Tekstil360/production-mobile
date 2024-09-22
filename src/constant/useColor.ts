@@ -4,6 +4,7 @@ const Colors = {
   light: {
     background: '#f9f9f9',
     primary: '#D7C9BC',
+    outlineColorText: '#9C6644',
     buttonColor: '#9c6644',
     textColor: '#70664C',
     secondary: '#a55eea',
@@ -19,6 +20,7 @@ const Colors = {
   dark: {
     background: '#f9f9f9',
     primary: '#D7C9BC',
+    outlineColorText: '#9C6644',
     buttonColor: '#9c6644',
     textColor: '#70664C',
     secondary: '#a55eea',

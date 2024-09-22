@@ -10,8 +10,8 @@ export type RootStackParamList = {
   DrawerNavigator: {welcome?: boolean};
   Productions: undefined;
   Users: undefined;
-  Productioncodes: undefined;
-  StockManagements: {actionPermissions: ActionPermissions[]};
+  Productioncodes: {actionPermissions?: ActionPermissions[]};
+  Stockmanagements: {actionPermissions: ActionPermissions[]};
   SaleManagements: undefined;
   Pastal: undefined;
   Reports: undefined;
@@ -20,6 +20,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   PaymentScreen: undefined;
+  Productioncodepropertys: {actionPermissions?: ActionPermissions[]};
 };
 export interface ActionPermissions {
   action: string;

@@ -14,7 +14,7 @@ export default function DrawerContent() {
   const drawerSeasonOpen = useSelector(
     (x: RootState) => x.app.drawerSeasonOpen,
   );
-  const canSeason = useHasPermission('Season');
+  const canSeason = useHasPermission('Seasons');
   return (
     <Container>
       <DrawerHeader showSeason={canSeason} />

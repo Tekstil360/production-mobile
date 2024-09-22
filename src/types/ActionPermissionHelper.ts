@@ -52,8 +52,16 @@ class ActionPermissionHelper {
     userPermission: Array<UserPermissionResponse>,
     screenName: string,
   ) {
-    return userPermission.some(item =>
-      item.permissionScreenList.some(screen => screen === screenName),
+    return userPermission.find(item =>
+      item.permissionScreenList.find(screen => screen === screenName),
+    );
+  }
+  public getPermissionListByScreenName(
+    userPermission: Array<UserPermissionResponse>,
+    screenName: string,
+  ) {
+    return userPermission.find(item =>
+      item.permissionScreenList.find(screen => screen === screenName),
     );
   }
 }

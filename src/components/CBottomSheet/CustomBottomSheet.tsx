@@ -66,6 +66,7 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
+        enablePanDownToClose
         snapPoints={cSnapPoints}
         enableDynamicSizing={snapPoints ? false : true}
         backgroundStyle={styles.contentContainer}

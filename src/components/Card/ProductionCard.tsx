@@ -25,7 +25,7 @@ export default function ProductionCard({
         <CustomText fontWeight="bold">{production.name}</CustomText>
       </ProductionInfo>
       <ProductionRightIcon>
-        <Icon icon={faAngleRight} />
+        <Icon icon={faAngleRight} color="#D8B267" />
       </ProductionRightIcon>
     </ProductionCardContainer>
   );

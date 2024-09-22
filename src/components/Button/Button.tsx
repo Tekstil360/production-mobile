@@ -81,7 +81,7 @@ export default function Button({
             color: props.disabled
               ? '#ccc'
               : outline
-              ? textColor || colors.primary
+              ? textColor || colors.outlineColorText
               : colors.white,
           }}>
           {text}

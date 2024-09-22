@@ -8,7 +8,6 @@ const useHasPermission = (screenName: string): boolean => {
   const userPermission = useSelector(
     (state: RootState) => state.user.userPermission,
   );
-
   return useMemo(() => {
     let check =
       ActionPermissionHelper.getPermissionScreenListByScreenName(
@@ -17,6 +16,7 @@ const useHasPermission = (screenName: string): boolean => {
       ) === undefined
         ? false
         : true;
+
     return check;
   }, [userPermission, screenName]);
 };

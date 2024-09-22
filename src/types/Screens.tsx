@@ -1,4 +1,5 @@
 import CustomerScreen from '../screens/Customer/CustomerScreen';
+import ProductionCodePropertyScreen from '../screens/ProductCode/ProductionCodePropertyScreen';
 import ProductionCodeScreen from '../screens/ProductCode/ProductionCodeScreen';
 import ProductionScreen from '../screens/Production/ProductionScreen';
 import SeasonScreen from '../screens/Season/SeasonScreen';
@@ -96,7 +97,7 @@ const CustomerScreens = () => [
 ];
 const StockManagementScreens = () => [
   {
-    name: 'StockManagements',
+    name: 'Stockmanagements',
     component: StockManagementScreen,
     options: {
       headerShown: false,
@@ -104,28 +105,28 @@ const StockManagementScreens = () => [
     initialParams: {
       actionPermissions: [
         {
-          action: 'Productioncodes',
+          action: 'Stockmanagements',
           permission: false,
         },
         {
-          action: 'CreateProductioncode',
+          action: 'CreateStockmanagement',
           permission: false,
         },
         {
-          action: 'UpdateProductioncode',
+          action: 'UpdateStockmanagement',
           permission: false,
         },
         {
-          action: 'DeleteProductioncode',
+          action: 'DeleteStockmanagement',
           permission: false,
         },
         {
-          action: 'ProductioncodeDetail',
+          action: 'StockmanagementDetail',
           permission: false,
         },
       ],
     },
-    permissionKey: ['StockManagements', 'Productioncodes'],
+    permissionKey: ['Stockmanagements', 'Productioncodes'],
   },
   {
     name: 'Productioncodes',
@@ -158,6 +159,38 @@ const StockManagementScreens = () => [
       ],
     },
     permissionKey: ['Productioncodes', 'StockManagement'],
+  },
+  {
+    name: 'Productioncodepropertys',
+    component: ProductionCodePropertyScreen,
+    options: {
+      headerShown: false,
+    },
+    initialParams: {
+      actionPermissions: [
+        {
+          action: 'Productioncodepropertys',
+          permission: false,
+        },
+        {
+          action: 'CreateProductioncodeproperty',
+          permission: false,
+        },
+        {
+          action: 'UpdateProductioncodeproperty',
+          permission: false,
+        },
+        {
+          action: 'DeleteProductioncodeproperty',
+          permission: false,
+        },
+        {
+          action: 'ProductioncodepropertyDetail',
+          permission: false,
+        },
+      ],
+    },
+    permissionKey: ['Productioncodepropertys'],
   },
 ];
 const Screens = [
