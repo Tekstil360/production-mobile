@@ -5,78 +5,73 @@ import {RootStackParamList} from '../../types/Navigator';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import ActionPermissionHelper from '../../types/ActionPermissionHelper';
 import {BottomSheetRef} from '../../components/CBottomSheet/CustomBottomSheet';
-import AddProductionCodeProperty from '../../components/BottomSheetContent/ProductionCode/AddProductionCodePropertyContent';
-import {
-  useGetProductionPropertiesMutation,
-  useGetProductionPropertyByIdMutation,
-} from '../../services/productionCodePropertyService';
+import AddProductionCodeAttribute from '../../components/BottomSheetContent/ProductionCode/AddProductionCodeAttributeContent';
+
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../store';
-import ProductionCodePropertyResponse from '../../dto/Response/ProductionCode/ProductionCodePropertyResponse';
+
+import ProductionCodeAttributeResponse from '../../dto/Response/ProductionCode/ProductionCodeAttributeResponse';
 import {ColBackground} from '../../constant/GlobalStyled';
 import ColPlaceholder from '../../components/Placeholder/ColPlaceholder';
-import UpdateProductionCodeProperty from '../../components/BottomSheetContent/ProductionCode/UpdateProductionCodePropertyContent';
+import UpdateProductionCodeAttribute from '../../components/BottomSheetContent/ProductionCode/UpdateProductionCodeAttributeContent';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
+import {ProductionCodeAttributeApi} from '../../services/productionCodeAttributeService';
 
-export default function ProductionCodePropertyScreen({
+export default function ProductionCodeAttributeScreen({
   navigation,
   route,
-}: NativeStackScreenProps<RootStackParamList, 'Productioncodepropertys'>) {
+}: NativeStackScreenProps<RootStackParamList, 'Productioncodeattributes'>) {
+  const {attributes} = useSelector(
+    (state: RootState) => state.productionCodeAttribute,
+  );
+  const [useAttributeById] =
+    ProductionCodeAttributeApi.useGetAttributeByIdMutation();
   const addProductionCodeRef = useRef<BottomSheetRef>(null);
   const updateProductionCodeRef = useRef<BottomSheetRef>(null);
-  const canProductionCodeProperty = ActionPermissionHelper.canPermission(
+  const canProductionCodeAttribute = ActionPermissionHelper.canPermission(
     route.params.actionPermissions || [],
-    'Productioncodepropertys',
+    'Productioncodeattributes',
   );
-  const {productionCodeProperties} = useSelector(
-    (state: RootState) => state.productionCodeProperty,
-  );
-  const [useGetProductionProperties] = useGetProductionPropertiesMutation();
-  const [useGetProductionPropertyById] = useGetProductionPropertyByIdMutation();
-  useEffect(() => {
-    loadData();
-  }, []);
 
-  const loadData = async () => {
-    await useGetProductionProperties();
-  };
+  useEffect(() => {}, []);
 
   const handleOpenUpdateSheet = async (id: number) => {
-    await useGetProductionPropertyById({
-      id,
-      openUpdateSheet: () => {
+    let entity = {
+      id: id,
+      onOpen: () => {
         updateProductionCodeRef.current?.open();
       },
-    });
+    };
+    await useAttributeById(entity);
   };
 
   return (
     <Container header title="Ürün Özellikleri" goBackShow>
       <Container type="container" p={10}>
         <CustomFlatList
-          data={productionCodeProperties}
+          data={attributes}
           renderItem={({
             item,
             index,
           }: {
-            item: ProductionCodePropertyResponse;
+            item: ProductionCodeAttributeResponse;
             index: number;
           }) => {
             return (
               <ColBackground key={index}>
                 <ColPlaceholder
                   onPress={() => handleOpenUpdateSheet(item.id)}
-                  name={item.name}
+                  name={item.attributeName}
                 />
               </ColBackground>
             );
           }}
         />
       </Container>
-      {canProductionCodeProperty.canCreate && (
+      {canProductionCodeAttribute.canCreate && (
         <Container flex={0.1} type="container" p={10}>
           <Button
-            testID="createProductionCodePropertyButton"
+            testID="createProductionCodeAttributeButton"
             text="Ürün Özellikleri Ekle"
             onPress={() => {
               addProductionCodeRef.current?.open();
@@ -84,12 +79,12 @@ export default function ProductionCodePropertyScreen({
           />
         </Container>
       )}
-      {canProductionCodeProperty.canCreate && (
-        <AddProductionCodeProperty sheetRef={addProductionCodeRef} />
+      {canProductionCodeAttribute.canCreate && (
+        <AddProductionCodeAttribute sheetRef={addProductionCodeRef} />
       )}
-      {canProductionCodeProperty.canUpdate && (
-        <UpdateProductionCodeProperty
-          canDelete={canProductionCodeProperty.canDelete}
+      {canProductionCodeAttribute.canUpdate && (
+        <UpdateProductionCodeAttribute
+          canDelete={canProductionCodeAttribute.canDelete}
           sheetRef={updateProductionCodeRef}
         />
       )}

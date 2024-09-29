@@ -20,7 +20,7 @@ export type RootStackParamList = {
   Profile: undefined;
   Settings: undefined;
   PaymentScreen: undefined;
-  Productioncodepropertys: {actionPermissions?: ActionPermissions[]};
+  Productioncodeattributes: {actionPermissions?: ActionPermissions[]};
 };
 export interface ActionPermissions {
   action: string;

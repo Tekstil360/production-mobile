@@ -3,27 +3,34 @@ import React from 'react';
 import styled from 'styled-components';
 import CustomText from '../Text/Text';
 import SwitchButton from '../Button/SwitchButton';
-import ProductionCodePropertyResponse from '../../dto/Response/ProductionCode/ProductionCodePropertyResponse';
+import ProductionCodeAttributeResponse from '../../dto/Response/ProductionCode/ProductionCodeAttributeResponse';
 
-interface ProductionCodePropertyCardProps {
-  item: ProductionCodePropertyResponse;
+interface ProductionCodeAttributeCardProps {
+  item: ProductionCodeAttributeResponse;
+  value?: (attributeValueId: number) => boolean;
+  onChange?: (e: boolean, selectedAttributeValueId: number) => void;
 }
-export default function ProductionCodePropertyCard(
-  props: ProductionCodePropertyCardProps,
+export default function ProductionCodeAttributeCard(
+  props: ProductionCodeAttributeCardProps,
 ) {
-  const {item} = props;
+  const {item, onChange, value} = props;
   return (
     <CardWrapper>
       <CardHeader>
         <CustomText fontSizes="h6" fontWeight="bold" color="grey">
-          {item?.name} Özellikleri
+          {item?.attributeName} Özellikleri
         </CustomText>
       </CardHeader>
       <CardBody>
-        {item?.productionPropertyItems.map((x, i) => (
+        {item?.attributeValues.map((x, i) => (
           <CardColumn key={x.id}>
-            <CustomText>{x.name}</CustomText>
-            <SwitchButton value={false} />
+            <CustomText>{x.value}</CustomText>
+            <SwitchButton
+              onChange={e => {
+                onChange && onChange(e, x.id);
+              }}
+              value={value?.(x.id) || false}
+            />
           </CardColumn>
         ))}
       </CardBody>

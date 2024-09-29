@@ -1,8 +1,9 @@
-import CreateProductionCodeGroupItemRequest from './CreateProductionCodeGroupItemRequest';
+import CreateProductionCodeVariantAttributeRequest from './CreateProductionCodeVariantAttributeRequest';
 
 interface CreateProductionCodeRequest {
   code: string;
   description: string;
-  productionCodeGroupItems: Array<CreateProductionCodeGroupItemRequest>;
+  imageFile?: string;
+  variantAttributes: CreateProductionCodeVariantAttributeRequest[];
 }
 export default CreateProductionCodeRequest;

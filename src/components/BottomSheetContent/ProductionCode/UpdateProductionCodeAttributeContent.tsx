@@ -1,4 +1,4 @@
-import {View, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
 import CustomBottomSheet, {
   BottomSheetRef,
@@ -7,10 +7,7 @@ import Title from '../../Title/Title';
 import Container from '../../Container/Container';
 import Input from '../../Input/Input';
 import Button from '../../Button/Button';
-import {
-  useDeleteProductionPropertyMutation,
-  useUpdateProductionPropertyMutation,
-} from '../../../services/productionCodePropertyService';
+
 import {
   BottomSheetScrollView,
   BottomSheetScrollViewMethods,
@@ -18,48 +15,56 @@ import {
 import IconButton from '../../Button/IconButton';
 import {faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {Center, Flex, Row} from '../../../constant/GlobalStyled';
-import Icon from '../../Icon/Icon';
+
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store';
-import {ProductionCodePropertyActions} from '../../../store/features/productionCodePropertyReducer';
+import {ProductionCodeAttributeActions} from '../../../store/features/productionCodeAttributeReducer';
+import {ProductionCodeAttributeApi} from '../../../services/productionCodeAttributeService';
 import AlertDialog from '../../AlertDialog/AlertDialog';
 
-interface UpdateProductionCodePropertyProps {
+interface UpdateProductionCodeAttributeContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;
   canDelete?: boolean;
 }
 
-export default function UpdateProductionCodeProperty(
-  props: UpdateProductionCodePropertyProps,
+export default function UpdateProductionCodeAttributeContent(
+  props: UpdateProductionCodeAttributeContentProps,
 ) {
   const {sheetRef, canDelete} = props;
   const dispatch = useDispatch();
-  const [useUpdateProductionProperty] = useUpdateProductionPropertyMutation();
-  const [useDeleteProductionProperty] = useDeleteProductionPropertyMutation();
-  const scrollViewRef = React.useRef<BottomSheetScrollViewMethods>(null);
-  const {updateProductionCodeProperty} = useSelector(
-    (state: RootState) => state.productionCodeProperty,
+  const {updateAttributeForm} = useSelector(
+    (x: RootState) => x.productionCodeAttribute,
   );
-  if (updateProductionCodeProperty === null) {
-    return null;
-  }
-  const handleSave = async () => {
-    await useUpdateProductionProperty(updateProductionCodeProperty);
+  const [useUpdateProduction] =
+    ProductionCodeAttributeApi.useUpdateAttributeMutation();
+  const [useDeleteVariant] =
+    ProductionCodeAttributeApi.useDeleteAttributeMutation();
+  const scrollViewRef = React.useRef<BottomSheetScrollViewMethods>(null);
+
+  const handleUpdateAttribute = async () => {
+    let entity = {
+      ...updateAttributeForm,
+      onClose: () => {
+        sheetRef.current?.close();
+      },
+    };
+    await useUpdateProduction(entity);
   };
-  const handleDelete = async () => {
+  const handleDeleteAttribute = async () => {
     AlertDialog.showModal({
-      title: 'Özellik Silme',
-      message: 'Bu özelliği silmek istediğinize emin misiniz?',
-      onCancel() {},
+      title: 'Ürün Özelliğini Sil',
+      message: 'Ürün özelliğini silmek istediğinize emin misiniz?',
       onConfirm: async () => {
-        await useDeleteProductionProperty({
-          id: updateProductionCodeProperty.id,
+        let entity = {
+          id: updateAttributeForm.id,
           onClose: () => {
             sheetRef.current?.close();
           },
-        });
+        };
+        await useDeleteVariant(entity);
       },
+      onCancel() {},
     });
   };
   return (
@@ -70,15 +75,13 @@ export default function UpdateProductionCodeProperty(
           subTitle="Ürünün renk, beden gibi özelliklerini eklemek için aşağıdaki alanları doldurun."
         />
         <Input
-          value={updateProductionCodeProperty.name}
+          value={updateAttributeForm.attributeName}
           onChangeText={text => {
             dispatch(
-              ProductionCodePropertyActions.handleChangeProductionCodePropertyName(
-                text,
-              ),
+              ProductionCodeAttributeActions.setUpdateAttributeNames(text),
             );
           }}
-          testID="productCodePropertyInput"
+          testID="productCodeAttributeInput"
           placeholder="Özellik Adı"
         />
         <Title title="Özellik Değerleri" />
@@ -89,47 +92,51 @@ export default function UpdateProductionCodeProperty(
           contentContainerStyle={{
             gap: 10,
           }}>
-          {updateProductionCodeProperty?.productionPropertyItems.map(
-            (item, index) => (
+          {updateAttributeForm?.attributeValues?.map((value, index) => {
+            return (
               <ProductionCodeContainer key={index}>
                 <Flex>
                   <Input
-                    value={item.name}
+                    value={value.value}
                     onChangeText={text => {
                       dispatch(
-                        ProductionCodePropertyActions.handleChangeProductionCodePropertyItem(
+                        ProductionCodeAttributeActions.updateAttributeValueInUpdateForm(
                           {
-                            key: 'name',
-                            value: text,
                             index,
+                            key: 'value',
+                            value: text,
                           },
                         ),
                       );
                     }}
-                    testID="productCodePropertyItemInput"
+                    testID="productCodeAttributeValueInput"
                     placeholder="Özellik Değeri"
                   />
                 </Flex>
-                <DeleteButton
-                  activeOpacity={0.7}
-                  onPress={() => {
-                    dispatch(
-                      ProductionCodePropertyActions.removeProductionCodePropertyItem(
-                        {index},
-                      ),
-                    );
-                  }}>
-                  <Icon icon={faTrash} />
-                </DeleteButton>
+                <Center>
+                  <IconButton
+                    onPress={() => {
+                      dispatch(
+                        ProductionCodeAttributeActions.removeAttributeValueFromUpdateForm(
+                          index,
+                        ),
+                      );
+                    }}
+                    icon={faTrash}></IconButton>
+                </Center>
               </ProductionCodeContainer>
-            ),
-          )}
+            );
+          })}
           <Center>
             <IconButton
               onPress={() => {
                 dispatch(
-                  ProductionCodePropertyActions.addUpdateProductionCodePropertyItem(),
+                  ProductionCodeAttributeActions.addAttributeValueToUpdateForm(),
                 );
+                let timeout = setTimeout(() => {
+                  scrollViewRef.current?.scrollToEnd();
+                  clearTimeout(timeout);
+                });
               }}
               icon={faPlus}></IconButton>
           </Center>
@@ -142,17 +149,17 @@ export default function UpdateProductionCodeProperty(
               <Button
                 outline
                 onPress={() => {
-                  handleDelete();
+                  handleDeleteAttribute();
                 }}
-                testID="DeleteProductCodePropertyButton"
+                testID="DeleteProductCodeAttributeButton"
                 text="Sil"
               />
             </Flex>
           )}
           <Flex>
             <Button
-              onPress={handleSave}
-              testID="updateeProductCodePropertyButton"
+              onPress={handleUpdateAttribute}
+              testID="updateeProductCodeAttributeButton"
               text="Kaydet"
             />
           </Flex>
@@ -164,8 +171,4 @@ export default function UpdateProductionCodeProperty(
 const ProductionCodeContainer = styled(View)`
   flex-direction: row;
   gap: 10px;
-`;
-const DeleteButton = styled(TouchableOpacity)`
-  align-items: center;
-  justify-content: center;
 `;

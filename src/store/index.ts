@@ -10,8 +10,9 @@ import {appSettingReducer} from './features/appSettingReducer';
 import {productionReducer} from './features/productionReducer';
 import {userReducer} from './features/userReducer';
 import {customerReducer} from './features/customerReducer';
-import {productionCodePropertyReducer} from './features/productionCodePropertyReducer';
+
 import {productionCodeReducer} from './features/productionCodeReducer';
+import productionCodeAttributeReducer from './features/productionCodeAttributeReducer';
 
 const appPersistConfig = {
   key: 'app',
@@ -34,8 +35,7 @@ const rootReducers = combineReducers({
   user: userReducer,
   customer: customerReducer,
   productionCode: productionCodeReducer,
-  productionCodeProperty: productionCodePropertyReducer,
-
+  productionCodeAttribute: productionCodeAttributeReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 

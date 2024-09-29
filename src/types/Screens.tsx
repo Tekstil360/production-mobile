@@ -1,5 +1,5 @@
 import CustomerScreen from '../screens/Customer/CustomerScreen';
-import ProductionCodePropertyScreen from '../screens/ProductCode/ProductionCodePropertyScreen';
+import ProductionCodeAttributeScreen from '../screens/ProductCode/ProductionCodeAttributeScreen';
 import ProductionCodeScreen from '../screens/ProductCode/ProductionCodeScreen';
 import ProductionScreen from '../screens/Production/ProductionScreen';
 import SeasonScreen from '../screens/Season/SeasonScreen';
@@ -161,36 +161,36 @@ const StockManagementScreens = () => [
     permissionKey: ['Productioncodes', 'StockManagement'],
   },
   {
-    name: 'Productioncodepropertys',
-    component: ProductionCodePropertyScreen,
+    name: 'Productioncodeattributes',
+    component: ProductionCodeAttributeScreen,
     options: {
       headerShown: false,
     },
     initialParams: {
       actionPermissions: [
         {
-          action: 'Productioncodepropertys',
+          action: 'Productioncodeattributes',
           permission: false,
         },
         {
-          action: 'CreateProductioncodeproperty',
+          action: 'CreateProductioncodeattribute',
           permission: false,
         },
         {
-          action: 'UpdateProductioncodeproperty',
+          action: 'UpdateProductioncodeattribute',
           permission: false,
         },
         {
-          action: 'DeleteProductioncodeproperty',
+          action: 'DeleteProductioncodeattribute',
           permission: false,
         },
         {
-          action: 'ProductioncodepropertyDetail',
+          action: 'ProductioncodeattributeDetail',
           permission: false,
         },
       ],
     },
-    permissionKey: ['Productioncodepropertys'],
+    permissionKey: ['Productioncodeattributes'],
   },
 ];
 const Screens = [

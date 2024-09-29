@@ -16,8 +16,11 @@ import CustomText from '../../Text/Text';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store';
 import {ProductionCodeActions} from '../../../store/features/productionCodeReducer';
-import {useGetProductionPropertiesMutation} from '../../../services/productionCodePropertyService';
-import ProductionCodePropertyCard from '../../Card/ProductionCodePropertyCard';
+import CustomFlatList from '../../Flatlist/CustomFlatList';
+import ProductionCodeAttributeResponse from '../../../dto/Response/ProductionCode/ProductionCodeAttributeResponse';
+import ProductionCodeAttributeCard from '../../Card/ProductionCodeAttributeCard';
+import ProductionCodeApi from '../../../services/productionCodeService';
+import {ProductionCodeAttributeApi} from '../../../services/productionCodeAttributeService';
 
 interface AddProductionCodeContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;
@@ -26,27 +29,71 @@ export default function AddProductionCodeContent(
   props: AddProductionCodeContentProps,
 ) {
   const dispatch = useDispatch();
-  const {step} = useSelector((x: RootState) => x.productionCode);
-  const {productionCodeProperties} = useSelector(
-    (x: RootState) => x.productionCodeProperty,
+  const [useCreateProduction] =
+    ProductionCodeApi.useCreateProductionCodeMutation();
+  const [useGetAttributes] =
+    ProductionCodeAttributeApi.useGetAttributesMutation();
+  const {attributes} = useSelector((x: RootState) => x.productionCodeAttribute);
+  const {step, createProductionCodeForm} = useSelector(
+    (x: RootState) => x.productionCode,
   );
   const {initLaunchCamera, initLaunchImage, photos, clearPhotos} = usePhoto();
-  const [useGetProductionCodeProperties] = useGetProductionPropertiesMutation();
-
   const {sheetRef} = props;
 
   useEffect(() => {
-    if (step === 'ProductionCodeProperties') {
-      getProductionCodeProperties();
-    }
-  }, [step]);
-
-  const getProductionCodeProperties = async () => {
-    await useGetProductionCodeProperties();
+    clearPhotos();
+    getAttributes();
+  }, []);
+  useEffect(() => {
+    dispatch(
+      ProductionCodeActions.setCreateProductionCodeForm({
+        key: 'imageFile',
+        value: photos[0],
+      }),
+    );
+  }, [photos]);
+  const getAttributeNames = () => {
+    return attributes
+      .filter((x, i) => {
+        if (i < 2) {
+          return x.attributeName?.toLowerCase;
+        }
+      })
+      .map(x => x.attributeName?.toLowerCase())
+      .join(', ');
   };
-  console.log(productionCodeProperties);
+  const getAttributes = async () => {
+    await useGetAttributes();
+  };
+  const createProductionCode = async () => {
+    const formData = new FormData();
+    formData.append('code', createProductionCodeForm.code);
+    formData.append('description', createProductionCodeForm.description);
+    if (createProductionCodeForm?.imageFile) {
+      formData.append('imageFile', {
+        uri: createProductionCodeForm.imageFile,
+        name: 'image.jpg',
+        type: `image/${createProductionCodeForm.imageFile.split('.').pop()}`,
+      });
+    }
+    createProductionCodeForm.variantAttributes.forEach((x, i) => {
+      formData.append(`variantAttributes[${i}].attributeId`, x.attributeId);
+      formData.append(
+        `variantAttributes[${i}].attributeValueId`,
+        x.attributeValueId,
+      );
+    });
+
+    await useCreateProduction({
+      formData,
+      onClose: () => sheetRef.current?.close(),
+    });
+  };
   return (
     <CustomBottomSheet
+      close={() => {
+        dispatch(ProductionCodeActions.resetCreateProductionCodeForm());
+      }}
       ref={sheetRef}
       snapPoints={
         step === 'ProductionCodeInfo'
@@ -100,15 +147,62 @@ export default function AddProductionCodeContent(
                 </View>
               )}
             </Center>
-            <Input placeholder="Ürün Kodu" />
+            <Input
+              value={createProductionCodeForm.code}
+              onChangeText={text => {
+                dispatch(
+                  ProductionCodeActions.setCreateProductionCodeForm({
+                    key: 'code',
+                    value: text,
+                  }),
+                );
+              }}
+              placeholder="Ürün Kodu"
+            />
           </Container>
         </Container>
       )}
       {step === 'ProductionCodeProperties' && (
         <Container bgColor="white" type="container" p={10}>
-          {productionCodeProperties.map((x, i) => (
-            <ProductionCodePropertyCard key={i} item={x} />
-          ))}
+          <Title
+            title="Ürün Özelliklerini Ekleyin"
+            subTitle={`Eklemek istediğiniz varyantların (${getAttributeNames()}) özelliklerini girin ve stok bilgilerini yönetin.`}
+          />
+          <CustomFlatList
+            data={attributes}
+            renderItem={({
+              item,
+              index,
+            }: {
+              item: ProductionCodeAttributeResponse;
+              index: number;
+            }) => (
+              <ProductionCodeAttributeCard
+                value={(attributeValueId: number) => {
+                  return createProductionCodeForm.variantAttributes.some(
+                    x =>
+                      x.attributeValueId === attributeValueId &&
+                      x.attributeId === item.id,
+                  );
+                }}
+                onChange={(e, selectedAttributeValueId) => {
+                  if (e) {
+                    dispatch(
+                      ProductionCodeActions.setCreateProductionCodeVariantAttribute(
+                        {
+                          entity: {
+                            attributeId: item.id,
+                            attributeValueId: selectedAttributeValueId,
+                          },
+                        },
+                      ),
+                    );
+                  }
+                }}
+                item={item}
+              />
+            )}
+          />
         </Container>
       )}
       <Container
@@ -120,7 +214,6 @@ export default function AddProductionCodeContent(
           {step === 'ProductionCodeProperties' && (
             <Flex flex={0.5}>
               <Button
-                textColor="#333"
                 outline
                 text="Geri Dön"
                 onPress={() => {
@@ -131,14 +224,22 @@ export default function AddProductionCodeContent(
           )}
           <Flex>
             <Button
-              disabled={step === 'ProductionCodeInfo' && photos.length === 0}
+              disabled={
+                step === 'ProductionCodeInfo'
+                  ? createProductionCodeForm.code === ''
+                  : createProductionCodeForm.variantAttributes.length === 0
+              }
               text={
                 step === 'ProductionCodeInfo' ? 'Devam Et' : 'Ürün Kodu Ekle'
               }
               onPress={() => {
-                dispatch(
-                  ProductionCodeActions.setStep('ProductionCodeProperties'),
-                );
+                if (step === 'ProductionCodeInfo') {
+                  dispatch(
+                    ProductionCodeActions.setStep('ProductionCodeProperties'),
+                  );
+                } else {
+                  createProductionCode();
+                }
               }}
             />
           </Flex>

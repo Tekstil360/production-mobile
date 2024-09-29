@@ -12,13 +12,15 @@ export default function StockManagementScreen({
   route,
 }: NativeStackScreenProps<RootStackParamList, 'Stockmanagements'>) {
   const canProductionCode = useHasPermission('Productioncodes');
-  const canProductionCodeProperty = useHasPermission('Productioncodepropertys');
+  const canProductionCodeAttribute = useHasPermission(
+    'Productioncodeattributes',
+  );
   const canMaterial = useHasPermission('Materials');
-  const canMaterialProperty = useHasPermission('Materialpropertys');
+  const canMaterialAttribute = useHasPermission('MaterialAttributes');
   return (
     <Container header title="Stok Yönetimi" goBackShow>
       <Container type="container" p={10}>
-        {(canProductionCode || canProductionCodeProperty) && (
+        {(canProductionCode || canProductionCodeAttribute) && (
           <>
             <ColTitle>
               <CustomText fontSizes="normal" color="primary" fontWeight="bold">
@@ -32,10 +34,10 @@ export default function StockManagementScreen({
                   name="Ürün Kodları"
                 />
               )}
-              {canProductionCodeProperty && (
+              {canProductionCodeAttribute && (
                 <ColPlaceholder
                   onPress={() =>
-                    navigation.navigate('Productioncodepropertys', {})
+                    navigation.navigate('Productioncodeattributes', {})
                   }
                   name="Ürün Özellikleri"
                 />
@@ -43,7 +45,7 @@ export default function StockManagementScreen({
             </ColBackground>
           </>
         )}
-        {(canMaterial || canMaterialProperty) && (
+        {(canMaterial || canMaterialAttribute) && (
           <>
             <ColTitle>
               <CustomText fontSizes="normal" color="primary" fontWeight="bold">
@@ -52,7 +54,7 @@ export default function StockManagementScreen({
             </ColTitle>
             <ColBackground>
               {canMaterial && <ColPlaceholder name="Malzemeler" />}
-              {canMaterialProperty && (
+              {canMaterialAttribute && (
                 <ColPlaceholder name="Malzeme Özellikleri" />
               )}
             </ColBackground>

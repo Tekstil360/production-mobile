@@ -81,10 +81,14 @@ const switchStyles = StyleSheet.create({
   },
 });
 
-export default function SwitchButton(props: {value: boolean}) {
+export default function SwitchButton(props: {
+  value: boolean;
+  onChange?: (value: boolean) => void;
+}) {
   const isOn = useSharedValue(props.value || false);
   const handlePress = () => {
     isOn.value = !isOn.value;
+    props?.onChange?.(!isOn.value);
   };
 
   return <Switch value={isOn} onPress={handlePress} style={styles.switch} />;
