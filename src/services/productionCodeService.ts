@@ -57,10 +57,46 @@ const productionCodeApi = baseApi.injectEndpoints({
             dispatch(ProductionCodeActions.setProductionCodes(data.list));
           }
         } catch (error) {
+          AlertDialog.error('Ürün kodları getirilirken bir hata oluştu');
           AlertDialog.hideLoading();
         } finally {
+          AlertDialog.hideLoading();
         }
       },
+    }),
+    getProductionCodeById: build.mutation<
+      ServiceResponse<ProductionCodeResponse>,
+      number
+    >({
+      query: id => ({
+        url: `/productioncode/${id}`,
+        method: 'GET',
+      }),
+      async onQueryStarted(arg, api) {
+        try {
+          AlertDialog.showLoading();
+          let {data} = await api.queryFulfilled;
+          AlertDialog.hideLoading();
+          if (data.isSuccess) {
+            api.dispatch(ProductionCodeActions.setProductionCode(data.entity));
+          }
+        } catch (error) {
+          console.log(error);
+          AlertDialog.error('Ürün kodu getirilirken bir hata oluştu');
+          AlertDialog.hideLoading();
+        } finally {
+          AlertDialog.hideLoading();
+        }
+      },
+    }),
+    getProductionImage: build.mutation<Blob, {endpoint: string}>({
+      query: ({endpoint}) => ({
+        url: endpoint,
+        method: 'GET',
+        responseHandler: (response: Response) => {
+          return response.blob();
+        },
+      }),
     }),
   }),
 });

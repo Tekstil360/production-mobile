@@ -86,12 +86,16 @@ export default function AddProductionCodeContent(
 
     await useCreateProduction({
       formData,
-      onClose: () => sheetRef.current?.close(),
+      onClose: () => {
+        clearPhotos();
+        sheetRef.current?.close();
+      },
     });
   };
   return (
     <CustomBottomSheet
       close={() => {
+        clearPhotos();
         dispatch(ProductionCodeActions.resetCreateProductionCodeForm());
       }}
       ref={sheetRef}

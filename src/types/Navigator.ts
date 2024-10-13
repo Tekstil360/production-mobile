@@ -11,6 +11,7 @@ export type RootStackParamList = {
   Productions: undefined;
   Users: undefined;
   Productioncodes: {actionPermissions?: ActionPermissions[]};
+  ProductioncodeDetail: {id: number};
   Stockmanagements: {actionPermissions: ActionPermissions[]};
   SaleManagements: undefined;
   Pastal: undefined;

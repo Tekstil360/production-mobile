@@ -5,6 +5,7 @@ interface ProductionCodeResponse {
   code: string;
   description: string;
   imageSrc?: string;
+  isSimpleProduct: boolean;
   variants: ProductionCodeVariantResponse[];
 }
 export default ProductionCodeResponse;

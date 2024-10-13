@@ -5,11 +5,13 @@ import ProductionCodeResponse from '../../dto/Response/ProductionCode/Production
 
 interface ProductionCodeState {
   productionCodes: ProductionCodeResponse[];
+  productionCode: ProductionCodeResponse | null;
   step: 'ProductionCodeInfo' | 'ProductionCodeProperties';
   createProductionCodeForm: CreateProductionCodeRequest;
 }
 const initialState: ProductionCodeState = {
   productionCodes: [],
+  productionCode: {} as ProductionCodeResponse,
   step: 'ProductionCodeInfo',
   createProductionCodeForm: {
     code: '',
@@ -25,6 +27,7 @@ const productionCodeSlice = createSlice({
       state.createProductionCodeForm = {
         code: '',
         description: '',
+        imageFile: '',
         variantAttributes: [],
       };
       state.step = 'ProductionCodeInfo';
@@ -40,6 +43,12 @@ const productionCodeSlice = createSlice({
       }>,
     ) {
       state.createProductionCodeForm[action.payload.key] = action.payload.value;
+    },
+    setProductionCode(
+      state,
+      action: PayloadAction<ProductionCodeResponse | null>,
+    ) {
+      state.productionCode = action.payload;
     },
     setCreateProductionCodeVariantAttribute(
       state,

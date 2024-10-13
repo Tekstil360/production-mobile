@@ -56,6 +56,7 @@ const productionCodeAttributeApi = baseApi.injectEndpoints({
         } catch {
           AlertDialog.error('Ürün özellikleri getirilirken bir hata oluştu.');
         } finally {
+          AlertDialog.hideLoading();
         }
       },
     }),

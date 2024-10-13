@@ -33,8 +33,6 @@ export default function ProductionCodeAttributeScreen({
     'Productioncodeattributes',
   );
 
-  useEffect(() => {}, []);
-
   const handleOpenUpdateSheet = async (id: number) => {
     let entity = {
       id: id,

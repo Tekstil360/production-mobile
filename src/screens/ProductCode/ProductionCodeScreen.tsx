@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Container from '../../components/Container/Container';
 import ActionPermissionHelper from '../../types/ActionPermissionHelper';
 import Button from '../../components/Button/Button';
@@ -13,14 +13,12 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 import ProductionCodeResponse from '../../dto/Response/ProductionCode/ProductionCodeResponse';
-import {ColBackground} from '../../constant/GlobalStyled';
-import ColPlaceholder from '../../components/Placeholder/ColPlaceholder';
-import AlertDialog from '../../components/AlertDialog/AlertDialog';
-import CustomText from '../../components/Text/Text';
+
 import ProductionCodeCard from '../../components/Card/ProductionCodeCard';
 
 export default function ProductionCodeScreen({
   route,
+  navigation,
 }: NativeStackScreenProps<RootStackParamList, 'Productioncodes'>) {
   const [useGetProductionCodes] =
     ProductionCodeApi.useGetProductionCodesMutation();
@@ -57,7 +55,7 @@ export default function ProductionCodeScreen({
                 key={index}
                 item={item}
                 onPress={() => {
-                  console.log(item.variants);
+                  navigation.navigate('ProductioncodeDetail', {id: item.id});
                 }}
               />
             );
