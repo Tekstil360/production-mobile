@@ -22,10 +22,11 @@ import {ProductionIcons} from '../../data/IconData';
 import CreateMultipleProduction from '../../sections/Production/CreateMultipleProduction';
 import {useDispatch, useSelector} from 'react-redux';
 import {ProductionActions} from '../../store/features/productionReducer';
-import ProductionIconListContent from '../../components/BottomSheetContent/Production/ProductionIconListContent';
-import TransactionIconListContent from '../../components/BottomSheetContent/TransactionIconListContent';
+
 import {RootState} from '../../store';
 import {useGetUserPermissionMutation} from '../../services/userService';
+import ProductionIconListContent from '../../sections/BottomSheetContent/Production/ProductionIconListContent';
+import TransactionIconListContent from '../../sections/BottomSheetContent/TransactionIconListContent';
 
 export default function ProductionSplash(
   props: NativeStackScreenProps<RootStackParamList, 'ProductionSplash'>,

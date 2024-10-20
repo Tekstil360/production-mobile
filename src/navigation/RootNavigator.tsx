@@ -123,9 +123,6 @@ const RootNavigator = (props: any) => {
           />
           {Screens.filter(x => {
             if (userPermission) {
-              let permissionKeys = FormatHelper.convertArrayToLowerCase(
-                x.permissionKey,
-              ).includes(x.name.toLocaleLowerCase());
               let check = userPermission.some(c =>
                 c.permissionScreenList.some(d =>
                   d.toLocaleLowerCase().includes(x.name.toLocaleLowerCase()),

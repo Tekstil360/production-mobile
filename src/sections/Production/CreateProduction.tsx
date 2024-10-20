@@ -4,12 +4,12 @@ import CustomBottomSheet, {
 } from '../../components/CBottomSheet/CustomBottomSheet';
 import {useDispatch, useSelector} from 'react-redux';
 import {ProductionActions} from '../../store/features/productionReducer';
-import AddProductionContent from '../../components/BottomSheetContent/Production/AddProductionContent';
 import {RootState} from '../../store';
-import ProductionIconListContent from '../../components/BottomSheetContent/Production/ProductionIconListContent';
-import TransactionIconListContent from '../../components/BottomSheetContent/TransactionIconListContent';
 import Button from '../../components/Button/Button';
 import Container from '../../components/Container/Container';
+import TransactionIconListContent from '../BottomSheetContent/TransactionIconListContent';
+import ProductionIconListContent from '../BottomSheetContent/Production/ProductionIconListContent';
+import AddProductionContent from '../BottomSheetContent/Production/AddProductionContent';
 
 export default function CreateProduction() {
   const dispatch = useDispatch();

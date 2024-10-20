@@ -1,6 +1,6 @@
 import React from 'react';
-import {SvgXml} from 'react-native-svg';
 import useThemeColors from '../../constant/useColor';
+import {SvgXml} from 'react-native-svg';
 
 interface CustomSvgXmlProps {
   xml: string;

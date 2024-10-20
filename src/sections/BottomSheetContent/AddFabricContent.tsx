@@ -1,13 +1,14 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import Container from '../Container/Container';
-import Input from '../Input/Input';
+
 import {BottomSheetScrollView, BottomSheetView} from '@gorhom/bottom-sheet';
 import styled from 'styled-components';
 
-import Button from '../Button/Button';
-import Title from '../Title/Title';
 import FormatHelper from '../../helper/FormatHelper';
+import Container from '../../components/Container/Container';
+import Input from '../../components/Input/Input';
+import Title from '../../components/Title/Title';
+import Button from '../../components/Button/Button';
 
 interface AddFabricContentProps {
   onClose: () => void;

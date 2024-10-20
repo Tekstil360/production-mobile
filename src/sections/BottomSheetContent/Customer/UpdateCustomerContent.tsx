@@ -1,46 +1,77 @@
 import React from 'react';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../../CBottomSheet/CustomBottomSheet';
-import Container from '../../Container/Container';
-import Input from '../../Input/Input';
-import Title from '../../Title/Title';
-import Button from '../../Button/Button';
+
+import UpdateCustomerRequest from '../../../dto/Request/Customer/UpdateCustomerRequest';
+import CustomerResponse from '../../../dto/Response/Customer/CustomerResponse';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {Flex, InputContainer, Row} from '../../../constant/GlobalStyled';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store';
-import CreateCustomerRequest from '../../../dto/Request/Customer/CreateCustomerRequest';
 import {CustomerActions} from '../../../store/features/customerReducer';
-import {useCreateCustomerMutation} from '../../../services/customerService';
 
-interface AddCustomerContentProps {
+import {
+  useDeleteCustomerMutation,
+  useUpdateCustomerMutation,
+} from '../../../services/customerService';
+import CustomBottomSheet, {
+  BottomSheetRef,
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import AlertDialog from '../../../components/AlertDialog/AlertDialog';
+import Container from '../../../components/Container/Container';
+import Title from '../../../components/Title/Title';
+import Input from '../../../components/Input/Input';
+import Button from '../../../components/Button/Button';
+
+interface UpdateCustomerContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;
+  canDelete?: boolean;
 }
-export default function AddCustomerContent(props: AddCustomerContentProps) {
-  const {sheetRef} = props;
+export default function UpdateCustomerContent(
+  props: UpdateCustomerContentProps,
+) {
+  const {sheetRef, canDelete} = props;
   const dispatch = useDispatch();
-  const [useCreateCustomer] = useCreateCustomerMutation();
-  const {createCustomer} = useSelector((state: RootState) => state.customer);
+  const [useUpdateCustomer] = useUpdateCustomerMutation();
+  const [useDeleteCustomer] = useDeleteCustomerMutation();
+  const {customer} = useSelector((state: RootState) => state.customer);
 
-  const handleChange = (key: keyof CreateCustomerRequest, value: string) => {
-    dispatch(CustomerActions.handleChangeCreateCustomer({key, value}));
+  const handleChange = (key: keyof CustomerResponse, value: string) => {
+    dispatch(CustomerActions.handleChangeCustomer({key, value}));
   };
 
-  const handleCreateCustomer = async () => {
-    if (createCustomer) {
-      await useCreateCustomer({
-        ...createCustomer,
+  const handleUpdateCustomer = async () => {
+    if (customer) {
+      let updateCustomer: UpdateCustomerRequest = customer;
+      await useUpdateCustomer({
+        ...updateCustomer,
         onClose: () => sheetRef.current?.close(),
       });
     }
   };
+  const handleDeleteCustomer = async () => {
+    AlertDialog.showModal({
+      title: 'Müşteri Sil',
+      message: 'Müşteriyi silmek istediğinize emin misiniz?',
+      async onConfirm() {
+        let request = {
+          id: customer?.id || 0,
+          onClose: () => sheetRef.current?.close(),
+        };
+        await useDeleteCustomer(request);
+      },
+      onCancel() {},
+    });
+  };
   return (
-    <CustomBottomSheet ref={sheetRef} snapPoints={['87%']}>
+    <CustomBottomSheet
+      close={() => {
+        dispatch(CustomerActions.clearCustomer());
+      }}
+      ref={sheetRef}
+      snapPoints={['87%']}>
       <Container gap={10} bgColor="white" p={10} type="container">
         <Title
-          title="Müşteri Ekle"
-          subTitle="Müşteri bilgilerini girerek kaydedebilir ve sipariş oluştururken bu müşterileri seçebilirsiniz."
+          title="Müşteri Düzenle"
+          subTitle="Müşteri bilgilerini düzenleyebilirsiniz"
         />
         <BottomSheetScrollView
           showsHorizontalScrollIndicator={false}
@@ -49,75 +80,75 @@ export default function AddCustomerContent(props: AddCustomerContentProps) {
           <InputContainer>
             <Flex>
               <Input
-                value={createCustomer?.firstName}
+                value={customer?.firstName}
                 onChangeText={text => handleChange('firstName', text)}
                 placeholder="Ad"
               />
             </Flex>
             <Flex>
               <Input
-                value={createCustomer?.lastName}
+                value={customer?.lastName}
                 onChangeText={text => handleChange('lastName', text)}
                 placeholder="Soyad"
               />
             </Flex>
           </InputContainer>
           <Input
-            value={createCustomer?.title}
+            value={customer?.title}
             onChangeText={text => handleChange('title', text)}
             placeholder="Ünvan"
           />
           <Row gap={10}>
             <Flex>
               <Input
-                value={createCustomer?.taxNumber}
+                value={customer?.taxNumber}
                 onChangeText={text => handleChange('taxNumber', text)}
                 placeholder="Vergi No"
               />
             </Flex>
             <Flex>
               <Input
-                value={createCustomer?.taxOffice}
+                value={customer?.taxOffice}
                 onChangeText={text => handleChange('taxOffice', text)}
                 placeholder="Vergi Dairesi"
               />
             </Flex>
           </Row>
           <Input
-            value={createCustomer?.phone}
+            value={customer?.phone}
             onChangeText={text => handleChange('phone', text)}
             placeholder="Telefon"
           />
           <Input
-            value={createCustomer?.email}
+            value={customer?.email}
             onChangeText={text => handleChange('email', text)}
             placeholder="Adres"
           />
           <Row gap={10}>
             <Flex>
               <Input
-                value={createCustomer?.city}
+                value={customer?.city}
                 onChangeText={text => handleChange('city', text)}
                 placeholder="Şehir"
               />
             </Flex>
             <Flex>
               <Input
-                value={createCustomer?.country}
+                value={customer?.country}
                 onChangeText={text => handleChange('country', text)}
                 placeholder="Ülke"
               />
             </Flex>
           </Row>
           <Input
-            value={createCustomer?.address}
+            value={customer?.address}
             onChangeText={text => handleChange('address', text)}
             placeholder="E-posta"
             autoCapitalize="none"
             autoCorrect={false}
           />
           <Input
-            value={createCustomer?.notes}
+            value={customer?.notes}
             onChangeText={text => handleChange('notes', text)}
             placeholder="Not"
           />
@@ -125,7 +156,16 @@ export default function AddCustomerContent(props: AddCustomerContentProps) {
       </Container>
 
       <Container bgColor="white" flex={0.2} type="container" p={10}>
-        <Button onPress={handleCreateCustomer} text="Kaydet" />
+        <Row gap={10}>
+          {canDelete && (
+            <Flex flex={0.5}>
+              <Button onPress={handleDeleteCustomer} text="Sil" outline />
+            </Flex>
+          )}
+          <Flex>
+            <Button onPress={handleUpdateCustomer} text="Kaydet" />
+          </Flex>
+        </Row>
       </Container>
     </CustomBottomSheet>
   );

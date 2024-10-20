@@ -7,8 +7,6 @@ import Container from '../../components/Container/Container';
 import Title from '../../components/Title/Title';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import ProductionNameCard from './ProductionNameCard';
-import ProductionIconListContent from '../../components/BottomSheetContent/Production/ProductionIconListContent';
-import TransactionIconListContent from '../../components/BottomSheetContent/TransactionIconListContent';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {
@@ -24,6 +22,8 @@ import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import UpdateProductionTransactionCard from './ProductionTransactionCard';
 import UpdateProductionErrorCard from './ProductionErrorCard';
 import {BottomSheetScrollViewMethods} from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetScrollable/types';
+import TransactionIconListContent from '../BottomSheetContent/TransactionIconListContent';
+import ProductionIconListContent from '../BottomSheetContent/Production/ProductionIconListContent';
 interface UpdateProductionProps {
   sheetRef: React.RefObject<BottomSheetRef>;
 }

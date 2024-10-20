@@ -6,7 +6,7 @@ import CustomBottomSheet, {
 import {ProductionActions} from '../../store/features/productionReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
-import AddProductionContent from '../../components/BottomSheetContent/Production/AddProductionContent';
+import AddProductionContent from '../BottomSheetContent/Production/AddProductionContent';
 
 interface CreateMultipleProductionProps {
   addFabricBottomSheetRef: React.RefObject<BottomSheetRef>;

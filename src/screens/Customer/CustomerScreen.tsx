@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from '../../components/Container/Container';
 import Button from '../../components/Button/Button';
-import AddCustomerContent from '../../components/BottomSheetContent/Customer/AddCustomerContent';
+
 import {BottomSheetRef} from '../../components/CBottomSheet/CustomBottomSheet';
 import {
   useGetCustomerByIdMutation,
@@ -12,11 +12,12 @@ import {RootState} from '../../store';
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 import CustomerCard from '../../components/Card/CustomerCard';
 import CustomerResponse from '../../dto/Response/Customer/CustomerResponse';
-import UpdateCustomerContent from '../../components/BottomSheetContent/Customer/UpdateCustomerContent';
-import AlertDialog from '../../components/AlertDialog/AlertDialog';
+
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../../types/Navigator';
 import ActionPermissionHelper from '../../types/ActionPermissionHelper';
+import AddCustomerContent from '../../sections/BottomSheetContent/Customer/AddCustomerContent';
+import UpdateCustomerContent from '../../sections/BottomSheetContent/Customer/UpdateCustomerContent';
 
 export default function CustomerScreen({
   route,

@@ -5,17 +5,18 @@ import {RootStackParamList} from '../../types/Navigator';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import ActionPermissionHelper from '../../types/ActionPermissionHelper';
 import {BottomSheetRef} from '../../components/CBottomSheet/CustomBottomSheet';
-import AddProductionCodeAttribute from '../../components/BottomSheetContent/ProductionCode/AddProductionCodeAttributeContent';
 
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 
 import ProductionCodeAttributeResponse from '../../dto/Response/ProductionCode/ProductionCodeAttributeResponse';
 import {ColBackground} from '../../constant/GlobalStyled';
 import ColPlaceholder from '../../components/Placeholder/ColPlaceholder';
-import UpdateProductionCodeAttribute from '../../components/BottomSheetContent/ProductionCode/UpdateProductionCodeAttributeContent';
+
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {ProductionCodeAttributeApi} from '../../services/productionCodeAttributeService';
+import AddProductionCodeAttributeContent from '../../sections/BottomSheetContent/ProductionCode/AddProductionCodeAttributeContent';
+import UpdateProductionCodeAttributeContent from '../../sections/BottomSheetContent/ProductionCode/UpdateProductionCodeAttributeContent';
 
 export default function ProductionCodeAttributeScreen({
   navigation,
@@ -78,10 +79,10 @@ export default function ProductionCodeAttributeScreen({
         </Container>
       )}
       {canProductionCodeAttribute.canCreate && (
-        <AddProductionCodeAttribute sheetRef={addProductionCodeRef} />
+        <AddProductionCodeAttributeContent sheetRef={addProductionCodeRef} />
       )}
       {canProductionCodeAttribute.canUpdate && (
-        <UpdateProductionCodeAttribute
+        <UpdateProductionCodeAttributeContent
           canDelete={canProductionCodeAttribute.canDelete}
           sheetRef={updateProductionCodeRef}
         />

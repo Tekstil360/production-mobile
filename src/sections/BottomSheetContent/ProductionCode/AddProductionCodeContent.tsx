@@ -1,26 +1,30 @@
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import React, {useEffect} from 'react';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../../CBottomSheet/CustomBottomSheet';
-import Container from '../../Container/Container';
-import Title from '../../Title/Title';
-import Input from '../../Input/Input';
-import Button from '../../Button/Button';
-import Icon from '../../Icon/Icon';
+
 import {faCamera, faImage} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
 import {Center, Flex, Row} from '../../../constant/GlobalStyled';
 import usePhoto from '../../../hooks/usePhoto';
-import CustomText from '../../Text/Text';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store';
 import {ProductionCodeActions} from '../../../store/features/productionCodeReducer';
-import CustomFlatList from '../../Flatlist/CustomFlatList';
+
 import ProductionCodeAttributeResponse from '../../../dto/Response/ProductionCode/ProductionCodeAttributeResponse';
-import ProductionCodeAttributeCard from '../../Card/ProductionCodeAttributeCard';
+
 import ProductionCodeApi from '../../../services/productionCodeService';
 import {ProductionCodeAttributeApi} from '../../../services/productionCodeAttributeService';
+import CustomBottomSheet, {
+  BottomSheetRef,
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import Container from '../../../components/Container/Container';
+import Title from '../../../components/Title/Title';
+import Icon from '../../../components/Icon/Icon';
+import CustomText from '../../../components/Text/Text';
+import Input from '../../../components/Input/Input';
+import CustomFlatList from '../../../components/Flatlist/CustomFlatList';
+import ProductionCodeAttributeCard from '../../../components/Card/ProductionCodeAttributeCard';
+import Button from '../../../components/Button/Button';
 
 interface AddProductionCodeContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;

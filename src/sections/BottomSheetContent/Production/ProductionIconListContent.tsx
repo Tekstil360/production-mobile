@@ -1,9 +1,10 @@
 import React from 'react';
-import Container from '../../Container/Container';
+
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
-import ProductionIconCard from '../../Card/ProductionIconCard';
 import {ProductionIcons} from '../../../data/IconData';
+import ProductionIconCard from '../../../components/Card/ProductionIconCard';
+import Container from '../../../components/Container/Container';
 
 interface ProductionIconListContentProps {
   onPress?: (icon: string) => void;

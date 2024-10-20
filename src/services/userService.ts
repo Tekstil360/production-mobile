@@ -1,5 +1,6 @@
 import ServiceResponse from '../dto/Response/ServiceResponse';
 import UserPermissionResponse from '../dto/Response/User/UserPermissionResponse';
+import UserRoleProduction from '../dto/Response/User/UserRoleProduction';
 import {baseApi} from '../store/api';
 import {UserActions} from '../store/features/userReducer';
 
@@ -24,6 +25,16 @@ const userApi = baseApi.injectEndpoints({
         }
       },
     }),
+    getUserRoleProduction: build.mutation<
+      ServiceResponse<UserRoleProduction>,
+      void
+    >({
+      query: () => ({
+        url: `/user/role-productions`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
-export const {useGetUserPermissionMutation} = userApi;
+export const {useGetUserPermissionMutation, useGetUserRoleProductionMutation} =
+  userApi;

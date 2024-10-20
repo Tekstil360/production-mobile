@@ -5,7 +5,6 @@ import Button from '../../components/Button/Button';
 
 import {RootStackParamList} from '../../types/Navigator';
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
-import AddProductionCodeContent from '../../components/BottomSheetContent/ProductionCode/AddProductionCodeContent';
 import {BottomSheetRef} from '../../components/CBottomSheet/CustomBottomSheet';
 import ProductionCodeApi from '../../services/productionCodeService';
 import {useFocusEffect} from '@react-navigation/native';
@@ -15,6 +14,7 @@ import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 import ProductionCodeResponse from '../../dto/Response/ProductionCode/ProductionCodeResponse';
 
 import ProductionCodeCard from '../../components/Card/ProductionCodeCard';
+import AddProductionCodeContent from '../../sections/BottomSheetContent/ProductionCode/AddProductionCodeContent';
 
 export default function ProductionCodeScreen({
   route,

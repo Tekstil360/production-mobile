@@ -13,5 +13,6 @@ interface CustomListProps {
   isBottomSheet?: boolean;
   renderItem: any;
   notFoundText?: string;
+  horizontal?: boolean;
 }
 export default CustomListProps;

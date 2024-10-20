@@ -1,13 +1,15 @@
 import React from 'react';
+
+import {useCreateSeasonMutation} from '../../../services/seasonService';
 import CustomBottomSheet, {
   BottomSheetRef,
-} from '../../CBottomSheet/CustomBottomSheet';
-import Input from '../../Input/Input';
-import Container from '../../Container/Container';
-import Button from '../../Button/Button';
-import Title from '../../Title/Title';
-import {useCreateSeasonMutation} from '../../../services/seasonService';
-import AlertDialog from '../../AlertDialog/AlertDialog';
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import AlertDialog from '../../../components/AlertDialog/AlertDialog';
+import Title from '../../../components/Title/Title';
+import Input from '../../../components/Input/Input';
+import Button from '../../../components/Button/Button';
+import Container from '../../../components/Container/Container';
+
 interface AddSeasonContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;
 }

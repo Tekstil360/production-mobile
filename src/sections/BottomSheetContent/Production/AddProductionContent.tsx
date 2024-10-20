@@ -13,16 +13,18 @@ import {
   useCreateProductionMutation,
   useGetProductionsMutation,
 } from '../../../services/productionService';
-import Container from '../../Container/Container';
-import Title from '../../Title/Title';
+
 import CreateProductionNameCard from '../../../sections/Production/ProductionNameCard';
 
 import CreateProductionTransactionCard from '../../../sections/Production/ProductionTransactionCard';
-import IconButton from '../../Button/IconButton';
-import Button from '../../Button/Button';
-import AlertDialog from '../../AlertDialog/AlertDialog';
+
 import {Flex} from '../../../constant/GlobalStyled';
 import CreateProductionErrorCard from '../../../sections/Production/ProductionErrorCard';
+import AlertDialog from '../../../components/AlertDialog/AlertDialog';
+import Container from '../../../components/Container/Container';
+import Title from '../../../components/Title/Title';
+import IconButton from '../../../components/Button/IconButton';
+import Button from '../../../components/Button/Button';
 
 interface AddFabricContentProps {
   handleOnPress?: () => void;

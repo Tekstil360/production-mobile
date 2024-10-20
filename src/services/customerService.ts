@@ -43,7 +43,6 @@ const customerApi = baseApi.injectEndpoints({
         try {
           AlertDialog.showLoading();
           const {data} = await queryFulfilled;
-          console.log('data', data);
           if (data.isSuccess) {
             dispatch(CustomerActions.setCustomers(data.list));
           }

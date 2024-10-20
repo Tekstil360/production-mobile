@@ -8,24 +8,27 @@ import CustomBottomSheet, {
 } from '../components/CBottomSheet/CustomBottomSheet';
 
 import FabricScreen from '../screens/Fabric/FabricScreen';
-import WelcomeContent from '../components/BottomSheetContent/WelcomeContent';
 import useThemeColors from '../constant/useColor';
 import Icon from '../components/Icon/Icon';
-import JeansPantsSvg from '../assets/productions/JeansPantsSvg';
 import {SvgXml} from 'react-native-svg';
 import {MenuIcon} from '../data/IconData';
 import {faHome} from '@fortawesome/free-solid-svg-icons';
 import CustomSvgXml from '../components/Icon/CustomSvgXml';
+
+import {getProductionIconByKey} from '../helper/IconHelper';
+import OrdersScreen from '../screens/Orders/OrdersScreen';
+import WelcomeContent from '../sections/BottomSheetContent/WelcomeContent';
+import {useGetCurrentProductionMutation} from '../services/productionService';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store';
-import {getInUseProduction} from '../store/features/productionReducer';
-import {getProductionIconByKey} from '../helper/IconHelper';
 
 const Tab = createBottomTabNavigator();
 export default function BottomNavigator(props: any) {
   const colors = useThemeColors();
-  const productions = useSelector((state: RootState) => state.production);
-  const inUseProduction = getInUseProduction(productions);
+  const [useGetProduction] = useGetCurrentProductionMutation();
+  const {currentProduction} = useSelector(
+    (state: RootState) => state.production,
+  );
   const welcomeBottomSheetRef = useRef<BottomSheetRef>(null);
   const {welcome} = props.route.params;
   useEffect(() => {
@@ -39,6 +42,9 @@ export default function BottomNavigator(props: any) {
       };
     }
   }, [welcome, welcomeBottomSheetRef]);
+  useEffect(() => {
+    useGetProduction();
+  }, []);
   return (
     <>
       <Tab.Navigator
@@ -82,48 +88,50 @@ export default function BottomNavigator(props: any) {
           }}
           component={FabricScreen}
         />
-        <Tab.Screen
-          name="myProduction"
-          component={Home}
-          listeners={({navigation}) => ({
-            tabPress: e => {
-              e.preventDefault();
-            },
-          })}
-          options={{
-            tabBarLabel: '',
-            tabBarIcon: ({color, size, focused}) => (
-              <TouchableOpacity
-                onPress={() => {}}
-                activeOpacity={0.7}
-                style={{
-                  position: 'absolute',
-                  bottom: 5,
-                  height: 58,
-                  width: 58,
-                  borderRadius: 58,
-                  backgroundColor: colors.primary,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowOpacity: 0.4,
-                  shadowRadius: 4.84,
-                  elevation: 5,
-                }}>
-                <SvgXml
-                  color={'#564839'}
-                  height={'30'}
-                  width={'35'}
-                  xml={getProductionIconByKey(inUseProduction?.icon || '')}
-                />
-              </TouchableOpacity>
-            ),
-          }}
-        />
+        {currentProduction && (
+          <Tab.Screen
+            name="myProduction"
+            component={Home}
+            listeners={({navigation}) => ({
+              tabPress: e => {
+                e.preventDefault();
+              },
+            })}
+            options={{
+              tabBarLabel: '',
+              tabBarIcon: ({color, size, focused}) => (
+                <TouchableOpacity
+                  onPress={() => {}}
+                  activeOpacity={0.7}
+                  style={{
+                    position: 'absolute',
+                    bottom: 5,
+                    height: 58,
+                    width: 58,
+                    borderRadius: 58,
+                    backgroundColor: colors.primary,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.4,
+                    shadowRadius: 4.84,
+                    elevation: 5,
+                  }}>
+                  <SvgXml
+                    color={'#564839'}
+                    height={'30'}
+                    width={'35'}
+                    xml={getProductionIconByKey(currentProduction?.icon || '')}
+                  />
+                </TouchableOpacity>
+              ),
+            }}
+          />
+        )}
         <Tab.Screen
           name="Ürün Takibi"
           options={{
@@ -155,7 +163,7 @@ export default function BottomNavigator(props: any) {
             tabBarActiveTintColor: '#564839',
             tabBarInactiveTintColor: colors.unActiveBottomTab,
           }}
-          component={Home}
+          component={OrdersScreen}
         />
       </Tab.Navigator>
       <CustomBottomSheet indicator={false} ref={welcomeBottomSheetRef}>

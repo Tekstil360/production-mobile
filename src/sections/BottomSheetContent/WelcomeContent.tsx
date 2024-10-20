@@ -4,9 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import {BottomSheetView} from '@gorhom/bottom-sheet';
-import Container from '..//Container/Container';
-import CustomText from '../Text/Text';
-import Button from '../Button/Button';
+import Container from '../../components/Container/Container';
+import CustomText from '../../components/Text/Text';
+import Button from '../../components/Button/Button';
 export default function WelcomeContent({close}: {close: () => void}) {
   return (
     <Container type="container" p={10} bgColor="white">

@@ -6,10 +6,11 @@ import FabricCard from '../../components/Card/FabricCard';
 import CustomBottomSheet, {
   BottomSheetRef,
 } from '../../components/CBottomSheet/CustomBottomSheet';
-import AddFabricContent from '../../components/BottomSheetContent/AddFabricContent';
+
 import Input from '../../components/Input/Input';
 import {faFilter, faSearch} from '@fortawesome/free-solid-svg-icons';
 import styled from 'styled-components';
+import AddFabricContent from '../../sections/BottomSheetContent/AddFabricContent';
 
 export default function FabricScreen() {
   const addFabricBottomSheetRef = useRef<BottomSheetRef>(null);

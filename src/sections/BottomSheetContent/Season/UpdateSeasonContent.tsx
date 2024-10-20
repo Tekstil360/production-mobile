@@ -1,11 +1,12 @@
 import React from 'react';
 import CustomBottomSheet, {
   BottomSheetRef,
-} from '../../CBottomSheet/CustomBottomSheet';
-import Input from '../../Input/Input';
-import Container from '../../Container/Container';
-import Button from '../../Button/Button';
-import Title from '../../Title/Title';
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import AlertDialog from '../../../components/AlertDialog/AlertDialog';
+import Title from '../../../components/Title/Title';
+import Input from '../../../components/Input/Input';
+import Button from '../../../components/Button/Button';
+import Container from '../../../components/Container/Container';
 import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store';
@@ -14,7 +15,7 @@ import {
   useDeleteSeasonByIdMutation,
   useUpdateSeasonMutation,
 } from '../../../services/seasonService';
-import AlertDialog from '../../AlertDialog/AlertDialog';
+
 import UpdateSeasonRequest from '../../../dto/Request/Season/UpdateSeasonRequest';
 import {Flex} from '../../../constant/GlobalStyled';
 interface UpdateSeasonContentProps {

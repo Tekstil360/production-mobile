@@ -1,18 +1,11 @@
 import {View} from 'react-native';
 import React from 'react';
-import CustomBottomSheet, {
-  BottomSheetRef,
-} from '../../CBottomSheet/CustomBottomSheet';
-import Title from '../../Title/Title';
-import Container from '../../Container/Container';
-import Input from '../../Input/Input';
-import Button from '../../Button/Button';
 
 import {
   BottomSheetScrollView,
   BottomSheetScrollViewMethods,
 } from '@gorhom/bottom-sheet';
-import IconButton from '../../Button/IconButton';
+
 import {faPlus, faTrash} from '@fortawesome/free-solid-svg-icons';
 import {Center, Flex, Row} from '../../../constant/GlobalStyled';
 
@@ -21,7 +14,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../store';
 import {ProductionCodeAttributeActions} from '../../../store/features/productionCodeAttributeReducer';
 import {ProductionCodeAttributeApi} from '../../../services/productionCodeAttributeService';
-import AlertDialog from '../../AlertDialog/AlertDialog';
+import CustomBottomSheet, {
+  BottomSheetRef,
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import AlertDialog from '../../../components/AlertDialog/AlertDialog';
+import Container from '../../../components/Container/Container';
+import Title from '../../../components/Title/Title';
+import Input from '../../../components/Input/Input';
+import IconButton from '../../../components/Button/IconButton';
+import Button from '../../../components/Button/Button';
 
 interface UpdateProductionCodeAttributeContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;

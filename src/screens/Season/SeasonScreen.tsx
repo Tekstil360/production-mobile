@@ -4,7 +4,6 @@ import AlertDialog from '../../components/AlertDialog/AlertDialog';
 import CustomFlatList from '../../components/Flatlist/CustomFlatList';
 import SeasonCard from '../../components/Card/SeasonCard';
 import Button from '../../components/Button/Button';
-import AddSeasonContent from '../../components/BottomSheetContent/Season/AddSeasonContent';
 
 import {
   useGetSeasonByIdMutation,
@@ -13,10 +12,12 @@ import {
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {BottomSheetRef} from '../../components/CBottomSheet/CustomBottomSheet';
-import UpdateSeasonContent from '../../components/BottomSheetContent/Season/UpdateSeasonContent';
+
 import {NativeStackScreenProps} from 'react-native-screens/lib/typescript/native-stack/types';
 import {RootStackParamList} from '../../types/Navigator';
 import ActionPermissionHelper from '../../types/ActionPermissionHelper';
+import AddSeasonContent from '../../sections/BottomSheetContent/Season/AddSeasonContent';
+import UpdateSeasonContent from '../../sections/BottomSheetContent/Season/UpdateSeasonContent';
 
 export default function SeasonScreen({
   route,

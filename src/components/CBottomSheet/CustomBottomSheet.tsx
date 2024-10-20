@@ -3,13 +3,11 @@ import React, {
   useMemo,
   forwardRef,
   useImperativeHandle,
-  useEffect,
-  Ref,
   useState,
-  useLayoutEffect,
   useCallback,
+  useEffect,
 } from 'react';
-import {View, Text, StyleSheet, LayoutChangeEvent} from 'react-native';
+import {StyleSheet} from 'react-native';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackgroundProps,
@@ -21,37 +19,56 @@ interface BottomSheetComponentProps {
   snapPoints?: string[];
   indicator?: boolean;
   close?: () => void;
+  onLoad?: () => void;
 }
 
 export interface BottomSheetRef {
   open: () => void;
   close: () => void;
+  status: boolean;
 }
 
 const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
   (props, ref) => {
-    const {children, snapPoints, indicator = true, close} = props;
+    const {children, snapPoints, indicator = true, close, onLoad} = props;
     const bottomSheetRef = useRef<BottomSheet>(null);
+    const isOpenRef = useRef(false);
     const [isOpen, setIsOpen] = useState(false);
-
     const cSnapPoints = useMemo(() => snapPoints, [snapPoints]);
 
-    useImperativeHandle(ref, () => ({
-      open: () => {
-        bottomSheetRef.current?.expand();
-        setIsOpen(true);
-      },
-      close: () => {
-        bottomSheetRef.current?.close();
-        setIsOpen(false);
-      },
-    }));
+    const openSheet = useCallback(() => {
+      bottomSheetRef.current?.expand();
+      isOpenRef.current = true;
+      setIsOpen(true);
+    }, []);
+
+    const closeSheet = useCallback(() => {
+      bottomSheetRef.current?.close();
+      isOpenRef.current = false;
+      setIsOpen(false);
+    }, []);
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        open: openSheet,
+        close: closeSheet,
+        status: isOpenRef.current,
+      }),
+      [isOpen],
+    );
+    useEffect(() => {
+      if (isOpen) {
+        onLoad && onLoad();
+      }
+    }, [isOpen]);
 
     const handleSheetChanges = (index: number) => {
-      setIsOpen(index !== -1);
       if (index === -1) {
+        isOpenRef.current = false;
         close && close();
       }
+      setIsOpen(index !== -1);
     };
     const renderBackdrop = (props: BottomSheetBackgroundProps) => (
       <BottomSheetBackdrop
@@ -76,7 +93,8 @@ const CustomBottomSheet = forwardRef<BottomSheetRef, BottomSheetComponentProps>(
         {snapPoints && snapPoints.length > 0 && isOpen ? (
           children
         ) : (
-          <BottomSheetView style={{flex: 0, minHeight: 100}}>
+          <BottomSheetView
+            style={{flex: 0, minHeight: 100, backgroundColor: 'white'}}>
             {isOpen && children}
           </BottomSheetView>
         )}

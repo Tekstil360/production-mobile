@@ -69,4 +69,5 @@ export const COLORS = {
   green: '#01A101',
   iconColor: '#D8B267',
   lightBlack: '#333333',
+  secondaryIconColor: '#D8B267',
 };

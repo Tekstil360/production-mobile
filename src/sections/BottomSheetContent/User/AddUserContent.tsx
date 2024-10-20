@@ -2,9 +2,9 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import CustomBottomSheet, {
   BottomSheetRef,
-} from '../../CBottomSheet/CustomBottomSheet';
-import Container from '../../Container/Container';
-import Title from '../../Title/Title';
+} from '../../../components/CBottomSheet/CustomBottomSheet';
+import Title from '../../../components/Title/Title';
+import Container from '../../../components/Container/Container';
 
 interface AddUserContentProps {
   sheetRef: React.RefObject<BottomSheetRef>;

@@ -53,13 +53,14 @@ const ColPlaceholder = (props: ColProps) => {
           justifyContent: 'space-between',
           flex: 1,
         }}>
-        {props.leftIcon}
-        <CustomText fontSizes="normal" color="primary" fontWeight="normal">
-          {props.name}
-        </CustomText>
-        <Icon icon={faAngleRight} color="#D8B267" />
+        <View style={{flexDirection: 'row', gap: 10, alignItems: 'center'}}>
+          {props.leftIcon}
+          <CustomText fontSizes="normal" color="primary" fontWeight="normal">
+            {props.name}
+          </CustomText>
+        </View>
+        {props.icon || <Icon icon={faAngleRight} color="#D8B267" />}
       </View>
-      {props.icon}
     </TouchableOpacity>
   );
 };

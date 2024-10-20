@@ -10,6 +10,7 @@ export type StepType = 'production' | 'transaction' | 'productionError';
 interface ProductionState {
   productions: ProductionResponse[];
   selectedProduction: ProductionResponse | null;
+  currentProduction: ProductionResponse | null;
   step: StepType;
   createProductionRequest: CreateProductionRequest;
   updateProductionRequest: UpdateProductionRequest | null;
@@ -19,6 +20,7 @@ interface ProductionState {
 const INITIAL_STATE: ProductionState = {
   productions: [],
   selectedProduction: null,
+  currentProduction: null,
   step: 'production',
   selectedIndex: 0,
   createMultipleProductionRequest: [],
@@ -53,6 +55,9 @@ const productionSlice = createSlice({
     },
     setStep(state, action: {payload: StepPayload}) {
       state.step = action.payload.step;
+    },
+    setCurrentProduction(state, action: {payload: ProductionResponse}) {
+      state.currentProduction = action.payload;
     },
     handleCreateProductionRequest(
       state,

@@ -112,6 +112,25 @@ const productionService = baseApi.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    getCurrentProduction: build.mutation<
+      ServiceResponse<ProductionResponse>,
+      void
+    >({
+      query: () => ({
+        url: `/production/current-production`,
+        method: 'GET',
+      }),
+      async onQueryStarted(arg, {dispatch, queryFulfilled}) {
+        try {
+          const {data} = await queryFulfilled;
+          if (data.isSuccess) {
+            dispatch(ProductionActions.setCurrentProduction(data.entity));
+          }
+        } catch (err) {
+          console.error('Query failed', err);
+        }
+      },
+    }),
   }),
 });
 export const {
@@ -121,4 +140,5 @@ export const {
   useGetProductionByIdMutation,
   useUpdateProductionMutation,
   useDeleteProductionMutation,
+  useGetCurrentProductionMutation,
 } = productionService;

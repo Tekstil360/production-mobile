@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store';
 import {ActivityIndicator, Modal, TouchableOpacity, View} from 'react-native';
 import styled from 'styled-components';
-import CustomText from '../../components/Text/Text';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import CImage from '../../components/CImage/CImage';
 import {useFocusEffect} from '@react-navigation/native';
@@ -16,6 +15,7 @@ import Icon from '../../components/Icon/Icon';
 import {faTrash} from '@fortawesome/free-solid-svg-icons';
 import {Center} from '../../constant/GlobalStyled';
 import AlertDialog from '../../components/AlertDialog/AlertDialog';
+import CustomText from '../../components/Text/Text';
 
 export default function ProductionCodeDetailScreen({
   route,
@@ -106,6 +106,16 @@ export default function ProductionCodeDetailScreen({
             </View>
           )
         )}
+        <View style={{flexDirection: 'column', flex: 1}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View>
+              <CustomText>Ürün Kodu</CustomText>
+            </View>
+            <View>
+              <CustomText>{productionCode?.code}</CustomText>
+            </View>
+          </View>
+        </View>
       </Card>
       <Modal visible={visible} transparent={true}>
         <ImageViewer
