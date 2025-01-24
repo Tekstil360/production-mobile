@@ -13,8 +13,8 @@ class DrawerMenuPage {
 
   async navigateTo(routeName) {
     const menuItem = await this.drawerMenuItem(routeName);
-    await expect(menuItem).toBeVisible(); // Menünün görünür olduğunu doğrula
-    await menuItem.tap(); // Menüyü tıklayın
+    await expect(menuItem).toBeVisible(); 
+    await menuItem.tap(); 
   }
 }
 
